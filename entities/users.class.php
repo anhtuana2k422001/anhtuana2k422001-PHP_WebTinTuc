@@ -19,6 +19,7 @@ class User
 
     // Đăng ký tài khoản  -- Lưu user
     public function save(){
+
     }
 
     // Lấy danh sách user từ mysql
@@ -29,12 +30,19 @@ class User
         return $result;
     }
 
+    // Lấy ra 1 thông tin đăng nhập tài khoản
     public static function login($email , $password) {
         $db = new Db();
-        $sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'" ;
-        $result = $db->select_to_array($sql);
-        return $result;
+        $sql = "SELECT * FROM users WHERE email = '$email'" ;
+        $result = reset($db->select_to_array($sql)); // Lấy phần tử đầu tiên
+        // Kiểm tra verify mật khẩu
+        if (password_verify($password,  $result["password"])) 
+            return true;
+        else 
+            return false;
     }
+
+
 }
 
 ?>

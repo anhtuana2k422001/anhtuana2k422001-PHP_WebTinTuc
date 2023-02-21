@@ -9,7 +9,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1 class="groub_name">NHÓM 7 - HỒ ANH TUẤN - VÕ ANH QUÂN</h1>
+    <h1 class="home">Trang chủ</h1>
 </body>
 
 </html>
