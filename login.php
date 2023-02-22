@@ -2,6 +2,7 @@
     require_once("./entities/users.class.php"); // Import entities classs users 
     $users = User::list_users(); // Lấy danh sách userss
 
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['username']; // lấy email người dùng 
         $password = $_POST['password']; // lấy password người dùng
@@ -20,13 +21,15 @@
         else
             header("Location: login.php");
         exit;
+
+    
       }
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js"> 
     <head>
         <meta charset="UTF-8" />
-        <title>Login and Registration Form with HTML5 and CSS3</title>
+        <title>Login and Registration Form</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
         <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
@@ -50,8 +53,8 @@
                             <form method="post" autocomplete="on"> 
                                 <h1>ĐĂNG NHẬP</h1> 
                                 <p> 
-                                    <label for="username" class="uname" data-icon="u" > Email hoặc tài khoản </label>
-                                    <input id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
+                                    <label for="username" class="uname" data-icon="u" > Email của bạn </label>
+                                    <input id="username" name="username" required="required" type="email" placeholder="mymail@mail.com"/>
                                 </p>
                                 <p> 
                                     <label for="password" class="youpasswd" data-icon="p"> Mật khẩu </label>
@@ -62,7 +65,7 @@
 									<label for="loginkeeping">Lưu mật khẩu</label>
 								</p>
                                 <p class="login button"> 
-                                    <input type="submit" value="Đăng nhập" /> 
+                                    <input type="submit" value="Tiếp theo" /> 
 								</p>
                                 <p class="change_link">
 									Chưa có tài khoản ?
@@ -72,12 +75,12 @@
                         </div>
 
                         <div id="register" class="animate form">
-                            <form  action="mysuperscript.php" autocomplete="on"> 
+                            <form method="post" action="register.php"  autocomplete="on"> 
                                 <h1> ĐĂNG KÝ </h1> 
-                                <!-- <p> 
-                                    <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
+                                <p> 
+                                    <label for="usernamesignup" class="uname" data-icon="u">Tên của bạn</label>
                                     <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="mysuperusername690" />
-                                </p> -->
+                                </p>
                                 <p> 
                                     <label for="emailsignup" class="youmail" data-icon="e" > Email của bạn</label>
                                     <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="mysupermail@mail.com"/> 

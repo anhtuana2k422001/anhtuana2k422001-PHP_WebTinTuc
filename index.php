@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +11,9 @@
 </head>
 <body>
     <h1 class="home">Trang chủ</h1>
+<?php 
+    require_once("./entities/users.class.php"); // Import entities classs users 
+?>
 </body>
 
 </html>
