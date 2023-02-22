@@ -29,15 +29,15 @@
 <html lang="en" class="no-js"> 
     <head>
         <meta charset="UTF-8" />
-        <title>Login and Registration Form</title>
+        <title>Đăng ký và đăng nhập</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
         <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
         <meta name="author" content="Codrops" />
         <link rel="shortcut icon" href="../favicon.ico"> 
-        <link rel="stylesheet" type="text/css" href="./form/css/demo.css" />
-        <link rel="stylesheet" type="text/css" href="./form/css/style.css" />
-		<link rel="stylesheet" type="text/css" href="./form/css/animate-custom.css" />
+        <link rel="stylesheet" type="text/css" href="./public/form_login/css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="./public/form_login/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="./public/form_login/css/animate-custom.css" />
     </head>
     <body>
         <div class="container">
