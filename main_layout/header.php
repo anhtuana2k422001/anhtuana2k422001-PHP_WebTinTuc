@@ -1,7 +1,10 @@
 
 <?php 
     require_once("./entities/category.class.php");
+    require_once("./entities/post.class.php");
+
     $categories = Category::list_category(); // Lấy danh sách danh mục
+    $posts = Post::list_post(); // Lay danh sach bai viet
 ?>
 <header class="header--section header--style-3">
     <!-- Header Topbar Start -->
@@ -186,11 +189,16 @@
 
             <div class="news-updates--list" data-marquee="true">
                 <ul class="nav">
-                    @foreach ($posts_new as $posts_new)
-                        <li>
-                            <h3 class="h3"><a href="{{ route('posts.show', $posts_new[0]) }}">{{ $posts_new[0]->title }}</a></h3>
-                        </li>
-                    @endforeach
+                    <?php
+                        foreach($posts as $post)
+                        {
+                            echo "
+                                <li>
+                                    <h3 class='h3'><a href=''>" .$post["title"]."</a></h3>
+                                </li>
+                            ";
+                        } 
+                    ?>
                 </ul>
             </div>
         </div>
