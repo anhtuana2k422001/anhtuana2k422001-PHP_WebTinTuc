@@ -1,63 +1,70 @@
+<?php
+require_once("./entities/category.class.php");
+$categories = Category::list_category(); // Lấy danh sách danh mục
+?>
 <footer id="colorlib-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2   colorlib-widget">
-                <ul class="colorlib-footer-links">
-                    <li><a href="{{ route('home"></i>Trang chủ</a></li>
-						<li><a href="{{ route('about"></i>Giới thiệu</a></li>
-						<li><a href="{{ route('contact.create"></i>Liên hệ</a></li>
-						<li><a href="{{ route('contact.create"></i>Mới nhất</a></li>
-					</ul>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2   colorlib-widget">
+				<ul class="colorlib-footer-links">
+					<li><a href="index.php"></i>Trang chủ</a></li>
+					<li><a href=""></i>Giới thiệu</a></li>
+					<li><a href=""></i>Liên hệ</a></li>
+					<li><a href=""></i>Mới nhất</a></li>
+				</ul>
+			</div>
+			<div class="col-md-2  colorlib-widget">
+				<ul class="colorlib-footer-links">
+					<?php
+						for($i = 1; $i < 5; $i++) 
+							echo " <li><a href=''>". $categories[$i]["name"]. "</a></li>";
+					 ?>
+				</ul>
+			</div>
+			<div class="col-md-2  colorlib-widget">
+				<ul class="colorlib-footer-links">
+					<?php
+						for($i = 5; $i < 9; $i++) 
+							echo " <li><a href=''>". $categories[$i]["name"]. "</a></li>";
+					 ?>
+				</ul>
+			</div>
+
+			<div class="col-md-2  colorlib-widget">
+				<ul class="colorlib-footer-links">
+					<?php
+						for($i = 9; $i < 13; $i++) 
+							echo " <li><a href=''>". $categories[$i]["name"]. "</a></li>";
+					 ?>
+				</ul>
+			</div>
+
+			<div class="col-md-4 ">
+				<h4>Theo dõi chúng tôi</h4>
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-inline qbstp-header-subscribe">
+							<div class="form-group">
+								<input name='subscribe-email' type="email" required class="form-control" id="email" placeholder="Nhập email của bạn">
+							</div>
+							<div class="form-group ">
+								<button id='subscibe-btn' type="submit" class="btn btn-primary">Đăng ký ngay</button>
+							</div>
+						</form>
+					</div>
 				</div>
-				<div class="col-md-2  colorlib-widget">
-						<ul class="colorlib-footer-links">
-							@for($i = 0; $i < 4; $i++)
-							<li><a href="{{ route('categories.show', $categoryFooter[$i] ) }}">{{ $categoryFooter[$i]->name }}</a></li>
-                    @endfor
+			</div>
+		</div>
 
-                </ul>
-            </div>
-            <div class="col-md-2  colorlib-widget">
-                <ul class="colorlib-footer-links">
-                    @for($i = 4; $i < 8; $i++) <li><a href="{{ route('categories.show', $categoryFooter[$i] ) }}">{{ $categoryFooter[$i]->name }}</a></li>
-                        @endfor
-
-                </ul>
-            </div>
-
-            <div class="col-md-2  colorlib-widget">
-                <ul class="colorlib-footer-links">
-                    @for($i = 8; $i < 12; $i++) <li><a href="{{ route('categories.show', $categoryFooter[$i] ) }}">{{ $categoryFooter[$i]->name }}</a></li>
-                        @endfor
-                </ul>
-            </div>
-
-            <div class="col-md-4 ">
-                <h4>Theo dõi chúng tôi</h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <form class="form-inline qbstp-header-subscribe">
-                            <div class="form-group">
-                                <input name='subscribe-email' type="email" required class="form-control" id="email" placeholder="Nhập email của bạn">
-                            </div>
-                            <div class="form-group ">
-                                <button id='subscibe-btn' type="submit" class="btn btn-primary">Đăng ký ngay</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+	</div>
 
 
 
-    <div class="container">
-        <div style=" padding: 15px 0; display: flex;" class=" row">
-            <div class="col-md-4">
-                <p>
-                    <a href="{{ route('home">
+	<div class="container">
+		<div style=" padding: 15px 0; display: flex;" class=" row">
+			<div class="col-md-4">
+				<p>
+					<a href="{{ route('home">
 							<!-- <img style="border-radius: 12px; width: 120px;" src="./public/kcnew/frontend/img/image_logo.png" alt="logo"> -->
 						</a>
 					</p>
@@ -73,7 +80,7 @@
 				</div>
 				<div class="col-md-4">
 					<p>
-						<span style="font-size: 14px" class="block">Tổng biên tập: Nhóm TDQ Hutech</span>
+						<span style="font-size: 14px" class="block">Tổng biên tập: Nhóm 07 Hutech</span>
 					</p>
 					<p>
 						<span style="font-size: 14px" class="block">Địa chỉ: E1, Khu Công Nghệ cao, Phường Hiệp Phú, TP.HCM</span>
@@ -84,7 +91,7 @@
 				</div>
 				<div class="col-md-4">
 					<p>
-						<small style="font-size: 14px" class="block">&copy; 2023. Toàn bộ bản quyền thuộc DTQ</small>
+						<small style="font-size: 14px" class="block">&copy; 2023. Toàn bộ bản quyền thuộc 07</small>
 					</p>
 					<p>
 						<ul style="display: flex;" class="header--topbar-social nav hidden-sm hidden-xxs">

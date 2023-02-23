@@ -7,6 +7,6 @@
     <title>Admin</title>
 </head>
 <body>
-    
+    <h1>Đây là trang admin</h1>
 </body>
 </html>

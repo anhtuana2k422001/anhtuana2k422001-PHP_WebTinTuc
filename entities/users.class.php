@@ -12,7 +12,6 @@ class User
     public $created_at;
     public $updated_at;
 
-
     public function __construct($name, $email, $email_verified_at, $password, 
     $status, $role_id, $remember_token, $created_at, $updated_at)
     {
@@ -66,9 +65,6 @@ class User
         }
         return $token;
     }
-    
-    
-
 
 }
 
