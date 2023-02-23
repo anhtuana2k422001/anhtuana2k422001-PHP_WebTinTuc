@@ -1,14 +1,29 @@
 <?php
 require_once("./entities/users.class.php"); // Import entities classs users 
-require_once("./session.php"); // Import entities classs users 
- 
-$users = User::list_users(); // Lấy danh sách userss
- 
+require_once("./session.php");
 
+$users = User::list_users(); // Lấy danh sách userss
+//Kiểm tra cookie, nếu đã lưu thì load vô trang chủ
+if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+    $email_cookie = $_COOKIE['username']; // lấy email người dùng 
+    $password_cookie = $_COOKIE['password']; // lấy password người dùng
+    $user = User::getUser($email_cookie); // lấy thông tin 1 user thông qua email
+    //kiểm tra thông tin tài khoản
+    $checkLogin = User::login($email_cookie, $password_cookie);
+    if ($checkLogin) {
+         
+        
+    } 
+}
+
+
+
+//Kiểm tra đăng nhập
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['username']; // lấy email người dùng 
     $password = $_POST['password']; // lấy password người dùng
-    $user = User::getUser($email);
+    $user = User::getUser($email); // lấy thông tin 1 user thông qua email
+
     // Mã hóa mật khẩu người dùng nhập vào
     // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     // echo $hashed_password;
@@ -19,16 +34,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // lưu giá trị của trường form vào session  
         $_SESSION['username'] = $user["name"];
         header("Location: index.php");
-         
-         
-    }else {
+         //Lưu cookie
+        //Kiểm tra checkbox đã được check chưa
+        if (isset($_POST['loginkeeping']) && $_POST['loginkeeping']) {
+        setcookie("username", $email, time() + (86400 * 7), '/'); // 86400 bằng 1 ngày, nhân 7
+        setcookie("password", $password, time() + (86400 * 7), '/'); //nghĩa là cookie lưu 7 ngày
+
+    }
+    } else {
         // If invalid, display an error message
         $error_message = "<font color='red'>Bạn nhập sai tài khoản hoặc mật khẩu!</font>";
         $_SESSION["notice"] = $error_message;
-        
     }
-        
-    
+   
 }
 ?>
 <!DOCTYPE html>
@@ -36,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
     <meta charset="UTF-8" />
-    <title>Đăng ký và đăng nhập</title>
+    <title>Đăng ký và đăng nhập </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
     <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
@@ -62,18 +80,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <h1>ĐĂNG NHẬP</h1>
                             <p>
                                 <label for="username" class="uname" data-icon="u"> Email của bạn </label>
-                                <input id="username" name="username" required="required" type="email" placeholder="mymail@mail.com" />
+                                <input id="username" name="username" required="required" type="email" placeholder="mymail@mail.com" value="<?php if(isset($email_cookie)){ 
+                                                                                                                                                    echo $email_cookie;
+                                                                                                                                                    }
+                                                                                                                                                 else{
+                                                                                                                                                    echo '';
+                                                                                                                                                 } ?>"  />
                             </p>
                             <p>
                                 <label for="password" class="youpasswd" data-icon="p"> Mật khẩu </label>
-                                <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" />
+                                <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" value="<?php if(isset($password_cookie)){ 
+                                                                                                                                                    echo $password_cookie;
+                                                                                                                                                    }
+                                                                                                                                                 else{
+                                                                                                                                                    echo '';
+                                                                                                                                                 } ?>"/>
                             </p>
                             <p class="keeplogin">
                                 <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" />
                                 <label for="loginkeeping">Lưu mật khẩu</label>
                             </p>
                             <p>
-                                <label ><?php echo  $_SESSION["notice"] ?></label>
+                                <label><?php if (isset($_SESSION["notice"])) echo $_SESSION["notice"] ?></label>
                             </p>
                             <p class="login button">
                                 <input type="submit" value="Tiếp theo" />
@@ -83,9 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <a href="#toregister" class="to_register">Tham gia với chúng tôi</a>
                             </p>
                         </form>
-                        <?php if (isset($error_message)): ?>
-                            <p><?php echo $error_message; ?></p>
-                        <?php endif; ?>
+
                     </div>
 
                     <div id="register" class="animate form">
@@ -121,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </section>
     </div>
-    
+
 </body>
 
 </html>

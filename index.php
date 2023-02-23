@@ -1,4 +1,5 @@
 <?php 
+    require_once("./entities/users.class.php"); 
     $title = "Website Tin Tức";
 
     // Lấy thời gian 
@@ -16,6 +17,18 @@
     // Hiển thị kết quả
     $time = "Hôm nay (" . $time_day  . ", Ngày".  $day ." Tháng" . $month . " Năm " .  $year . ")";
 
+    //
+    if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+        $email_cookie = $_COOKIE['username']; // lấy email người dùng 
+        $password_cookie = $_COOKIE['password']; // lấy password người dùng
+        $user = User::getUser($email_cookie); // lấy thông tin 1 user thông qua email
+        //kiểm tra thông tin tài khoản
+        $checkLogin = User::login($email_cookie, $password_cookie);
+        if ($checkLogin) {
+            $_SESSION['username'] = $user["name"];
+             
+        } 
+    }
 ?>
  
 <!DOCTYPE HTML>

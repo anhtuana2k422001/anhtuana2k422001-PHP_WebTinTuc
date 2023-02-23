@@ -36,8 +36,8 @@ $posts = Post::list_post(); // Lay danh sach bai viet
                             <i class="fa fm fa-user-o"></i>
                             <span>
                                 <?php
-                                if ($_SESSION["username"] != "") {
-                                    echo $_SESSION["username"];
+                                if (isset($_COOKIE['username'])) {
+                                    echo $_COOKIE['username'];
                                 } else {
                                     echo "Đăng nhập";
                                 }
@@ -64,7 +64,9 @@ $posts = Post::list_post(); // Lay danh sach bai viet
                             </li>
                             <li>
                                 <a onclick="event.preventDefault(); document.getElementById('nav-logout-form').submit();" href=" " <?php $_SESSION['notice'] = '';
-                                                                                                                                    $_SESSION['username'] = '';  ?>>Đăng xuất
+                                                                                                                                    $_SESSION['username'] = '';
+                                                                                                                                    
+                                                                                                                                    ?>>Đăng xuất<?php setcookie("username", "", time() -3600); ?>
                                     <i class="fa fm fa-arrow-circle-right"></i>
                                 </a>
 
