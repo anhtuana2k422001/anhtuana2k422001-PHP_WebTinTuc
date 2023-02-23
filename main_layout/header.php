@@ -4,13 +4,8 @@ require_once("./entities/post.class.php");
 require_once("./session.php");
 
 
-<<<<<<< HEAD
     $categories = Category::list_category(); // Lấy danh sách danh mục
     $posts = Post::new_post_category(); // Lay danh sach bai viet
-=======
-$categories = Category::list_category(); // Lấy danh sách danh mục
-$posts = Post::list_post(); // Lay danh sach bai viet
->>>>>>> 3f419e0695fc8480cfaa4ebe1ffd09c2f80b0d7f
 ?>
 <header class="header--section header--style-3">
     <!-- Header Topbar Start -->

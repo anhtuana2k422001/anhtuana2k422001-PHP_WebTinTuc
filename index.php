@@ -54,13 +54,9 @@
     <!-- Import Header -->
     <?php include_once("./main_layout/header.php"); ?> 
 
-<<<<<<< HEAD
     <!-- Code Content  -->
     <?php include_once("./main_layout/content.php"); ?> 
     
-=======
-    <!-- Code Container  -->
->>>>>>> 3f419e0695fc8480cfaa4ebe1ffd09c2f80b0d7f
 
     <!-- Import Footer -->
     <?php include_once("./main_layout/footer.php"); ?> 
