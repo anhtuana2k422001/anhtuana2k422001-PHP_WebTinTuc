@@ -37,10 +37,12 @@ class User
     // Lấy ra 1 thông tin đăng nhập tài khoản để đăng nhập
     public static function login($email , $password) {
         $db = new Db();
-        $sql = "SELECT * FROM users WHERE email = '$email'" ;
-        $result = reset($db->select_to_array($sql)); // Lấy phần tử đầu tiên
+        $result[] = NULL;
+
+        $sql = "SELECT * FROM users WHERE email = '$email' " ;
+        $result =   ($db->select_to_array($sql)); // Lấy phần tử đầu tiên
         // Kiểm tra verify mật khẩu
-        if (password_verify($password,  $result["password"])) 
+        if (password_verify($password, $result[0]["password"])) 
             return true;
         else 
             return false;
@@ -66,6 +68,14 @@ class User
         return $token;
     }
 
+    //Lấy thông tin 1 người dùng
+    public static function getUser($email){
+        $db = new Db();
+        // thêm user vào CSDL
+        $sql = "SELECT * FROM users WHERE email = '$email'";
+        $result = $db->select_to_array($sql);
+        return reset($result);
+    }
 }
 
 ?>
