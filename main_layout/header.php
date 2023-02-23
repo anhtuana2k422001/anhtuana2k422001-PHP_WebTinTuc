@@ -1,10 +1,11 @@
+<?php
+require_once("./entities/category.class.php");
+require_once("./entities/post.class.php");
+require_once("./session.php");
 
-<?php 
-    require_once("./entities/category.class.php");
-    require_once("./entities/post.class.php");
 
-    $categories = Category::list_category(); // Lấy danh sách danh mục
-    $posts = Post::list_post(); // Lay danh sach bai viet
+$categories = Category::list_category(); // Lấy danh sách danh mục
+$posts = Post::list_post(); // Lay danh sach bai viet
 ?>
 <header class="header--section header--style-3">
     <!-- Header Topbar Start -->
@@ -21,7 +22,7 @@
                     </li>
                     <li><i class="fa fm fa-map-marker"></i>Hồ Chí Minh</li>
                     <li><i class="fa fm fa-mixcloud"></i>28<sup>0</sup> C</li>
-                    <li style="text-transform: capitalize" ><i class="fa fm fa-calendar"></i><?php  echo $time ?></li>
+                    <li style="text-transform: capitalize"><i class="fa fm fa-calendar"></i><?php echo $time ?></li>
                 </ul>
                 <!-- Header Topbar Info End -->
             </div>
@@ -29,44 +30,51 @@
             <div class="float--right float--xs-none text-xs-center">
                 <!-- Header Topbar Action Start -->
                 <ul class="header--topbar-action nav">
-                        <!-- @guest -->
-                        <li class="btn-cta">
-                            <a href="./login.php">
-                                <i class="fa fm fa-user-o"></i>
-                                <span>Đăng Nhập</span>
-                            </a>
-                        </li>
-                        <!-- @endguest -->
+                    <!-- @guest -->
+                    <li class="btn-cta">
+                        <a href="./login.php">
+                            <i class="fa fm fa-user-o"></i>
+                            <span>
+                                <?php
+                                if ($_SESSION["username"] != "") {
+                                    echo $_SESSION["username"];
+                                } else {
+                                    echo "Đăng nhập";
+                                }
+                                ?></span>
+                        </a>
+                    </li>
+                    <!-- @endguest -->
 
-                        <!-- @auth -->
-                            <li class="has-dropdown">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                    <i class="fa fm fa-user-o"></i>
-                                    <!-- {{ auth()->user()->name }}  -->
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <!-- @if(auth()->user()->role->name !== 'user') -->
-                                    <li>
-                                        <a href="">Admin - Dashbroad</a>
-                                    </li>
-                                    <!-- @endif -->
-                                    <li>
-                                        <a href="">Tài khoản của tôi</a>
-                                    </li>
-                                    <li>
-                                        <a onclick="event.preventDefault(); document.getElementById('nav-logout-form').submit();"
-                                        href="">Đăng xuất
-                                        <i class="fa fm fa-arrow-circle-right"></i>
-                                        </a>
-
-                                        <form id="nav-logout-form" action="" method="POST">
-                                            <!-- @csrf -->
-                                        </form>
-                                    </li>
-                                </ul>
+                    <!-- @auth -->
+                    <li class="has-dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="fa fm fa-user-o"></i>
+                            <!-- {{ auth()->user()->name }}  -->
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- @if(auth()->user()->role->name !== 'user') -->
+                            <li>
+                                <a href="">Admin - Dashbroad</a>
                             </li>
-                        <!-- @endauth -->
+                            <!-- @endif -->
+                            <li>
+                                <a href="">Tài khoản của tôi</a>
+                            </li>
+                            <li>
+                                <a onclick="event.preventDefault(); document.getElementById('nav-logout-form').submit();" href=" " <?php $_SESSION['notice'] = '';
+                                                                                                                                    $_SESSION['username'] = '';  ?>>Đăng xuất
+                                    <i class="fa fm fa-arrow-circle-right"></i>
+                                </a>
+
+                                <form id="nav-logout-form" action="" method="POST">
+                                    <!-- @csrf -->
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- @endauth -->
 
                 </ul>
                 <!-- Header Topbar Action End -->
@@ -90,8 +98,7 @@
     <div class="header--navbar navbar bd--color-1 bg--color-0" data-trigger="sticky">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav"
-                    aria-expanded="false" aria-controls="headerNav">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
                     <span class="sr-only">Toggle Navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -107,15 +114,15 @@
                             <i class="icon_home fa fa-home"></i>
                         </a>
                     </li>
-                    <?php 
-                        $i = 0;
-                        foreach($categories as $category){
-                            if( $category["name"] != "Chưa phân loại")
-                                echo "<li><a href='404.php'>" . $category["name"] . "</a></li>";
-                            $i++;
-                            if($i > 10)
-                                break;
-                        }
+                    <?php
+                    $i = 0;
+                    foreach ($categories as $category) {
+                        if ($category["name"] != "Chưa phân loại")
+                            echo "<li><a href='404.php'>" . $category["name"] . "</a></li>";
+                        $i++;
+                        if ($i > 10)
+                            break;
+                    }
                     ?>
 
                     <li class="dropdown">
@@ -190,14 +197,13 @@
             <div class="news-updates--list" data-marquee="true">
                 <ul class="nav">
                     <?php
-                        foreach($posts as $post)
-                        {
-                            echo "
+                    foreach ($posts as $post) {
+                        echo "
                                 <li>
-                                    <h3 class='h3'><a href=''>" .$post["title"]."</a></h3>
+                                    <h3 class='h3'><a href=''>" . $post["title"] . "</a></h3>
                                 </li>
                             ";
-                        } 
+                    }
                     ?>
                 </ul>
             </div>

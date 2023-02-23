@@ -42,7 +42,6 @@
     <?php include_once("./main_layout/header.php"); ?> 
 
     <!-- Code Container  -->
-    
 
     <!-- Import Footer -->
     <?php include_once("./main_layout/footer.php"); ?> 
