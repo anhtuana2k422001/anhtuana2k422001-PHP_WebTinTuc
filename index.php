@@ -41,7 +41,8 @@
     <!-- Import Header -->
     <?php include_once("./main_layout/header.php"); ?> 
 
-    <!-- Code Container  -->
+    <!-- Code Content  -->
+    <?php include_once("./main_layout/content.php"); ?> 
     
 
     <!-- Import Footer -->

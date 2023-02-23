@@ -2,7 +2,7 @@
     require_once("./config/db.class.php");
 
     Class Post{
-        //khai bao bien
+        //Khai báo biến
         public $title;
         public $slug;
         public $excerpt;
@@ -15,7 +15,8 @@
         public $updated_at;
 
         // Constructor
-        public function __construct($title, $slug, $excerpt, $body, $user_id, $category_id, $views, $approved, $created_at, $updated_at)
+        public function __construct($title, $slug, $excerpt, $body, $user_id, 
+        $category_id, $views, $approved, $created_at, $updated_at)
         {
             $this->title = $title;
             $this->slug = $slug;
@@ -29,20 +30,51 @@
             $this->updated_at = $updated_at;
         }
 
-        //Lay danh sach 5 bai viet moi nhat tu 5 danh muc khac nhau
-        public static function list_post()
+        // Lấy id categorey chưa phân loại
+        public static function id_cate_unclassified()
         {
             $db = new Db();
-            $sql = "SELECT *
-            FROM posts
+            $sql = "SELECT categories.id  FROM categories
+                    WHERE name = 'Chưa phân loại' ";
+            $result = $db->select_to_array($sql); 
+            return reset($result)["id"]; // Lấy ra phần tử đầu tiên
+        }
+
+        //Lấy danh sách bài viết mới nhất theo từng danh mục 
+        public static function new_post_category()
+        {
+            $id = Post::id_cate_unclassified(); // Lấy id danh mục chưa phân loại
+            $db = new Db();
+            $sql = "SELECT * FROM posts 
             WHERE category_id IN (
                 SELECT DISTINCT category_id
                 FROM posts
-            )  
-            ORDER BY created_at DESC
-            ";
+                WHERE category_id != '$id'
+            ) ORDER BY created_at DESC ";
             $result = $db->select_to_array($sql);
             return $result;
         }
 
+        // Lấy tên category theo id post
+        public static function getNameCategory($category_id)
+        {
+            $db = new Db();
+            $sql = "SELECT categories.name  FROM categories
+                    WHERE id = '$category_id' ";
+            $result = $db->select_to_array($sql); 
+            return reset($result)["name"]; // Lấy ra phần tử đầu tiên
+        }
+
+        // Lấy tên image của bài viết 
+        public static function getPostImage($post_id){
+            $db = new Db();
+            $sql = "SELECT images.name  FROM images
+                    WHERE  imageable_id = '$post_id' AND  imageable_type LIKE '%Post'" ;
+            $result = $db->select_to_array($sql);
+            return reset($result)["name"]; // Lấy ra phần tử đầu tiên
+        }
+
+
+
     }
+?>
