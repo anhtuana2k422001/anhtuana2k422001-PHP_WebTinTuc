@@ -21,7 +21,7 @@
 						<div class="col-md-6">
 							<div class="row gutter--15">
                                 <?php                         
-                                    for($i = 0; $i <= 1 ; $i++){
+                                    for($i = 0; $i <= 4 ; $i++){
                                 ?>
 								<div class="col-xs-6 col-xss-12">
 									<!-- Post Item Start -->
