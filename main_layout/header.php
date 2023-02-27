@@ -1,11 +1,18 @@
 <?php
 require_once("./entities/category.class.php");
 require_once("./entities/post.class.php");
+<<<<<<< HEAD
 require_once("./session.php");
 
 
     $categories = Category::list_category(); // Lấy danh sách danh mục
     $posts = Post::new_post_category(); // Lay danh sach bai viet
+=======
+session_start();
+$categories = Category::list_category(); // Lấy danh sách danh mục
+$posts = Post::new_post_category(); // Lay danh sach bai viet
+
+>>>>>>> quan
 ?>
 <header class="header--section header--style-3">
     <!-- Header Topbar Start -->
@@ -32,12 +39,12 @@ require_once("./session.php");
                 <ul class="header--topbar-action nav">
                     <!-- @guest -->
                     <li class="btn-cta">
-                        <a href="./login.php">
+                        <a href="./login.php"<?php ?>>
                             <i class="fa fm fa-user-o"></i>
                             <span>
                                 <?php
-                                if (isset($_COOKIE['username'])) {
-                                    echo $_COOKIE['username'];
+                                if (isset($_COOKIE['username']) || isset($_SESSION['username'])) {
+                                    echo ($_SESSION['username']);
                                 } else {
                                     echo "Đăng nhập";
                                 }
@@ -63,10 +70,7 @@ require_once("./session.php");
                                 <a href="">Tài khoản của tôi</a>
                             </li>
                             <li>
-                                <a onclick="event.preventDefault(); document.getElementById('nav-logout-form').submit();" href=" " <?php $_SESSION['notice'] = '';
-                                                                                                                                    $_SESSION['username'] = '';
-                                                                                                                                    
-                                                                                                                                    ?>>Đăng xuất<?php setcookie("username", "", time() -3600); ?>
+                                <a href="../logout.php">Đăng xuất
                                     <i class="fa fm fa-arrow-circle-right"></i>
                                 </a>
 
