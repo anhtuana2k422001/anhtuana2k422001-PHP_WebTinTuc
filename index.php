@@ -1,5 +1,6 @@
 <?php 
     require_once("./entities/users.class.php"); 
+
     $title = "Website Tin Tức";
 
     // Lấy thời gian 
@@ -18,12 +19,13 @@
     $time = "Hôm nay (" . $time_day  . ", Ngày".  $day ." Tháng" . $month . " Năm " .  $year . ")";
 
     //
+     
     if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
         $email_cookie = $_COOKIE['username']; // lấy email người dùng 
         $password_cookie = $_COOKIE['password']; // lấy password người dùng
-        $user = User::getUser($email_cookie); // lấy thông tin 1 user thông qua email
+        $user = User::getUser($_COOKIE['username']); // lấy thông tin 1 user thông qua email
         //kiểm tra thông tin tài khoản
-        $checkLogin = User::login($email_cookie, $password_cookie);
+        $checkLogin = User::login($_COOKIE['username'], $_COOKIE['password']);
         if ($checkLogin) {
             $_SESSION['username'] = $user["name"];
              
@@ -54,13 +56,9 @@
     <!-- Import Header -->
     <?php include_once("./main_layout/header.php"); ?> 
 
-<<<<<<< HEAD
     <!-- Code Content  -->
     <?php include_once("./main_layout/content.php"); ?> 
     
-=======
-    <!-- Code Container  -->
->>>>>>> 3f419e0695fc8480cfaa4ebe1ffd09c2f80b0d7f
 
     <!-- Import Footer -->
     <?php include_once("./main_layout/footer.php"); ?> 

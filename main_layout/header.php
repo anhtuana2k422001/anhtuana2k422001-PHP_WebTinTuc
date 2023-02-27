@@ -1,16 +1,10 @@
 <?php
 require_once("./entities/category.class.php");
 require_once("./entities/post.class.php");
-require_once("./session.php");
-
-
-<<<<<<< HEAD
-    $categories = Category::list_category(); // Lấy danh sách danh mục
-    $posts = Post::new_post_category(); // Lay danh sach bai viet
-=======
+session_start();
 $categories = Category::list_category(); // Lấy danh sách danh mục
-$posts = Post::list_post(); // Lay danh sach bai viet
->>>>>>> 3f419e0695fc8480cfaa4ebe1ffd09c2f80b0d7f
+$posts = Post::new_post_category(); // Lay danh sach bai viet
+
 ?>
 <header class="header--section header--style-3">
     <!-- Header Topbar Start -->
@@ -37,12 +31,12 @@ $posts = Post::list_post(); // Lay danh sach bai viet
                 <ul class="header--topbar-action nav">
                     <!-- @guest -->
                     <li class="btn-cta">
-                        <a href="./login.php">
+                        <a href="./login.php"<?php ?>>
                             <i class="fa fm fa-user-o"></i>
                             <span>
                                 <?php
-                                if (isset($_COOKIE['username'])) {
-                                    echo $_COOKIE['username'];
+                                if (isset($_COOKIE['username']) || isset($_SESSION['username'])) {
+                                    echo ($_SESSION['username']);
                                 } else {
                                     echo "Đăng nhập";
                                 }
@@ -68,10 +62,7 @@ $posts = Post::list_post(); // Lay danh sach bai viet
                                 <a href="">Tài khoản của tôi</a>
                             </li>
                             <li>
-                                <a onclick="event.preventDefault(); document.getElementById('nav-logout-form').submit();" href=" " <?php $_SESSION['notice'] = '';
-                                                                                                                                    $_SESSION['username'] = '';
-                                                                                                                                    
-                                                                                                                                    ?>>Đăng xuất<?php setcookie("username", "", time() -3600); ?>
+                                <a href="../logout.php">Đăng xuất
                                     <i class="fa fm fa-arrow-circle-right"></i>
                                 </a>
 
