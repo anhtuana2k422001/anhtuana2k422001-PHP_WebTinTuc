@@ -76,6 +76,38 @@ class User
         $result = $db->select_to_array($sql);
         return reset($result);
     }
+
+    // Lấy danh sách admin từ mysql
+    public static function list_admin() {
+        $db = new Db();
+        $sql = "SELECT * FROM users WHERE role_id = 2";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
+     //Lấy thông tin 1 admin
+     public static function getAdmin($email){
+        $db = new Db();
+        // thêm user vào CSDL
+        $sql = "SELECT * FROM users WHERE email = '$email'AND role_id = 2";
+        $result = $db->select_to_array($sql);
+        return reset($result);
+    }
+
+    // Lấy ra 1 thông tin đăng nhập tài khoản để đăng nhập admin
+    public static function loginAdmin($email , $password) {
+        $db = new Db();
+        $result[] = NULL;
+
+        $sql = "SELECT * FROM users WHERE email = '$email' AND role_id = 2";
+ 
+        $result =   ($db->select_to_array($sql)); // Lấy phần tử đầu tiên
+        // Kiểm tra verify mật khẩu
+        if (password_verify($password, $result[0]["password"])) 
+            return true;
+        else 
+            return false;
+    }
 }
 
 ?>

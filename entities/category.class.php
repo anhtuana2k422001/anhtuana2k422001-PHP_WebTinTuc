@@ -16,6 +16,7 @@ class Category
         $this->user_id = $user_id;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
+       
     }
 
     // Lấy danh sách category từ mysql
