@@ -224,7 +224,7 @@
 								<div>
 									<i class="fas fa-user-tie"></i>
 								</div>
-								<span>Profile</span>
+								<span><?php echo isset($_SESSION['nameAdmin'])? $_SESSION['nameAdmin']: 'Profile'?></span>
 							</a>
 						</li>
 						<li class="dropdown-menu-item">
@@ -252,7 +252,7 @@
 							</a>
 						</li>
 						<li  class="dropdown-menu-item">
-							<a href="#" class="dropdown-menu-link">
+							<a href="./login.php" class="dropdown-menu-link">
 								<div>
 									<i class="fas fa-sign-out-alt"></i>
 								</div>

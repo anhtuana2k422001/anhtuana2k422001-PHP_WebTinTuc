@@ -1,9 +1,9 @@
 <?php
-require_once("./entities/users.class.php"); // Import entities classs users 
-include_once("./session.php");
+require_once("../entities/users.class.php"); // Import entities classs users 
+include_once("../session.php");
 
-$admins = User::list_users(); // Lấy danh sách admins
-if (isset($_COOKIE['username']) || isset($_SESSION['username'])) header("Location: ../admin/index.php");
+//$admins = User::list_users(); // Lấy danh sách admins
+if (isset($_COOKIE['username']) || isset($_SESSION['nameAdmin'])) header("Location: ../admin/index.php");
 //Kiểm tra đăng nhập
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$email = $_POST['username']; // lấy email admin 
@@ -26,9 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		}
 
 		// lưu giá trị của trường form vào session  
-		$_SESSION['username'] = $user["name"];
+		$_SESSION['nameAdmin'] = $admin["name"];
 
-		header("Location: ../admin/index.php");
+		//header("Location: ../admin/index.php");
+		header("Location: ./test.php");
 	} else {
 		// If invalid, display an error message
 		$error_message = "<font color='red'>Bạn nhập sai tài khoản hoặc mật khẩu!</font>";
@@ -66,12 +67,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
 						<h3 class="mb-4 text-center"> </h3>
-						<form action="#" class="signin-form">
+						<form action="#" class="signin-form" method="post">
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Username" required>
+								<input type="email" id="username" name="username" class="form-control" placeholder="Mymail@mail.com" required>
 							</div>
 							<div class="form-group">
-								<input id="password-field" type="password" class="form-control" placeholder="Password" required>
+								<input id="password-field" name="password" type="password" class="form-control" placeholder="Password" required>
 								<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 							</div>
 							<div class="form-group">

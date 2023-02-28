@@ -1,5 +1,5 @@
 <?php
-    require_once("./config/db.class.php");
+    require_once("../config/db.class.php");
 class User
 {
     public $name;
@@ -88,8 +88,8 @@ class User
      //Lấy thông tin 1 admin
      public static function getAdmin($email){
         $db = new Db();
-        // thêm user vào CSDL
-        $sql = "SELECT * FROM users WHERE email = '$email'AND role_id = 2";
+         
+        $sql = "SELECT * FROM users WHERE email = '$email' AND role_id = 2";
         $result = $db->select_to_array($sql);
         return reset($result);
     }
