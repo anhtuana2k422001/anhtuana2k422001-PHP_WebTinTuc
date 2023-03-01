@@ -75,6 +75,15 @@
         }
 
 
+        // Lấy tên tác giả của bài viết 
+        public static function getNameAuthor($user_id){
+            $db = new Db();
+            $sql = "SELECT users.name  FROM users
+                    WHERE  id = '$user_id' " ;
+            $result = $db->select_to_array($sql);
+            return reset($result)["name"]; 
+        }
+
 
     }
 ?>

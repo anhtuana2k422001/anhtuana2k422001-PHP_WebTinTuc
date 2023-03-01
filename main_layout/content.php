@@ -12,36 +12,34 @@
 	<!-- Main Content Section Start -->
 	<div class="main-content--section pbottom--30">
 		<div class="container">
-			<!-- Main Content Start -->
-			<div class="main--content">
-
+					<!-- Main Content Start -->
+					<div class="main--content">
 				<!-- Post Items Start -->
 				<div class="post--items post--items-1 pd--30-0">
 					<div class="row gutter--15">
 						<div class="col-md-6">
 							<div class="row gutter--15">
-                                <?php                         
-                                    for($i = 0; $i <= 4 ; $i++){
+								<?php                         
+                                    for($i = 0; $i <= 1 ; $i++){
                                 ?>
 								<div class="col-xs-6 col-xss-12">
 									<!-- Post Item Start -->
 									<div class="post--item post--layout-1 post--title-large">
 										<div class="post--img">
 											<a href="{{ route('posts.show', $posts_new[$i][0]) }}"
-												class="thumb"><img 
+												class="thumb"><img
 													src="../storage/images/<?php echo Post::getPostImage($new_posts[$i]["id"]) ?>"
-													alt="">
-                                            </a>
-											<!-- <a href="{{ route('categories.show', $posts_new[$i][0]->category) }}" class="cat"><?php echo Post::getNameCategory($new_posts[$i]["category_id"]) ?></a> -->
+													alt=""></a>
+											<a href="{{ route('categories.show', $posts_new[$i][0]->category) }}" class="cat"><?php echo Post::getNameCategory($new_posts[$i]["category_id"]) ?></a>
 
 											<a href="javascript:;" class="icon"><i class="fa fa-flash"></i></a>
 											<div class="post--info">
 												<ul class="nav meta">
-													<li><a href="javascript:;">{{ $posts_new[$i][0]->author->name }}</a></li>
-													<li><a href="javascript:;">{{ $posts_new[$i][0]->created_at->locale('vi')->diffForHumans() }}</a></li>
+													<li><a href="javascript:;"><?php echo Post::getNameAuthor($new_posts[$i]["user_id"]) ?></a></li>
+													<li><a href="javascript:;"><?php echo  date_create_from_format('Y-m-d H:i:s',$new_posts[$i]["created_at"])->format('d/m/Y') ?></a></li>
 												</ul>
 												<div class="title">
-													<h2 class="h4"><a href="{{ route('posts.show', $posts_new[$i][0]) }}" class="btn-link"> <?php echo $new_posts[$i]["title"] ?> </a>
+													<h2 class="h4"><a href="{{ route('posts.show', $posts_new[$i][0]) }}" class="btn-link"><?php echo $new_posts[$i]["title"] ?></a>
 													</h2>
 												</div>
 											</div>
@@ -49,9 +47,40 @@
 									</div>
 									<!-- Post Item End -->
 								</div>
-                                <?php
+								<?php
                                     }     // Đóng vòng for
                                 ?>
+						
+
+								<div class="col-sm-12 hidden-sm hidden-xs">
+									<!-- Post Item Start -->
+									<div class="post--item post--layout-1 post--title-larger">
+										<div class="post--img">
+											<a href="{{ route('posts.show', $posts_new[2][0]) }}"
+												class="thumb"><img
+													src="../storage/images/<?php echo Post::getPostImage($new_posts[2]["id"]) ?>"
+													style="height:200px" alt=""></a>
+
+											<a href="{{ route('categories.show', $posts_new[2][0]->category) }}" class="cat"><?php echo Post::getNameCategory($new_posts[2]["category_id"]) ?></a>
+
+											<a href="javascript:;" class="icon"><i class="fa fa-fire"></i></a>
+
+											<div class="post--info">
+												<ul class="nav meta">
+													<li><a href="javascript:;"><?php echo Post::getNameAuthor($new_posts[2]["user_id"]) ?></a></li>
+													<li><a href="javascript:;"><?php echo  date_create_from_format('Y-m-d H:i:s',$new_posts[2]["created_at"])->format('d/m/Y') ?></a></li>
+												</ul>
+
+												<div class="title">
+													<h2 class="h4"><a
+															href="{{ route('posts.show', $posts_new[2][0]) }}"
+															class="btn-link"><?php echo $new_posts[2]["title"] ?></a></h2>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Post Item End -->
+								</div>
 
 							</div>
 						</div>
@@ -61,22 +90,22 @@
 							<div class="post--item post--layout-1 post--title-larger">
 								<div class="post--img">
 									<a href="{{ route('posts.show', $posts_new[3][0]) }}"
-										class="thumb"><img src="../storage/images/<?php echo Post::getPostImage($new_posts[4]["id"]) ?>" alt=""></a>
+										class="thumb"><img src="../storage/images/<?php echo Post::getPostImage($new_posts[3]["id"]) ?>" alt=""></a>
 
-									<a href="{{ route('categories.show', $posts_new[3][0]->category ) }}" class="cat"><?php echo Post::getNameCategory($new_posts[4]["category_id"]) ?></a>
+									<a href="{{ route('categories.show', $posts_new[3][0]->category ) }}" class="cat"><?php echo Post::getNameCategory($new_posts[3]["category_id"]) ?></a>
 
 									<a href="javascript:;" class="icon"><i class="fa fa-flash"></i></a>
 
 									<div class="post--info">
 										<ul class="nav meta">
-											<li><a href="javascript:;">{{ $posts_new[3][0]->author->name }}</a></li>
-											<li><a href="javascript:;">{{ $posts_new[3][0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+											<li><a href="javascript:;"><?php echo Post::getNameAuthor($new_posts[3]["user_id"]) ?></a></li>
+											<li><a href="javascript:;"><?php echo  date_create_from_format('Y-m-d H:i:s',$new_posts[3]["created_at"])->format('d/m/Y') ?></a></li>
 										</ul>
 
 										<div class="title">
 											<h2 class="h4"><a
 													href="{{ route('posts.show', $posts_new[3][0]) }}"
-													class="btn-link"> <?php echo $new_posts[4]["title"] ?></a>
+													class="btn-link"><?php echo $new_posts[3]["title"] ?></a>
 											</h2>
 										</div>
 									</div>
@@ -90,6 +119,7 @@
 				<!-- Post Items End -->
 			</div>
 			<!-- Main Content End -->
+
 
 			<div class="row">
 				<!-- Main Content Start -->

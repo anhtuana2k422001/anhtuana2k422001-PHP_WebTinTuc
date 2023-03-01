@@ -16,7 +16,7 @@
                     array('Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật'),
                     $time_day);
     // Hiển thị kết quả
-    $time = "Hôm nay (" . $time_day  . ", Ngày".  $day ." Tháng" . $month . " Năm " .  $year . ")";
+    $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " Năm " .  $year . ")";
 
     //
      
