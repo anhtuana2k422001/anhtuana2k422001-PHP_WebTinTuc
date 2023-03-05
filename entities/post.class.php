@@ -74,6 +74,15 @@
             return reset($result)["name"]; // Lấy ra phần tử đầu tiên
         }
 
+         // Lấy đường dẫn hình ảnh của bài viết 
+        public static function getPostPathImg($post_id){
+            $db = new Db();
+            $sql = "SELECT images.path  FROM images
+                    WHERE  imageable_id = '$post_id' AND  imageable_type LIKE '%Post'" ;
+            $result = $db->select_to_array($sql);
+            return reset($result)["path"]; // Lấy ra phần tử đầu tiên
+        }
+
 
         // Lấy tên tác giả của bài viết 
         public static function getNameAuthor($user_id){
@@ -84,6 +93,22 @@
             return reset($result)["name"]; 
         }
 
+        // Lấy danh sách bài viết theo id category
+        public static function ListPostToCategory($id_category){
+            $db = new Db();
+            $sql = "SELECT *  FROM posts
+                    WHERE  category_id = '$id_category' ";
+            $result = $db->select_to_array($sql);
+            return $result; 
+        }
+
+        // Lấy ra bài viết nổi bật
+        public static function ListPostOutstanding(){
+            $db = new Db();
+            $sql = "SELECT *  FROM posts LIMIT 7";
+            $result = $db->select_to_array($sql);
+            return $result; 
+        }
 
     }
 ?>
