@@ -4,7 +4,20 @@ require_once("./entities/post.class.php");
 session_start();
 $categories = Category::list_category(); // Lấy danh sách danh mục
 $posts = Post::new_post_category(); // Lay danh sach bai viet
+// Lấy thời gian 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+$day = date("d", time()) ;
+$month= date("m", time()) ;
+$year= date("Y", time()) ;
+// Định dạng thời gian theo định dạng Thứ
+$time_day = strftime('%A', time());
 
+// Chuyển đổi các chuỗi tiếng Anh sang tiếng Việt
+$time_day = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'),
+                array('Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật'),
+                $time_day);
+// Hiển thị kết quả
+$time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " Năm " .  $year . ")";
 ?>
 <header class="header--section header--style-3">
     <!-- Header Topbar Start -->
@@ -54,9 +67,12 @@ $posts = Post::new_post_category(); // Lay danh sach bai viet
                         </a>
                         <ul class="dropdown-menu">
                             <!-- @if(auth()->user()->role->name !== 'user') -->
-                            <li>
-                                <a href="">Admin - Dashbroad</a>
-                            </li>
+                            <?php echo ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) ?
+                                '<li>
+                                    <a href="http://localhost:3000/admin/index.php">Admin - Dashbroad</a>
+                                </li>' : ''
+                            ?>
+                            
                             <!-- @endif -->
                             <li>
                                 <a href="">Tài khoản của tôi</a>

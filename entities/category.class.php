@@ -37,11 +37,7 @@ class Category
         $result = $db->select_to_array($sql);
         return $result;
     }
-
-    
-  
-
-
+ 
 }
 
 ?>
