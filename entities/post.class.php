@@ -48,9 +48,9 @@
             $sql = "SELECT * FROM posts 
             WHERE category_id IN (
                 SELECT DISTINCT category_id
-                FROM posts
-                WHERE category_id != '$id'
-            ) ORDER BY created_at DESC ";
+                FROM categories
+                WHERE category_id != '$id'  
+            ) ORDER BY created_at DESC LIMIT 10";
             $result = $db->select_to_array($sql);
             return $result;
         }
