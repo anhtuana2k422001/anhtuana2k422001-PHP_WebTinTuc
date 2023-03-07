@@ -3,21 +3,7 @@
 
     $title = "Website Tin Tức";
 
-    // Lấy thời gian 
-    date_default_timezone_set('Asia/Ho_Chi_Minh');
-    $day = date("d", time()) ;
-    $month= date("m", time()) ;
-    $year= date("Y", time()) ;
-    // Định dạng thời gian theo định dạng Thứ
-    $time_day = strftime('%A', time());
-
-    // Chuyển đổi các chuỗi tiếng Anh sang tiếng Việt
-    $time_day = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'),
-                    array('Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật'),
-                    $time_day);
-    // Hiển thị kết quả
-    $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " Năm " .  $year . ")";
-
+     
     //
      
     if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
