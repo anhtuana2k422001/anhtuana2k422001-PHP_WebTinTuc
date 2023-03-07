@@ -1,47 +1,67 @@
 <?php 
     require_once("./entities/category.class.php");
     require_once("./entities/post.class.php");
-
-    $categories = Category::list_category(); // Lấy danh sách danh mục
+    require_once("./entities/tags.class.php");
+    require_once("./entities/comments.class.php");
+	
     $new_posts = Post::new_post_category(); // Lấy danh sách bài viết mới nhất
+    $img_defaut = "./storage/placeholders/placeholder-image.jpg"; // Ảnh mặc định
+	
+	// Lấy id danh sách  9 category 
+    $categories = Category::list_category(); // Lấy danh sách danh mục
+	$idCate01 = $categories[0]["id"]; 	$nameCate01 = $categories[0]["name"];
+	$idCate02 = $categories[1]["id"]; 	$nameCate02 = $categories[1]["name"];
+	$idCate03 = $categories[2]["id"]; 	$nameCate03 = $categories[2]["name"];
+	$idCate04 = $categories[3]["id"]; 	$nameCate04 = $categories[3]["name"];
+	$idCate05 = $categories[4]["id"]; 	$nameCate05 = $categories[4]["name"];
+	$idCate06 = $categories[5]["id"]; 	$nameCate06 = $categories[5]["name"];
+	$idCate07 = $categories[6]["id"]; 	$nameCate07 = $categories[6]["name"];
+	$idCate08 = $categories[7]["id"]; 	$nameCate08 = $categories[7]["name"];
+	$idCate09 = $categories[8]["id"]; 	$nameCate09 = $categories[8]["name"];
+	$idCate10 = $categories[9]["id"]; 	$nameCate10 = $categories[9]["name"];
 
-    $img_defaut = "./storage/placeholders/placeholder-image.jpg"; 
+	// Lấy danh sách thẻ từ khóa
+	$tags = Tags::list_tag();
+
+	// Lấy danh sách bài viết
+	$postOutstand = Post::ListPostOutstanding();
+
+	// Lấy danh sách bình luận bài viết 
+	$comments = Comment::list_comment();
+
 ?>
-
 <div class="wrapper">
 	<!-- Main Content Section Start -->
 	<div class="main-content--section pbottom--30">
 		<div class="container">
-			<!-- Main Content Start -->
-			<div class="main--content">
-
+					<!-- Main Content Start -->
+					<div class="main--content">
 				<!-- Post Items Start -->
 				<div class="post--items post--items-1 pd--30-0">
 					<div class="row gutter--15">
 						<div class="col-md-6">
 							<div class="row gutter--15">
-                                <?php                         
-                                    for($i = 0; $i <= 4 ; $i++){
+								<?php                         
+                                    for($i = 0; $i <= 1 ; $i++){
                                 ?>
 								<div class="col-xs-6 col-xss-12">
 									<!-- Post Item Start -->
 									<div class="post--item post--layout-1 post--title-large">
 										<div class="post--img">
 											<a href="{{ route('posts.show', $posts_new[$i][0]) }}"
-												class="thumb"><img 
-													src="../storage/images/<?php echo Post::getPostImage($new_posts[$i]["id"]) ?>"
-													alt="">
-                                            </a>
-											<!-- <a href="{{ route('categories.show', $posts_new[$i][0]->category) }}" class="cat"><?php echo Post::getNameCategory($new_posts[$i]["category_id"]) ?></a> -->
+												class="thumb"><img
+													src="../storage/<?php echo Post::getPostPathImg($new_posts[$i]["id"]) ?>"
+													alt=""></a>
+											<a href="{{ route('categories.show', $posts_new[$i][0]->category) }}" class="cat"><?php echo Post::getNameCategory($new_posts[$i]["category_id"]) ?></a>
 
 											<a href="javascript:;" class="icon"><i class="fa fa-flash"></i></a>
 											<div class="post--info">
 												<ul class="nav meta">
-													<li><a href="javascript:;">{{ $posts_new[$i][0]->author->name }}</a></li>
-													<li><a href="javascript:;">{{ $posts_new[$i][0]->created_at->locale('vi')->diffForHumans() }}</a></li>
+													<li><a href="javascript:;"><?php echo Post::getNameAuthor($new_posts[$i]["user_id"]) ?></a></li>
+													<li><a href="javascript:;"><?php echo  date_create_from_format('Y-m-d H:i:s',$new_posts[$i]["created_at"])->format('d/m/Y') ?></a></li>
 												</ul>
 												<div class="title">
-													<h2 class="h4"><a href="{{ route('posts.show', $posts_new[$i][0]) }}" class="btn-link"> <?php echo $new_posts[$i]["title"] ?> </a>
+													<h2 class="h4"><a href="{{ route('posts.show', $posts_new[$i][0]) }}" class="btn-link"><?php echo $new_posts[$i]["title"] ?></a>
 													</h2>
 												</div>
 											</div>
@@ -49,9 +69,40 @@
 									</div>
 									<!-- Post Item End -->
 								</div>
-                                <?php
+								<?php
                                     }     // Đóng vòng for
                                 ?>
+						
+
+								<div class="col-sm-12 hidden-sm hidden-xs">
+									<!-- Post Item Start -->
+									<div class="post--item post--layout-1 post--title-larger">
+										<div class="post--img">
+											<a href="{{ route('posts.show', $posts_new[2][0]) }}"
+												class="thumb"><img
+													src="../storage/<?php echo Post::getPostPathImg($new_posts[2]["id"]) ?>"
+													style="height:200px" alt=""></a>
+
+											<a href="{{ route('categories.show', $posts_new[2][0]->category) }}" class="cat"><?php echo Post::getNameCategory($new_posts[2]["category_id"]) ?></a>
+
+											<a href="javascript:;" class="icon"><i class="fa fa-fire"></i></a>
+
+											<div class="post--info">
+												<ul class="nav meta">
+													<li><a href="javascript:;"><?php echo Post::getNameAuthor($new_posts[2]["user_id"]) ?></a></li>
+													<li><a href="javascript:;"><?php echo  date_create_from_format('Y-m-d H:i:s',$new_posts[2]["created_at"])->format('d/m/Y') ?></a></li>
+												</ul>
+
+												<div class="title">
+													<h2 class="h4"><a
+															href="{{ route('posts.show', $posts_new[2][0]) }}"
+															class="btn-link"><?php echo $new_posts[2]["title"] ?></a></h2>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Post Item End -->
+								</div>
 
 							</div>
 						</div>
@@ -61,22 +112,22 @@
 							<div class="post--item post--layout-1 post--title-larger">
 								<div class="post--img">
 									<a href="{{ route('posts.show', $posts_new[3][0]) }}"
-										class="thumb"><img src="../storage/images/<?php echo Post::getPostImage($new_posts[4]["id"]) ?>" alt=""></a>
+										class="thumb"><img src="../storage/<?php echo Post::getPostPathImg($new_posts[3]["id"]) ?>" alt=""></a>
 
-									<a href="{{ route('categories.show', $posts_new[3][0]->category ) }}" class="cat"><?php echo Post::getNameCategory($new_posts[4]["category_id"]) ?></a>
+									<a href="{{ route('categories.show', $posts_new[3][0]->category ) }}" class="cat"><?php echo Post::getNameCategory($new_posts[3]["category_id"]) ?></a>
 
 									<a href="javascript:;" class="icon"><i class="fa fa-flash"></i></a>
 
 									<div class="post--info">
 										<ul class="nav meta">
-											<li><a href="javascript:;">{{ $posts_new[3][0]->author->name }}</a></li>
-											<li><a href="javascript:;">{{ $posts_new[3][0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+											<li><a href="javascript:;"><?php echo Post::getNameAuthor($new_posts[3]["user_id"]) ?></a></li>
+											<li><a href="javascript:;"><?php echo  date_create_from_format('Y-m-d H:i:s',$new_posts[3]["created_at"])->format('d/m/Y') ?></a></li>
 										</ul>
 
 										<div class="title">
 											<h2 class="h4"><a
 													href="{{ route('posts.show', $posts_new[3][0]) }}"
-													class="btn-link"> <?php echo $new_posts[4]["title"] ?></a>
+													class="btn-link"><?php echo $new_posts[3]["title"] ?></a>
 											</h2>
 										</div>
 									</div>
@@ -91,6 +142,7 @@
 			</div>
 			<!-- Main Content End -->
 
+
 			<div class="row">
 				<!-- Main Content Start -->
 				<div class="main--content col-md-8 col-sm-7" data-sticky-content="true">
@@ -100,7 +152,7 @@
 							<div class="col-md-6 ptop--30 pbottom--30">
 								<!-- Post Items Title Start -->
 								<div class="post--items-title" data-ajax="tab">
-									<h2 class="h4">{{ $category_home[0]->name }}</h2>
+									<h2 class="h4">	<?php echo $nameCate01 ?></h2>
 								</div>
 								<!-- Post Items Title End -->
 
@@ -114,21 +166,21 @@
 											<div class="post--item post--layout-1">
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home0[0]) }}"
-														class="thumb"><img src="{{ asset($post_category_home0[0]->image ? 'storage/' . $post_category_home0[0]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+														class="thumb"><img src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate01)[0]["id"]) ?>"
 															alt=""></a>
 
 													<a href="javascript:;" class="icon"><i class="fa fa-flash"></i></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home0[0]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home0[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"><?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate01)[0]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"><?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate01)[0]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home0[0]) }}"
-																	class="btn-link">{{ $post_category_home0[0]->title }}</a>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate01)[0]["title"] ?></a>
 															</h3>
 														</div>
 													</div>
@@ -137,14 +189,16 @@
 											<!-- Post Item End -->
 										</li>
 
-										@for ($i = 1; $i <= 4; $i++)
-											@if($i==1 || $i == 3 )
+										<?php for($i = 1; $i <= 4; $i++) { ?>
+											<?php if( $i == 1 || $i == 3 ) { ?>
 											<li class="col-xs-12">
 												<!-- Divider Start -->
 												<hr class="divider">
 												<!-- Divider End -->
 											</li>
-											@endif 
+											<!-- Đóng hàm if -->
+											<?php } ?> 
+								
 											<li class="col-xs-6">
 												<!-- Post Item Start -->
 
@@ -152,19 +206,19 @@
 													<div class="post--img">
 														<a href="{{ route('posts.show', $post_category_home0[$i]) }}"
 															class="thumb"><img
-																src="{{ asset($post_category_home0[$i]->image ? 'storage/' . $post_category_home0[$i]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+																src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate01)[$i]["id"]) ?>"
 																alt=""></a>
 
 														<div class="post--info">
 															<ul class="nav meta">
-																<li><a href="javascript:;">{{ $post_category_home0[$i]->author->name }}</a></li>
-																<li><a href="javascript:;">{{ $post_category_home0[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+																<li><a href="javascript:;"><?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate01)[$i]["user_id"]) ?></a></li>
+																<li><a href="javascript:;"><?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate01)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 															</ul>
 
 															<div class="title">
 																<h3 class="h4"><a
 																		href="{{ route('posts.show', $post_category_home0[$i]) }}"
-																		class="btn-link">{{ $post_category_home0[$i]->title }}</a>
+																		class="btn-link"><?php echo Post::ListPostToCategory($idCate01)[$i]["title"] ?></a>
 																</h3>
 															</div>
 														</div>
@@ -172,7 +226,7 @@
 												</div>
 												<!-- Post Item End -->
 											</li>
-										@endfor
+										<?php } ?>
 									</ul>
 
 								</div>
@@ -184,7 +238,7 @@
 							<div class="col-md-6 ptop--30 pbottom--30">
 								<!-- Post Items Title Start -->
 								<div class="post--items-title" data-ajax="tab">
-									<h2 class="h4">{{ $category_home[1]->name }}</h2>
+									<h2 class="h4">	<?php echo $nameCate02 ?></h2>
 
 								</div>
 								<!-- Post Items Title End -->
@@ -199,21 +253,21 @@
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home1[0]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home1[0]->image ? 'storage/' . $post_category_home1[0]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate02)[0]["id"]) ?>"
 															alt=""></a>
 												
 													<a href="javascript:;" class="icon"><i class="fa fa-flash"></i></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home1[0]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home1[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate02)[0]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate02)[0]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home1[0]) }}"
-																	class="btn-link">{{ $post_category_home1[0]->title }}</a>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate02)[0]["title"] ?></a>
 															</h3>
 														</div>
 													</div>
@@ -221,26 +275,27 @@
 											</div>
 											<!-- Post Item End -->
 										</li>
-										@for ($i = 1; $i <= 5; $i++)
+
+										<?php for($i = 1; $i <= 5; $i++) {?>
 										<li>
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-3">
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home1[$i]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home1[$i]->image ? 'storage/' . $post_category_home1[$i]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate02)[$i]["id"]) ?>"
 															alt=""></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home1[$i]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home1[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate02)[$i]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate02)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home1[$i]) }}"
-																	class="btn-link">{{ $post_category_home1[$i]->title }}</a>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate02)[$i]["title"] ?></a>
 															</h3>
 														</div>
 													</div>
@@ -248,7 +303,7 @@
 											</div>
 											<!-- Post Item End -->
 										</li>
-										@endfor
+									<?php } ?>
 
 									</ul>
 
@@ -262,7 +317,7 @@
 							<div class="col-md-12 ptop--30 pbottom--30">
 								<!-- Post Items Title Start -->
 								<div class="post--items-title" data-ajax="tab">
-									<h2 class="h4">{{ $category_home[2]->name }}</h2>
+									<h2 class="h4">	<?php echo  $nameCate03  ?></h2>
 
 								</div>
 								<!-- Post Items Title End -->
@@ -276,21 +331,21 @@
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home2[0]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home2[0]->image ? 'storage/' . $post_category_home2[0]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate03)[0]["id"]) ?>"
 															alt=""></a>
-													<a href="{{ route('categories.show', $post_category_home2[0]->category) }}" class="cat">{{ $post_category_home2[0]->category->name }}</a>
+													<a href="{{ route('categories.show', $post_category_home2[0]->category) }}" class="cat"><?php echo $nameCate03 ?></a>
 													<a href="javascript:;" class="icon"><i class="fa fa-star-o"></i></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home2[0]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home2[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate03)[0]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate03)[0]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home2[0]) }}"
-																	class="btn-link">{{ $post_category_home2[0]->title }}</a>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate03)[0]["title"] ?></a>
 															</h3>
 														</div>
 													</div>
@@ -301,20 +356,21 @@
 											<hr class="mar_bottom15 ">
 
 											<ul class="list_news_show_home">
-												@for ($i = 4; $i <= 6; $i++)
-													@if($i!=6)
-													<li class="boder_link_show_home">
-														<h3 class="h3"><a href="{{ route('posts.show', $post_category_home2[$i]) }}">{{ $post_category_home2[$i]->title }}</a></h3>
-													</li>
-													@endif
+												<?php for($i = 4; $i <= 6; $i++) { ?>
 
-													@if($i==6)
-													<li>
-														<h3 class="h3"><a href="{{ route('posts.show', $post_category_home2[$i]) }}">{{ $post_category_home2[$i]->title }}</a></h3>
-													</li>
-													@endif
-												
-												@endfor
+													<?php if($i!=6) {?>
+														<li class="boder_link_show_home">
+															<h3 class="h3"><a href="{{ route('posts.show', $post_category_home2[$i]) }}"><?php echo Post::ListPostToCategory($idCate03)[$i]["title"] ?></a></h3>
+														</li>
+													<?php } ?> 
+
+													<?php if($i==6) {?>
+														<li>
+															<h3 class="h3"><a href="{{ route('posts.show', $post_category_home2[$i]) }}"><?php echo Post::ListPostToCategory($idCate03)[$i]["title"] ?></a></h3>
+														</li>
+													<?php } ?>
+
+												<?php } ?>
 											</ul>
 
 										</li>
@@ -326,15 +382,14 @@
 													<hr class="divider">
 													<!-- Divider End -->
 												</li>
-												@for ($i = 1; $i <= 4; $i++)
-
-													@if($i == 3 )
+												<?php for($i = 1; $i <= 4; $i++) { ?>
+													<?php if($i==3) {?>
 															<li class="col-xs-12">
 																<!-- Divider Start -->
 																<hr class="divider">
 																<!-- Divider End -->
 															</li>
-													@endif 
+													<?php } ?>
 													
 													<li class="col-xs-6">
 														<!-- Post Item Start -->
@@ -342,20 +397,20 @@
 															<div class="post--img">
 																<a href="{{ route('posts.show', $post_category_home2[$i]) }}"
 																	class="thumb"><img 
-																		src="{{ asset($post_category_home2[$i]->image ? 'storage/' . $post_category_home2[$i]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+																		src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate03)[$i]["id"]) ?>"
 																		alt=""></a>
 
 																<div class="post--info">
 																	<ul class="nav meta">
 																		
-																		<li><a href="javascript:;">{{ $post_category_home2[$i]->author->name }}</a></li>
-																		<li><a href="javascript:;">{{ $post_category_home2[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+																		<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate03)[$i]["user_id"]) ?></a></li>
+																		<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate03)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 																	</ul>
 
 																	<div class="title">
 																		<h3 class="h4"><a
 																				href="{{ route('posts.show', $post_category_home2[$i]) }}"
-																				class="btn-link">{{ $post_category_home2[$i]->title }}</a></h3>
+																				class="btn-link"><?php echo Post::ListPostToCategory($idCate03)[$i]["title"] ?></a></h3>
 																	</div>
 																</div>
 															</div>
@@ -363,7 +418,7 @@
 														<!-- Post Item End -->
 													</li>
 
-												@endfor
+												<?php } ?>
 											</ul>
 										</li>
 									</ul>
@@ -378,9 +433,7 @@
 							<div class="col-md-6 ptop--30 pbottom--30">
 								<!-- Post Items Title Start -->
 								<div class="post--items-title" data-ajax="tab">
-									<h2 class="h4">{{ $category_home[3]->name }}</h2>
-
-
+									<h2 class="h4">	<?php echo $nameCate04  ?></h2>
 								</div>
 								<!-- Post Items Title End -->
 
@@ -393,21 +446,21 @@
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home3[0]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home3[0]->image ? 'storage/' . $post_category_home3[0]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate04)[0]["id"]) ?>"
 															alt=""></a>
 													<a href="{{ route('categories.show', $post_category_home3[0]->category) }}"
-														class="cat">{{ $post_category_home3[0]->category->name }}</a>
+														class="cat"> <?php echo $nameCate04  ?></a>
 													<a href="{{ route('categories.show', $post_category_home3[0]->category) }}" class="icon"><i class="fa fa-fire"></i></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home3[0]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home3[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate04)[0]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate04)[0]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a href="{{ route('posts.show', $post_category_home3[0]) }}"
-																	class="btn-link">{{ $post_category_home3[0]->title }}</a>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate04)[0]["title"] ?></a>
 															</h3>
 														</div>
 													</div>
@@ -416,33 +469,33 @@
 											<!-- Post Item End -->
 										</li>
 
-										@for ($i = 1; $i <= 4; $i++)
-										@if($i==1 || $i == 3 )
+										<?php for($i = 1; $i <= 4; $i++) { ?>
+										<?php if($i==1 || $i == 3) { ?>
 											<li class="col-xs-12">
 												<!-- Divider Start -->
 												<hr class="divider">
 												<!-- Divider End -->
 											</li>
-											@endif
+											<?php } ?>
 											<li class="col-xs-6">
 												<!-- Post Item Start -->
 												<div class="post--item post--layout-2">
 													<div class="post--img">
 														<a href="{{ route('posts.show', $post_category_home3[$i]) }}"
 															class="thumb"><img
-																src="{{ asset($post_category_home3[$i]->image ? 'storage/' . $post_category_home3[$i]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+																src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate04)[$i]["id"]) ?>"
 																alt=""></a>
 
 														<div class="post--info">
 															<ul class="nav meta">
-																<li><a href="javascript:;">{{ $post_category_home3[$i]->author->name }}</a></li>
-																<li><a href="javascript:;">{{ $post_category_home3[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+																<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate04)[$i]["user_id"]) ?></a></li>
+																<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate04)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 															</ul>
 
 															<div class="title">
 																<h3 class="h4"><a
 																		href="{{ route('posts.show', $post_category_home3[$i]) }}"
-																		class="btn-link">{{ $post_category_home3[$i]->title }}</a>
+																		class="btn-link"><?php echo Post::ListPostToCategory($idCate04)[$i]["title"] ?></a>
 																</h3>
 															</div>
 														</div>
@@ -450,7 +503,7 @@
 												</div>
 												<!-- Post Item End -->
 											</li>
-										@endfor
+										<?php } ?>
 									</ul>
 
 
@@ -463,7 +516,7 @@
 							<div class="col-md-6 ptop--30 pbottom--30">
 								<!-- Post Items Title Start -->
 								<div class="post--items-title" data-ajax="tab">
-									<h2 class="h4">{{ $category_home[4]->name }}</h2>
+									<h2 class="h4">	<?php echo $nameCate05 ?></h2>
 								</div>
 								<!-- Post Items Title End -->
 
@@ -475,22 +528,22 @@
 											<div class="post--item post--layout-1">
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home4[0]) }}"
-														class="thumb"><img src="{{ asset($post_category_home4[0]->image ? 'storage/' . $post_category_home4[0]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+														class="thumb"><img src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate05)[0]["id"]) ?>"
 															alt=""></a>
 													<a href="{{ route('categories.show', $post_category_home4[0]->category) }}"
-														class="cat">{{ $post_category_home4[0]->category->name }}</a>
+														class="cat"><?php echo $nameCate05 ?></a>
 													<a href="{{ route('categories.show', $post_category_home4[0]->category) }}" class="icon"><i class="fa fa-eye"></i></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home4[0]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home4[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate05)[0]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate05)[0]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home4[0]) }}"
-																	class="btn-link">{{ $post_category_home4[0]->title }}</a>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate05)[0]["title"] ?></a>
 															</h3>
 														</div>
 													</div>
@@ -499,33 +552,33 @@
 											<!-- Post Item End -->
 										</li>
 
-										@for ($i = 1; $i <= 5; $i++)
+										<?php for($i = 1; $i <= 5; $i++) { ?>
 										<li>
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-3">
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home4[$i]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home4[$i]->image ? 'storage/' . $post_category_home4[$i]->image->path : 'storage/placeholders/placeholder-image.png')}}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate05)[$i]["id"]) ?>"
 															alt=""></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home4[$i]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home4[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate05)[$i]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate05)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home4[$i]) }}"
-																	class="btn-link">{{ $post_category_home4[$i]->title }}</a></h3>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate05)[$i]["title"] ?></a></h3>
 														</div>
 													</div>
 												</div>
 											</div>
 											<!-- Post Item End -->
 										</li>
-										@endfor
+										<?php } ?>
 
 									</ul>
 
@@ -553,27 +606,26 @@
 								<!-- Post Items Start -->
 								<div class="post--items post--items-3" data-ajax-content="outer">
 									<ul class="nav" data-ajax-content="inner">
-										
-										@foreach($outstanding_posts as $outstanding_post)
+										<?php foreach($postOutstand as $item) {?>
 										<li>
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-3">
 												<div class="post--img">
 													<a href="{{ route('posts.show', $outstanding_post) }}"
 														class="thumb"><img width = "120"
-															src="{{ asset($outstanding_post->image ? 'storage/' .$outstanding_post->image->path : 'storage/placeholders/placeholder-image.png')}}"
+															src="../storage/<?php echo Post::getPostPathImg($item["id"]) ?>"
 															alt=""></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $outstanding_post->created_at->locale('vi')->diffForHumans() }}</a></li>
-															<li><a  href="javascript:;"><i class="fa fm fa-comments"></i>{{ count($outstanding_post->comments) }}</a></li>
-                                       						<li><span><i class="fa fm fa-eye"></i>{{ $outstanding_post->views }}</span></li>
+															<li><a href="javascript:;"><?php echo Post::getNameAuthor($item["user_id"]) ?></a></li>
+															<li><a  href="javascript:;"><i class="fa fm fa-comments"></i><?php echo  date_create_from_format('Y-m-d H:i:s',$item["created_at"])->format('d/m/Y') ?></a></li>
+                                       						<li><span><i class="fa fm fa-eye"></i><?php echo $item["views"] ?></span></li>
 														</ul>
 
 														<div class="title">
 															<h3  class="h4">
-																<a href="{{ route('posts.show', $outstanding_post) }}" class="btn-link">{{ $outstanding_post->title }}</a>
+																<a href="{{ route('posts.show', $outstanding_post) }}" class="btn-link"><?php echo $item["title"] ?></a>
 															</h3>
 														</div>
 													</div>
@@ -581,7 +633,7 @@
 											</div>
 											<!-- Post Item End -->
 										</li>
-										@endforeach
+										<?php } ?>
 									
 									</ul>
 
@@ -602,7 +654,15 @@
 								<!-- Post Items Start -->
 								<div class="post--items post--items-3">
 									<ul style="padding:20px" class="nav sidebar" data-ajax-content="inner">
-										<x-blog.side-tags :tags="$tags"/>
+										<div class="side">
+											<div class="block-26">
+												<ul>
+													<?php for($i = 0; $i< 30;  $i++) {?>
+														<li><a href=""><?php echo $tags[$i]["name"] ?></a></li>
+													<?php } ?>
+												</ul>
+											</div>
+										</div>
 									</ul>
 								</div>
 							</div>
@@ -617,7 +677,7 @@
 									<div class="col-sm-12">
 										<a
 											href="https://mwc.com.vn/products/giay-sandal-nu-mwc-nusd--2887?c=N%C3%82U">
-											<img src="{{ asset('kcnew/frontend/img/ads-img/banner_quangcao1.png') }}" alt="">
+											<img src="../public/kcnew/frontend/img/ads-img/banner_quangcao1.png" alt="">
 										</a>
 									</div>
 								</div>
@@ -688,42 +748,6 @@
 						<!-- Widget Start -->
 						<div class="widget">
 							<div class="widget--title">
-								<h2 class="h4">Nhận tin tức mới</h2>
-								<i class="icon fa fa-envelope-open-o"></i>
-							</div>
-
-							<!-- Subscribe Widget Start -->
-							<div class="subscribe--widget">
-								<div class="content">
-									<p>Đăng ký bản tin của chúng tôi để nhận tin tức mới nhất, tin tức phổ biến và
-										cập nhật độc quyền.
-									</p>
-								</div>
-
-								<form
-									action="https://themelooks.us13.list-manage.com/subscribe/post?u=79f0b132ec25ee223bb41835f&id=f4e0e93d1d"
-									method="post" name="mc-embedded-subscribe-form" target="_blank"
-									data-form="mailchimpAjax">
-									<div class="input-group">
-										<input type="email" name="EMAIL" placeholder="E-mail address"
-											class="form-control" autocomplete="off" required>
-
-										<div class="input-group-btn">
-											<button type="submit" class="btn btn-lg btn-default active"><i
-													class="fa fa-paper-plane-o"></i></button>
-										</div>
-									</div>
-
-									<div class="status"></div>
-								</form>
-							</div>
-							<!-- Subscribe Widget End -->
-						</div>
-						<!-- Widget End -->
-
-						<!-- Widget Start -->
-						<div class="widget">
-							<div class="widget--title">
 								<h2 class="h4">Quảng cáo</h2>
 								<i class="icon fa fa-bullhorn"></i>
 							</div>
@@ -731,7 +755,7 @@
 							<!-- Ad Widget Start -->
 							<div class="ad--widget--banner">
 								<a href="https://mwc.com.vn/products/giay-sandal-nu-mwc-nusd--2887?c=N%C3%82U">
-									<img src="{{ asset('kcnew/frontend/img/ads-img/banner_quangcao.png') }}" alt="">
+									<img src="../public/kcnew/frontend/img/ads-img/banner_quangcao.png" alt="">
 								</a>
 							</div>
 							<!-- Ad Widget End -->
@@ -746,7 +770,7 @@
 			<div class="main--content pd--30-0">
 				<!-- Post Items Title Start -->
 				<div class="post--items-title" data-ajax="tab">
-					<h2 class="h4">{{ $category_home[5]->name }}</h2>
+					<h2 class="h4">	<?php echo $nameCate06 ?></h2>
 				</div>
 				<!-- Post Items Title End -->
 
@@ -758,20 +782,20 @@
 							<div class="post--item post--layout-1 post--type-video post--title-large">
 								<div class="post--img">
 									<a href="{{ route('posts.show', $post_category_home5[0]) }}" class="thumb"><img
-											src="{{ asset($post_category_home5[0]->image ? 'storage/' . $post_category_home5[0]->image->path : 'storage/placeholders/placeholder-image.png'  )}}" alt=""></a>
-									<a href="{{ route('categories.show', $post_category_home5[0]->category) }}" class="cat">{{ $post_category_home5[0]->category->name }}</a>
+											src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate06)[0]["id"]) ?>" alt=""></a>
+									<a href="{{ route('categories.show', $post_category_home5[0]->category) }}" class="cat"><?php echo $nameCate06 ?></a>
 									<a href="{{ route('categories.show', $post_category_home5[0]->category) }}" class="icon"><i class="fa fa-eye"></i></a>
 
 									<div class="post--info">
 										<ul class="nav meta">
-											<li><a href="javascript:;">{{ $post_category_home5[0]->author->name }}</a></li>
-											<li><a href="javascript:;">{{ $post_category_home5[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+											<li><a href="javascript:;"><?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate06)[0]["user_id"]) ?></a></li>
+											<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate06)[0]["created_at"])->format('d/m/Y') ?></a></li>
 										</ul>
 
 										<div class="title">
 											<h2 class="h4"><a
 													href="{{ route('posts.show', $post_category_home5[0]) }}"
-													class="btn-link">{{ $post_category_home5[0]->title }}</a></h2>
+													class="btn-link"><?php echo Post::ListPostToCategory($idCate06)[0]["title"] ?></a></h2>
 										</div>
 									</div>
 								</div>
@@ -785,33 +809,33 @@
 						<li class="col-md-4">
 							<ul class="nav">
 
-							@for ($i = 1; $i <= 4; $i++)
+							<?php for($i = 1; $i <= 5; $i++) { ?>
 								<li>
 									<!-- Post Item Start -->
 									<div class="post--item post--type-audio post--layout-3">
 										<div class="post--img">
 											<a href="{{ route('posts.show', $post_category_home5[$i]) }}"
 												class="thumb"><img
-													src="{{ asset($post_category_home5[$i]->image ? 'storage/' . $post_category_home5[$i]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+													src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate06)[$i]["id"]) ?>"
 													alt=""></a>
 
 											<div class="post--info">
 												<ul class="nav meta">
-													<li><a href="javascript:;">{{ $post_category_home5[$i]->author->name }}</a></li>
-													<li><a href="javascript:;">{{ $post_category_home5[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+													<li><a href="javascript:;"><?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate06)[$i]["user_id"]) ?></a></li>
+													<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate06)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 												</ul>
 
 												<div class="title">
 													<h3 class="h4"><a
 															href="{{ route('posts.show', $post_category_home5[$i]) }}"
-															class="btn-link">{{ $post_category_home5[$i]->title }}</a></h3>
+															class="btn-link"><?php echo Post::ListPostToCategory($idCate06)[$i]["title"] ?></a></h3>
 												</div>
 											</div>
 										</div>
 									</div>
 									<!-- Post Item End -->
 								</li>
-							@endfor
+								<?php } ?>
 							
 							</ul>
 						</li>
@@ -840,7 +864,7 @@
 							<div class="col-md-6 ptop--30 pbottom--30">
 								<!-- Post Items Title Start -->
 								<div class="post--items-title" data-ajax="tab">
-									<h2 class="h4">{{ $category_home[6]->name }}</h2>
+									<h2 class="h4">	<?php echo $nameCate07 ?></h2>
 
 
 								</div>
@@ -855,55 +879,54 @@
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home6[0]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home6[0]->image ? 'storage/' . $post_category_home6[0]->image->path : 'storage/placeholders/placeholder-image.png') }}" alt=""></a>
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate07)[0]["id"]) ?>" alt=""></a>
 													<a href="{{ route('categories.show', $post_category_home6[0]->category) }}"
-														class="cat">{{ $post_category_home6[0]->category->name }}</a>
+														class="cat">	<?php echo $nameCate07 ?></a>
 													<a href="{{ route('categories.show', $post_category_home6[0]->category) }}" class="icon"><i class="fa fa-star-o"></i></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home6[0]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home6[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate07)[0]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate07)[0]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home6[0]) }}"
-																	class="btn-link">{{ $post_category_home6[0]->title }}</a></h3>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate07)[0]["title"] ?></a></h3>
 														</div>
 													</div>
 												</div>
 											</div>
 											<!-- Post Item End -->
 										</li>
-
-										@for ($i = 1; $i <= 4; $i++)
+										<?php for($i = 1; $i <= 4; $i++) { ?>
 										<li>
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-3">
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home6[$i]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home6[0]->image ? 'storage/' . $post_category_home6[$i]->image->path : 'storage/placeholders/placeholder-image.png') }}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate07)[$i]["id"]) ?>"
 															alt=""></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home6[$i]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home6[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate07)[$i]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate07)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home6[$i]) }}"
-																	class="btn-link">{{ $post_category_home6[$i]->title }}</a></h3>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate07)[$i]["title"] ?></a></h3>
 														</div>
 													</div>
 												</div>
 											</div>
 											<!-- Post Item End -->
 										</li>
-										@endfor
+										<?php } ?>
 										
 									</ul>
 
@@ -917,7 +940,7 @@
 							<div class="col-md-6 ptop--30 pbottom--30">
 								<!-- Post Items Title Start -->
 								<div class="post--items-title" data-ajax="tab">
-									<h2 class="h4">{{ $category_home[7]->name }}</h2>
+									<h2 class="h4"><?php echo $nameCate08 ?></h2>
 
 
 								</div>
@@ -933,22 +956,22 @@
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home7[0]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home7[0]->image ? 'storage/' . $post_category_home7[0]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate08)[0]["id"]) ?>"
 															alt=""></a>
 													<a href="{{ route('categories.show', $post_category_home7[0]->category) }}"
-														class="cat">{{ $post_category_home7[0]->category->name }}</a>
+														class="cat"><?php echo $nameCate08 ?></a>
 													<a href="{{ route('categories.show', $post_category_home7[0]->category) }}" class="icon"><i class="fa fa-heart-o"></i></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home7[0]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home7[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate08)[0]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate08)[0]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home7[0]) }}"
-																	class="btn-link">{{ $post_category_home7[0]->title }}</a>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate08)[0]["title"] ?></a>
 															</h3>
 														</div>
 													</div>
@@ -957,40 +980,40 @@
 											<!-- Post Item End -->
 										
 										</li>
-										@for ($i = 1; $i <= 4; $i++)
-											@if ($i === 1 || $i === 3)
+										<?php for($i = 1; $i <= 4; $i++) { ?>
+											<?php if($i === 3 || $i === 1) {?>
 											<li class="col-xs-12">
 												<!-- Divider Start -->
 												<hr class="divider">
 												<!-- Divider End -->
 											</li>
-											@endif
+											<?php } ?>
 										<li class="col-xs-6">
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-2">
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home7[$i]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home7[$i]->image ? 'storage/' . $post_category_home7[$i]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate08)[$i]["id"]) ?>"
 															alt=""></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home7[$i]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home7[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate08)[$i]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate08)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home7[$i]) }}"
-																	class="btn-link">{{ $post_category_home7[$i]->title }}</a></h3>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate08)[$i]["title"] ?></a></h3>
 														</div>
 													</div>
 												</div>
 											</div>
 											<!-- Post Item End -->
 										</li>
-										@endfor
+										<?php } ?>
 									</ul>
 
 								</div>
@@ -1001,8 +1024,7 @@
 							<div class="col-md-12 ptop--30 pbottom--30">
 								<!-- Post Items Title Start -->
 								<div class="post--items-title" data-ajax="tab">
-									<h2 class="h4">{{ $category_home[8]->name }}</h2>
-
+									<h2 class="h4"><?php echo $nameCate09 ?></h2>
 
 								</div>
 								<!-- Post Items Title End -->
@@ -1016,21 +1038,21 @@
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home8[0]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home8[0]->image ? 'storage/' . $post_category_home8[0]->image->path : 'storage/placeholders/placeholder-image.png'  )}}" alt="">
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate08)[0]["id"]) ?>" alt="">
 													</a>
-													<a href="{{ route('categories.show', $post_category_home8[0]->category) }}" class="cat">{{ $post_category_home8[0]->category->name }}</a>
+													<a href="{{ route('categories.show', $post_category_home8[0]->category) }}" class="cat"><?php echo $nameCate09 ?></a>
 													<a href="{{ route('categories.show', $post_category_home8[0]->category) }}" class="icon"><i class="fa fa-star-o"></i></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home8[0]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home8[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate08)[0]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate08)[0]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h3 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home8[0]) }}"
-																	class="btn-link">{{ $post_category_home8[0]->title }}</a>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate08)[0]["title"] ?></a>
 															</h3>
 														</div>
 													</div>
@@ -1041,21 +1063,21 @@
 											<hr class="mar_bottom15 ">
 
 											<ul class="list_news_show_home">
-												@for ($i = 3; $i <= 5; $i++)
-													@if($i!=5)
-													<li class="boder_link_show_home">
-														<h3 class="h3"><a
-																href="{{ route('posts.show', $post_category_home8[$i]) }}">{{ $post_category_home8[$i]->title }}</a></h3>
-													</li>
-													@endif
+												<?php for($i = 3; $i <= 5; $i++) { ?>
+													<?php if($i!=5) {?>
+														<li class="boder_link_show_home">
+															<h3 class="h3"><a
+																	href="{{ route('posts.show', $post_category_home8[$i]) }}"><?php echo Post::ListPostToCategory($idCate09)[$i]["title"] ?></a></h3>
+														</li>
+													<?php } ?>
 
-													@if($i==5)
-													<li>
-														<h3 class="h3"><a
-																href="{{ route('posts.show', $post_category_home8[$i]) }}">{{ $post_category_home8[$i]->title }}</a></h3>
-													</li>
-													@endif
-												@endfor
+													<?php if($i==5) {?>
+														<li>
+															<h3 class="h3"><a
+																	href="{{ route('posts.show', $post_category_home8[$i]) }}"><?php echo Post::ListPostToCategory($idCate09)[$i]["title"] ?></a></h3>
+														</li>
+													<?php } ?>
+												<?php } ?>
 											</ul>
 										</li>
 										<li class="col-md-6">
@@ -1065,33 +1087,33 @@
 													<hr class="divider">
 													<!-- Divider End -->
 												</li>
-												@for ($i = 1; $i <= 4; $i++)
-													@if($i==3)
+												<?php for($i = 1; $i <= 4; $i++) { ?>
+													<?php if($i==3) {?>
 														<li class="col-xs-12">
 															<!-- Divider Start -->
 															<hr class="divider">
 															<!-- Divider End -->
 														</li>
-													@endif
+														<?php } ?>
 													<li class="col-xs-6">
 														<!-- Post Item Start -->
 														<div class="post--item post--layout-2">
 															<div class="post--img">
 																<a href="{{ route('posts.show', $post_category_home8[$i]) }}"
 																	class="thumb"><img
-																		src="{{ asset($post_category_home8[$i]->image ? 'storage/' . $post_category_home8[$i]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+																		src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate09)[$i]["id"]) ?>"
 																		alt=""></a>
 
 																<div class="post--info">
 																	<ul class="nav meta">
-																		<li><a href="javascript:;">{{ $post_category_home8[$i]->author->name }}</a></li>
-																		<li><a href="javascript:;">{{ $post_category_home8[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+																		<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate09)[$i]["user_id"]) ?></a></li>
+																		<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate09)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 																	</ul>
 
 																	<div class="title">
 																		<h3 class="h4"><a
 																				href="{{ route('posts.show', $post_category_home8[$i]) }}"
-																				class="btn-link">{{ $post_category_home8[$i]->title }}</a></h3>
+																				class="btn-link"><?php echo Post::ListPostToCategory($idCate09)[$i]["title"] ?></a></h3>
 																	</div>
 																</div>
 															</div>
@@ -1099,7 +1121,7 @@
 														<!-- Post Item End -->
 													</li>
 
-												@endfor
+												<?php } ?>
 											
 											</ul>
 										</li>
@@ -1114,7 +1136,7 @@
 							<div class="col-md-12 ptop--30 pbottom--30">
 								<!-- Post Items Title Start -->
 								<div class="post--items-title" data-ajax="tab">
-									<h2 class="h4">{{ $category_home[9]->name }}</h2>
+									<h2 class="h4"><?php echo $nameCate10 ?></h2>
 
 								</div>
 								<!-- Post Items Title End -->
@@ -1128,57 +1150,57 @@
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home9[0]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home9[0]->image ? 'storage/' . $post_category_home9[0]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate10)[0]["id"]) ?>"
 															alt=""></a>
 													<a href="{{ route('categories.show', $post_category_home9[0]->category) }}"
-														class="cat">{{ $post_category_home9[0]->category->name }}</a>
+														class="cat"><?php echo $nameCate10 ?></a>
 													<a href="{{ route('categories.show', $post_category_home9[0]->category) }}" class="icon"><i class="fa fa-eye"></i></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home9[0]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home9[0]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate10)[0]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate10)[0]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title text-xxs-ellipsis">
 															<h2 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home9[0]) }}"
-																	class="btn-link">{{ $post_category_home9[0]->title }}</a></h2>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate10)[0]["title"] ?></a></h2>
 														</div>
 													</div>
 												</div>
 											</div>
 											<!-- Post Item End -->
 										</li>
-										@for ($i = 1; $i <= 3; $i++)
+										
+									<?php for($i = 1; $i <= 3; $i++) { ?>
+									
 										<li class="col-md-4 col-xs-6 col-xxs-12">
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-1">
 												<div class="post--img">
 													<a href="{{ route('posts.show', $post_category_home9[$i]) }}"
 														class="thumb"><img
-															src="{{ asset($post_category_home9[$i]->image ? 'storage/' . $post_category_home9[$i]->image->path : 'storage/placeholders/placeholder-image.png'  )}}"
+															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate10)[$i]["id"]) ?>"
 															alt=""></a>
 
 													<div class="post--info">
 														<ul class="nav meta">
-															<li><a href="javascript:;">{{ $post_category_home9[$i]->author->name }}</a></li>
-															<li><a href="javascript:;">{{ $post_category_home9[$i]->created_at->locale('vi')->diffForHumans()  }}</a></li>
+															<li><a href="javascript:;"> <?php echo Post::getNameAuthor(Post::ListPostToCategory($idCate10)[$i]["user_id"]) ?></a></li>
+															<li><a href="javascript:;"> <?php echo  date_create_from_format('Y-m-d H:i:s',Post::ListPostToCategory($idCate10)[$i]["created_at"])->format('d/m/Y') ?></a></li>
 														</ul>
 
 														<div class="title">
 															<h2 class="h4"><a
 																	href="{{ route('posts.show', $post_category_home9[$i]) }}"
-																	class="btn-link">{{ $post_category_home9[$i]->title }}</a></h2>
+																	class="btn-link"><?php echo Post::ListPostToCategory($idCate10)[$i]["title"] ?></a></h2>
 														</div>
 													</div>
 												</div>
 											</div>
 											<!-- Post Item End -->
 										</li>
-										@endfor
-									
-
+										<?php } ?>
 									</ul>
 
 								</div>
@@ -1224,7 +1246,7 @@
 											<div class="checkbox">
 												<label>
 													<input type="checkbox" name="option-1">
-													<img src="{{ asset('kcnew/frontend/img/Flag_barzill.png') }}" alt="Brasil" srcset="">
+													<img src="../public/kcnew/frontend/img/Flag_barzill.png" alt="Brasil" srcset="">
 													<span>Brasil</span>
 												</label>
 
@@ -1234,7 +1256,7 @@
 											<div class="checkbox">
 												<label>
 													<input type="checkbox" name="option-2">
-													<img src="{{ asset('kcnew/frontend/img/Flag_Agrennal.png') }}" alt="Brasil" srcset="">
+													<img src="../public/kcnew/frontend/img/Flag_Agrennal.png" alt="Brasil" srcset="">
 													<span>Argentina</span>
 												</label>
 
@@ -1244,7 +1266,7 @@
 											<div class="checkbox">
 												<label>
 													<input type="checkbox" name="option-2">
-													<img src="{{ asset('kcnew/frontend/img/Flag_tay_ban_nha.png') }}" alt="Brasil" srcset="">
+													<img src="../public/kcnew/frontend/img/Flag_tay_ban_nha.png" alt="Brasil" srcset="">
 													<span>Tây Ban Nha</span>
 												</label>
 
@@ -1253,7 +1275,7 @@
 											<div class="checkbox">
 												<label>
 													<input type="checkbox" name="option-2">
-													<img src="{{ asset('kcnew/frontend/img/Flag_bo-dao-nha.png') }}" alt="Brasil" srcset="">
+													<img src="../public/kcnew/frontend/img/Flag_bo-dao-nha.png" alt="Brasil" srcset="">
 													<span>Bồ Đào Nha</span>
 												</label>
 
@@ -1277,30 +1299,6 @@
 
 						<!-- Widget Start -->
 						<div class="widget">
-							<!-- Ad Widget Start -->
-							<div class="ad--widget">
-								<div class="row">
-									<div class="col-sm-6">
-										<a href="javascript:;">
-											<img src="{{ asset('kcnew/frontend/img/ads-img/banner_quangcao.png') }}"
-												alt="">
-										</a>
-									</div>
-
-									<div class="col-sm-6">
-										<a href="javascript:;">
-											<img src="{{ asset('kcnew/frontend/img/ads-img/banner_quangcao.png') }}"
-												alt="">
-										</a>
-									</div>
-								</div>
-							</div>
-							<!-- Ad Widget End -->
-						</div>
-						<!-- Widget End -->
-
-						<!-- Widget Start -->
-						<div class="widget">
 							<div class="widget--title" data-ajax="tab">
 								<h2 class="h4">Ý KIẾN NGƯỜI ĐỌC</h2>
 							</div>
@@ -1310,31 +1308,31 @@
 								<!-- Post Items Start -->
 								<div class="post--items post--items-3">
 									<ul class="nav" data-ajax-content="inner">
-										@foreach ($top_commnents as $top_commnent) 
+										<?php foreach($comments  as $comment) { ?>
 										<li>
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-3">
 												<div class="post--img">
 													<span class="thumb">
-                                                        <!-- <img style="margin: auto; background-size: cover ;  width: 60px; height: 60px;   background-image: url({{ $top_commnent->user->image ?  asset('storage/' . $top_commnent->user->image->path) : asset('storage/placeholders/user_placeholder.jpg') }})"  alt=""> -->
+                                                        <img style="margin: auto; background-size: cover ;  width: 60px; height: 60px;   background-image: url(../storage/<?php echo Comment::getCommentPathImg($comment["user_id"]) ?>)"  alt="">
                                                     </span>
 
 													<div class="post--info">
 														<div class="title">
-															<h3 class="h4"><a href="{{ route('posts.show', $top_commnent->post ) }}">{{ $top_commnent->the_comment }}</a> </h3>
+															<h3 class="h4"><a href="{{ route('posts.show', $top_commnent->post ) }}"><?php echo $comment["the_comment"]?></a> </h3>
 														</div>
 
 														<ul class="nav meta">
-															<li><span> {{ $top_commnent->user->name }}
+															<li><span> <?php echo Comment::getUserName($comment["user_id"])?>
 																</span></li>
-															<li><span>{{ $top_commnent->created_at->format('d/m/Y') }}</span></li>
+															<li><span><?php echo  date_create_from_format('Y-m-d H:i:s', $comment["created_at"])->format('d/m/Y') ?></span></li>
 														</ul>
 													</div>
 												</div>
 											</div>
 											<!-- Post Item End -->
 										</li>
-										@endforeach
+										<?php }?>
 									
 									</ul>
 

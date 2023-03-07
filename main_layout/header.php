@@ -48,7 +48,7 @@ $posts = Post::new_post_category(); // Lay danh sach bai viet
                     <!-- @auth -->
                     <li class="has-dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i class="fa fm fa-user-o"></i>
+                            <!-- <i class="fa fm fa-user-o"></i> -->
                             <!-- {{ auth()->user()->name }}  -->
                             <span class="caret"></span>
                         </a>
@@ -115,10 +115,9 @@ $posts = Post::new_post_category(); // Lay danh sach bai viet
                     <?php
                     $i = 0;
                     foreach ($categories as $category) {
-                        if ($category["name"] != "Chưa phân loại")
-                            echo "<li><a href='404.php'>" . $category["name"] . "</a></li>";
+                        echo "<li><a href='404.php'>" . $category["name"] . "</a></li>";
                         $i++;
-                        if ($i > 10)
+                        if ($i > 9)
                             break;
                     }
                     ?>
@@ -129,7 +128,7 @@ $posts = Post::new_post_category(); // Lay danh sach bai viet
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('about">Giới thiệu</a></li>
                             <li><a href="{{ route('contact.create">Liên hệ</a></li>
-                            <li><a href="{{ route('erorrs.404">404</a></li>
+                            <li><a href="404.php">404</a></li>
                         </ul>
                     </li>
                     <li>

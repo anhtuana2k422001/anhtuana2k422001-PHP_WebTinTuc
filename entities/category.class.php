@@ -19,13 +19,27 @@ class Category
        
     }
 
+    // Lấy id categorey chưa phân loại
+    public static function id_cate_unclassified()
+    {
+        $db = new Db();
+        $sql = "SELECT categories.id  FROM categories
+                WHERE name = 'Chưa phân loại' ";
+        $result = $db->select_to_array($sql); 
+        return reset($result)["id"]; // Lấy ra phần tử đầu tiên
+    }
+
     // Lấy danh sách category từ mysql
     public static function list_category() {
+        $id_un = Category::id_cate_unclassified();
         $db = new Db();
-        $sql = "SELECT * FROM categories";
+        $sql = "SELECT * FROM categories WHERE id != '$id_un' ";
         $result = $db->select_to_array($sql);
         return $result;
     }
+
+    
+  
 
 
 }
