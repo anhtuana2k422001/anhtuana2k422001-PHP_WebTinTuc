@@ -31,7 +31,7 @@
 
             <ul>
                 <!-- @if(checkPermission("admin.posts.index")) -->
-                <li> <a href="{{ route('admin.posts.index') }}"><i class="bx bx-right-arrow-alt"></i>Tất cả bài viết</a>
+                <li> <a href="http://localhost:3000/admin/listposts.php"><i class="bx bx-right-arrow-alt"></i>Tất cả bài viết</a>
                 </li>
                 <!-- @endif -->
 

@@ -1,5 +1,6 @@
 <?php
-require_once("./config/db.class.php");
+require_once("../config/db.class.php");
+
 
 class Post
 {
@@ -124,6 +125,15 @@ class Post
     {
         $db = new Db();
         $sql = "SELECT *  FROM posts LIMIT 7";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
+    // Lấy ra tất cả bài viế 
+    public static function ListPosts()
+    {
+        $db = new Db();
+        $sql = "SELECT *  FROM posts ";
         $result = $db->select_to_array($sql);
         return $result;
     }
