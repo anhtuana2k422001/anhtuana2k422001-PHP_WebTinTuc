@@ -45,6 +45,22 @@ class Comment
         return reset($result)["path"]; // Lấy ra phần tử đầu tiên
     }
 
+    // Lấy bình luận của bài viết từ id bài viết 
+    public static function getCommentPost($post_id){
+        $db = new Db();
+        $sql = "SELECT * FROM comments WHERE id = '$post_id' ";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
+    // Lấy tên người comments bài viết 
+    public static function getNameUser($user_id){
+        $db = new Db();
+        $sql = "SELECT * FROM users WHERE id = '$user_id'";
+        $result = $db->select_to_array($sql);
+        return reset($result)["name"];
+    }
+
 
 }
 

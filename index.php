@@ -43,10 +43,6 @@
     
     <!-- Import Footer -->
     <?php include_once("./main_layout/footer.php"); ?> 
-
-	<div class="gototop js-top">
-		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
-	</div>
 	
     <!-- Import JS  -->
     <?php include_once("./main_layout/js.php"); ?> 

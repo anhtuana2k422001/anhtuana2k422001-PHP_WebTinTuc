@@ -1,5 +1,6 @@
 <?php 
     require_once("./entities/post.class.php");
+    require_once("./entities/comments.class.php");
 
     if(!isset($_GET["slug"])){
         // đường dẫn xem chi tiết sản phẩm không đúng
@@ -10,6 +11,9 @@
         $slug = $_GET["slug"];
         // Lấy giá trị đầu tiên trong mảng các đối tượng
         $postDetail = Post::getPosttoID($slug);
+
+        // Lấy ra comments của bài viết
+        $comments = Comment::getCommentPost($postDetail["id"]); 
         if(!$postDetail)
             header("Location: 404.php");
     }
@@ -93,7 +97,7 @@
                                         <li class="text capitalize"><a href="#"><?php echo  date_create_from_format('Y-m-d H:i:s', $postDetail["created_at"])->format('d/m/Y') ?><a></li>
                                         <li><a href="#"><?php echo Post::getNameAuthor($postDetail["user_id"]) ?></a></li>
                                         <li><span><i class="fa fm fa-eye"></i><?php echo $postDetail["views"] ?></span></li>
-                                        <li><a href="#"><i class="fa fm fa-comments-o"></i>{{ count($post->comments) }}</a></li>
+                                        <li><a href="#"><i class="fa fm fa-comments-o"></i><?php echo COUNT($comments); ?></a></li>
                                     </ul>
 
                                     <div class="title">
@@ -150,13 +154,13 @@
                             <div class="comment--list pd--30-0">
                                 <!-- Post Items Title Start -->
                                 <div class="post--items-title">
-                                    <h2 class="h4"><span class="post_count_comment h4">{{ count($post->comments) }} </span> bình luận</h2>
+                                    <h2 class="h4"><span class="post_count_comment h4"><?php echo COUNT($comments); ?> </span> bình luận</h2>
                                     <i class="icon fa fa-comments-o"></i>
                                 </div>
                                 <!-- Post Items Title End -->
 
                                 <ul class="comment--items nav">
-                                    @foreach($post->comments as $comment)
+                                   <?php foreach($comments as $comment) : ?>
                                     <li>
                                         <!-- Comment Item Start -->
                                         <div class="comment--item clearfix">
@@ -165,21 +169,21 @@
                                             </div>
                                             <div class="comment--info">
                                                 <div class="comment--header clearfix">
-                                                    <p class="name">{{ $comment->user->name }}</p>
-                                                    <p class="date">{{ $comment->created_at->locale('vi')->diffForHumans() }}</p>
+                                                    <p class="name"><?php echo Comment::getNameUser($comment["user_id"])?></p>
+                                                    <p class="date"><?php echo  date_create_from_format('Y-m-d H:i:s', $comment["created_at"])->format('d/m/Y') ?></p>
                                                     <a href="javascript:;" class="reply"><i class="fa fa-flag"></i></a>
                                                 </div>
                                                 <div class="comment--content">
-                                                    <p>{{ $comment->the_comment }}</p>
+                                                    <p><?php echo $comment["the_comment"]?></p>
                                                     <p class="star">
-                                                        <span class="text-left"><a href="#" class="reply"><i class="icon-reply"></i></a></span>
+                                                        <span class="text-left"><a href="#" class="reply"><i class="icon-reply"></i>Trả lời</a></span>
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- Comment Item End -->
                                     </li>
-                                    @endforeach
+                                    <?php endforeach ?>
                                 </ul>
                             </div>
                             <!-- Comment List End -->
