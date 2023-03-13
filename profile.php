@@ -23,15 +23,13 @@
     <!-- Code Container  -->
     <div class="wrapper">
 
-        <div class="main-content--section pbottom--30">
-            <div class="container">
-                <div class="main--breadcrumb">
-                    <div class="container">
-                        <ul class="breadcrumb">
-                            <li><a href="{{ route('home') }}" class="btn-link"><i class="fa fm fa-home"></i>Trang chủ</a></li>
-                            <li class="active"><span>Tài khoản</span></li>
-                        </ul>
-                    </div>
+        <div class="container">
+            <div class="main--breadcrumb">
+                <div class="container">
+                    <ul class="breadcrumb">
+                        <li><a href="" class="btn-link"><i class="fa fm fa-home"></i>Trang chủ</a></li>
+                        <li class="active"><span>Tài khoản</span></li>
+                    </ul>
                 </div>
             </div>
         </div>

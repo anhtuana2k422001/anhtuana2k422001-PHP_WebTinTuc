@@ -66,9 +66,9 @@ class Post
         ORDER BY p1.created_at DESC; ";
         $result = $db->select_to_array($sql);
         return $result;
-    } 
+    }
 
-    // Lấy tên category theo id post
+    // Lấy tên category id của bài viết
     public static function getNameCategory($category_id)
     {
         $db = new Db();
@@ -78,16 +78,16 @@ class Post
         return reset($result)["name"]; // Lấy ra phần tử đầu tiên
     }
 
-    // Lấy tên image của bài viết 
-    public static function getPostImage($post_id)
+    // Lấy ra bài viết từ slug
+    public static function getPosttoID($post_slug)
     {
         $db = new Db();
-        $sql = "SELECT images.name  FROM images
-                    WHERE  imageable_id = '$post_id' AND  imageable_type LIKE '%Post'";
+        $sql = "SELECT *  FROM posts
+                    WHERE  slug = '$post_slug' ";
         $result = $db->select_to_array($sql);
-        return reset($result)["name"]; // Lấy ra phần tử đầu tiên
+        return reset($result); // Lấy ra phần tử đầu tiên
     }
-
+   
     // Lấy đường dẫn hình ảnh của bài viết 
     public static function getPostPathImg($post_id)
     {
@@ -127,4 +127,6 @@ class Post
         $result = $db->select_to_array($sql);
         return $result;
     }
+
+
 }
