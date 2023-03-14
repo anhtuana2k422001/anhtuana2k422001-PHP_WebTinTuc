@@ -48,7 +48,7 @@ class Comment
     // Lấy bình luận của bài viết từ id bài viết 
     public static function getCommentPost($post_id){
         $db = new Db();
-        $sql = "SELECT * FROM comments WHERE id = '$post_id' ";
+        $sql = "SELECT * FROM comments WHERE post_id = '$post_id' ";
         $result = $db->select_to_array($sql);
         return $result;
     }

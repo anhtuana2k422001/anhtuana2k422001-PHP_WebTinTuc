@@ -3,7 +3,7 @@ require_once("./entities/category.class.php");
 require_once("./entities/post.class.php");
 session_start();
 $categories = Category::list_category(); // Lấy danh sách danh mục
-$posts = Post::new_post_category(); // Lay danh sach bai viet
+$posts = Post::new_post_category(12); // Lay danh sach bai viet mới nhất
 // Lấy thời gian 
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 $day = date("d", time()) ;

@@ -35,4 +35,4 @@
     <!-- ==== Theme Color Stylesheet ==== -->
     <link rel="stylesheet" href="./public/kcnew/frontend/css/colors/theme-color-3.css" id="changeColorScheme">
     <!-- ==== Custom Stylesheet ==== -->
-    <link rel="stylesheet" href="./public/kcnew/frontend/css/custom.css">
+    <!-- <link rel="stylesheet" href="./public/kcnew/frontend/css/custom.css"> -->

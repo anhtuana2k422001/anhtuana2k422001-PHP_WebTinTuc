@@ -1,6 +1,8 @@
 <?php 
     require_once("./entities/post.class.php");
     require_once("./entities/comments.class.php");
+    require_once("./entities/tags.class.php");
+    require_once("./handle/handle.php");
 
     if(!isset($_GET["slug"])){
         // đường dẫn xem chi tiết sản phẩm không đúng
@@ -14,6 +16,13 @@
 
         // Lấy ra comments của bài viết
         $comments = Comment::getCommentPost($postDetail["id"]); 
+        
+        // Lấy ra danh sách từ khóa của bài viết 
+        $tagPosts = Tags::getTagsPost($postDetail["id"]);
+
+        // Lấy ra danh sách bài viết tương tự nhau cùng chung danh mục
+        $postTheSames = Post::ListPostToCategory($postDetail["category_id"]);
+
         if(!$postDetail)
             header("Location: 404.php");
     }
@@ -65,8 +74,8 @@
             <div class="main--breadcrumb">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a href="{{ route('home') }}" class="btn-link"><i class="fa fm fa-home"></i>Trang Chủ</a></li>
-                        <li><a href="{{ route('categories.show', $post->category ) }}" class="btn-link"><?php echo Post::getNameCategory($postDetail["category_id"]) ?></a></li>
+                        <li><a href="/" class="btn-link"><i class="fa fm fa-home"></i>Trang Chủ</a></li>
+                        <li><a href="javascript:;" class="btn-link"><?php echo Post::getNameCategory($postDetail["category_id"]) ?></a></li>
                         <li class="active"><span><?php echo $postDetail["title"] ?></span></li>
                     </ul>
                 </div>
@@ -86,9 +95,9 @@
                                 <div class="post--cats">
                                     <ul class="nav">
                                         <li><span><i class="fa fa-folder-open-o"></i></span></li>
-                                        @for($i = 0; $i < count($post->tags) ; $i++)
-                                            <li><a class="text capitalize" href="{{ route('tags.show',  $post->tags[$i]) }}">{{ $post->tags[$i]->name }}</a></li>
-                                            @endfor
+                                            <?php foreach($tagPosts as $tagPost) : ?>
+                                            <li><a class="text capitalize" href="{{ route('tags.show',  $post->tags[$i]) }}"><?php echo  $tagPost["name"] ?></a></li>
+                                            <?php endforeach ?>
                                     </ul>
                                 </div>
 
@@ -97,7 +106,7 @@
                                         <li class="text capitalize"><a href="#"><?php echo  date_create_from_format('Y-m-d H:i:s', $postDetail["created_at"])->format('d/m/Y') ?><a></li>
                                         <li><a href="#"><?php echo Post::getNameAuthor($postDetail["user_id"]) ?></a></li>
                                         <li><span><i class="fa fm fa-eye"></i><?php echo $postDetail["views"] ?></span></li>
-                                        <li><a href="#"><i class="fa fm fa-comments-o"></i><?php echo COUNT($comments); ?></a></li>
+                                        <li><a href="#comments_all"><i class="fa fm fa-comments-o"></i><?php echo COUNT($comments); ?></a></li>
                                     </ul>
 
                                     <div class="title">
@@ -123,9 +132,9 @@
                             <div class="post--tags">
                                 <ul class="nav">
                                     <li><span><i class="fa fa-tags"></i> Từ khóa </span></li>
-                                    @for($i = 0; $i < count($post->tags) ; $i++)
-                                        <li><a class="text capitalize" href="{{ route('tags.show',  $post->tags[$i]) }}">{{ $post->tags[$i]->name }}</a></li>
-                                        @endfor
+                                    <?php foreach($tagPosts as $tagPost) : ?>
+                                        <li><a class="text capitalize" href="{{ route('tags.show',  $post->tags[$i]) }}"><?php echo $tagPost["name"]?></a></li>
+                                    <?php endforeach ?>
                                 </ul>
                             </div>
                             <!-- Post Tags End -->
@@ -151,10 +160,10 @@
 
 
                             <!-- Comment List Start -->
-                            <div class="comment--list pd--30-0">
+                            <div id="comments_all"  class="comment--list pd--30-0">
                                 <!-- Post Items Title Start -->
                                 <div class="post--items-title">
-                                    <h2 class="h4"><span class="post_count_comment h4"><?php echo COUNT($comments); ?> </span> bình luận</h2>
+                                    <h2 class="h4"><span  class="post_count_comment h4"><?php echo COUNT($comments); ?> </span > bình luận</h2>
                                     <i class="icon fa fa-comments-o"></i>
                                 </div>
                                 <!-- Post Items Title End -->
@@ -199,11 +208,9 @@
 
                                 <div class="comment-respond">
                                     <x-blog.message :status="'success'" />
-                                    @auth
+                                    <?php  if(isset($_SESSION['username'])) : ?>
                                     <!-- <form method="POST" action="{{ route('posts.add_comment', $post )}}"> -->
                                     <form onsubmit="return false;" autocomplete="off" method="POST">
-                                        @csrf
-
                                         <div class="row form-group">
                                             <div class="col-md-12">
                                                 <textarea name="the_comment" id="message" cols="30" rows="5" class="form-control" placeholder="Đánh giá bài viết này"></textarea>
@@ -214,14 +221,15 @@
                                             <input id="input_comment" type="submit" value="Bình luận" class="send-comment-btn btn btn-primary">
                                         </div>
                                     </form>
-                                    @endauth
+                                    <?php endif ?>
 
-                                    @guest
+                                    <?php  if(!isset($_SESSION['username'])) : ?>
                                     <p class="h4">
-                                        <a href="{{ route('login') }}">Đăng nhập</a> hoặc
-                                        <a href="{{ route('register') }}">Đăng ký</a> để bình luận bài viết
+                                        <a href="/login.php">Đăng nhập</a> hoặc
+                                        <a href="/login.php#toregister">Đăng ký</a> để bình luận bài viết
                                     </p>
-                                    @endguest
+                                    <?php endif ?>
+
                                 </div>
 
                             </div>
@@ -238,38 +246,42 @@
                                 <!-- Post Items Start -->
                                 <div class="post--items post--items-2" data-ajax-content="outer">
                                     <ul class="nav row" data-ajax-content="inner">
-                                        @foreach($postTheSame as $postTheSame)
+                                        <?php
+                                        $i = 0;
+                                         foreach($postTheSames as $post) : ?>
+                                         <?php if($i<5): ?>
                                         <li class="col-sm-12 pbottom--30">
                                             <!-- Post Item Start -->
                                             <div class="post--item post--layout-3">
                                                 <div class="post--img">
-                                                    <a href="{{ route('posts.show', $postTheSame) }}" class="thumb">
-                                                        <img src="{{ asset($postTheSame->image ? 'storage/' .$postTheSame->image->path : 'storage/placeholders/placeholder-image.png')}}" alt="">
+                                                    <a href="/post.php?slug=<?php echo $post["slug"]?>" class="thumb">
+                                                        <img src="<?php echo Handle::getPathImg($post["id"]) ?>" alt="">
                                                     </a>
 
                                                     <div class="post--info">
 
                                                         <div class="title">
                                                             <h3 class="h4">
-                                                                <a href="{{ route('posts.show', $postTheSame) }}" class="btn-link">{{ $postTheSame->title }}</a>
+                                                                <a href="/post.php?slug=<?php echo $post["slug"]?>" class="btn-link"><?php echo $post["title"] ?></a>
                                                             </h3>
                                                             <p style="font-size:16px">
-                                                                <span>{{ $postTheSame->excerpt }}</span>
+                                                                <span><?php echo $post["excerpt"] ?></span>
                                                             </p>
                                                         </div>
 
                                                         <ul style="padding-top:10px" class="nav meta ">
-                                                            <li><a href="javascript:;">{{ $postTheSame->author->name }}</a>
+                                                            <li><a href="javascript:;"><?php echo Post::getNameAuthor($post["user_id"])?></a>
                                                             </li>
-                                                            <li><a href="javascript:;">{{ $postTheSame->created_at->locale('vi')->diffForHumans() }}</a></li>
-                                                            <li><a href="javascript:;"><i class="fa fm fa-comments"></i>{{ count($postTheSame->comments) }}</a></li>
+                                                            <li><a href="javascript:;"><?php echo Handle::formatDate($post["created_at"])?></a></li>
+                                                            <li><a href="javascript:;"><i class="fa fm fa-comments"></i><?php echo COUNT(Comment::getCommentPost($post["id"])) ?></a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- Post Item End -->
                                         </li>
-                                        @endforeach
+                                        <?php endif ?>
+                                        <?php $i++;  endforeach ?>
 
                                     </ul>
 
@@ -292,7 +304,7 @@
                         <div class="sticky-content-inner">
 
                             <!-- Widget Start -->
-                            <x-blog.side-outstanding_posts :outstanding_posts="$outstanding_posts" />
+                            <?php include_once("./main_layout/slide_post/outstanding_posts.php"); ?> 
                             <!-- Widget End -->
 
                             <!-- Widget Start -->
@@ -317,12 +329,15 @@
     <?php include_once("./main_layout/footer.php"); ?>
     <!-- Import JS  -->
     <?php include_once("./main_layout/js.php"); ?>
+    
 </body>
 
 <script>
     setTimeout(() => {
         $(".global-message").fadeOut();
     }, 5000)
+  
 </script>
+
 
 </html>

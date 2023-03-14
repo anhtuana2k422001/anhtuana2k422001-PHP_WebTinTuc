@@ -22,6 +22,15 @@ class Tags
         return $result;
     }
 
+    // Lấy danh sách tags của một bài viết 
+    public static function getTagsPost($post_id){
+        $db = new Db();
+        $sql = "SELECT * FROM tags, posts, post_tag WHERE post_id = '$post_id' 
+        AND tags.id = post_tag.tag_id AND  posts.id = post_tag.post_id";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
 }
 
 ?>

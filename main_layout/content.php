@@ -4,7 +4,7 @@
     require_once("./entities/tags.class.php");
     require_once("./entities/comments.class.php");
 	
-    $new_posts = Post::new_post_category(); // Lấy danh sách bài viết mới nhất
+    $new_posts = Post::new_post_category(5); // Lấy danh sách bài viết mới nhất
     $img_defaut = "./storage/placeholders/placeholder-image.jpg"; // Ảnh mặc định
 	
 	// Lấy id danh sách  9 category 

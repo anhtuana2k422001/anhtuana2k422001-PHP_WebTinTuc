@@ -51,7 +51,7 @@ class Post
     }
 
     //Lấy danh sách bài viết mới nhất theo từng danh mục 
-    public static function new_post_category()
+    public static function new_post_category($limit)
     {
         $id = Post::id_cate_unclassified(); // Lấy id danh mục chưa phân loại
         $db = new Db();
@@ -63,7 +63,7 @@ class Post
             WHERE category_id != '$id'
             GROUP BY category_id
         ) p2 ON p1.category_id = p2.category_id AND p1.created_at = p2.max_created_at
-        ORDER BY p1.created_at DESC; ";
+        ORDER BY p1.created_at DESC  LIMIT $limit ";
         $result = $db->select_to_array($sql);
         return $result;
     }
@@ -127,6 +127,5 @@ class Post
         $result = $db->select_to_array($sql);
         return $result;
     }
-
 
 }
