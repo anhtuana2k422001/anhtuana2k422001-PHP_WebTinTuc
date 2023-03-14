@@ -1,5 +1,5 @@
 <!--favicon-->
-<link rel="icon" type="image/png" href="./kcnew/frontend/img/image_iconLogo.png"  sizes="160x160">
+<link rel="icon" type="image/png" href="../kcnew/frontend/img/image_iconLogo.png"  sizes="160x160">
 	<!--plugins-->
 	<link href="./admin_dashboard_assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
 	<link href="./admin_dashboard_assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
@@ -18,3 +18,5 @@
     <link rel="stylesheet" href="./admin_dashboard_assets/css/semi-dark.css" />
     <link rel="stylesheet" href="./admin_dashboard_assets/css/header-colors.css" />
     <link rel="stylesheet" href="./admin_dashboard_assets/css/my-style.css" />
+
+ 

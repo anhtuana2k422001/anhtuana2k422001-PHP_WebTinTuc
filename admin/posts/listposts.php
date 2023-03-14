@@ -1,8 +1,25 @@
 <?php
 //require_once ("./entities_admin/posts.class.php");
-require_once $_SERVER['DOCUMENT_ROOT'].'/entities/post.class.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '../admin/entities/post.class.php';
+require_once './css.php'; 
 
-$posts = Post::ListPosts();
+// phân trang
+$total_records = Post::GetTotalRecords();
+
+// Số bản ghi trên mỗi trang
+$limit = 10;
+
+// Lấy trang hiện tại từ biến $_GET, nếu không có thì mặc định là trang đầu tiên (1)
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Tính vị trí bắt đầu của bản ghi trên trang hiện tại
+$start = ($page - 1) * $limit;
+
+// Tính số trang
+$pages = ceil($total_records / $limit);
+
+$posts = Post::ListPosts($start, $limit);
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -12,16 +29,17 @@ $posts = Post::ListPosts();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Posts Page </title>
-    <?php include_once("./admin_layouts/css.php"); ?>
+    <?php 
+ ?>
 </head>
 
 <body>
     <div class="wrapper">
         <!--start header -->
-        <?php include_once("./admin_layouts/header.php"); ?>
+        <?php include_once("../admin_layouts/header.php"); ?>
         <!--end header -->
         <!--navigation-->
-        <?php include_once("./admin_layouts/nav.php"); ?>
+        <?php include_once("../admin_layouts/nav.php"); ?>
         <!--end navigation-->
         <!--start page wrapper -->
 
@@ -52,6 +70,7 @@ $posts = Post::ListPosts();
                         </div>
                         <div class="table-responsive">
                             <table class="table mb-0">
+
                                 <thead class="table-light">
                                     <tr>
                                         <th>Mã bài viết</th>
@@ -65,52 +84,61 @@ $posts = Post::ListPosts();
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($posts as $item)
-                                        {?>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div>
-                                                    <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
+                                    <?php foreach ($posts as $item) { ?>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0 font-14"><?php echo $item["id"] ?></h6>
+                                                    </div>
                                                 </div>
-                                                <div class="ms-2">
-                                                    <h6 class="mb-0 font-14"><?php echo $item["id"]?></h6>
+                                            </td>
+                                            <td><?php echo $item["title"] ?></td>
+
+
+                                            <td><?php echo $item["excerpt"] ?></td>
+                                            <td><?php echo $item["category_id"] ?></td>
+                                            <td><?php echo $item["created_at"] ?></td>
+                                            <td>
+                                                <div class="badge rounded-pill @if($post->approved === 1)  {{'text-success bg-light-success' }} @else {{'text-danger bg-light-danger' }} @endif p-2 text-uppercase px-3">
+                                                    <i class='bx bxs-circle me-1'></i><?php echo $item["approved"] === 1 ? "Đã phê duyệt" : "Chưa phê duyệt" ?>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td><?php echo $item["title"]?></td>
+                                            </td>
+                                            <td><?php echo $item["views"] ?></td>
 
+                                            <td>
+                                                <div class="d-flex order-actions">
+                                                    <a href="editpost.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>
+                                                    <a href="#" onclick="event.preventDefault(); document.querySelector('#delete_form_{{ $post->id }}').submit();" class="ms-3"><i class='bx bxs-trash'></i></a>
 
-                                        <td><?php echo $item["excerpt"]?></td>
-                                        <td><?php echo $item["category_id"]?></td>
-                                        <td><?php echo $item["created_at"]?></td>
-                                        <td>
-                                            <div class="badge rounded-pill @if($post->approved === 1)  {{'text-success bg-light-success' }} @else {{'text-danger bg-light-danger' }} @endif p-2 text-uppercase px-3">
-                                                <i class='bx bxs-circle me-1'></i><?php echo $item["approved"] === 1? "Đã phê duyệt" : "Chưa phê duyệt"?>
-                                            </div>
-                                        </td>
-                                        <td><?php echo $item["views"]?></td>
+                                                    <form method="post" action="{{ route('admin.posts.destroy', $post) }}" id="delete_form_{{ $post->id }}">
+                                                         
+                                                    </form>
 
-                                        <td>
-                                            <div class="d-flex order-actions">
-                                                <a href="{{ route('admin.posts.edit', $post)}}" class=""><i class='bx bxs-edit'></i></a>
-                                                <a href="#" onclick="event.preventDefault(); document.querySelector('#delete_form_{{ $post->id }}').submit();" class="ms-3"><i class='bx bxs-trash'></i></a>
-
-                                                <form method="post" action="{{ route('admin.posts.destroy', $post) }}" id="delete_form_{{ $post->id }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                   <?php }?>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
 
                                 </tbody>
-                            </table>
+
+                                    </table>
+                            <?php
+                            echo "<div>";
+                            if ($page > 1) {
+                                echo "<button onclick=\"location.href='?page=" . ($page - 1) . "'\">Trang trước</button>";
+                            }
+                            if ($page < $pages) {
+                                echo "<button onclick=\"location.href='?page=" . ($page + 1) . "'\">Trang sau</button>";
+                            }
+                            echo "</div>";
+                            ?>
                         </div>
 
-                        <div class="mt-4"><?php echo $item["links"]?></div>
+                        <div class="mt-4"><?php echo $item["links"] ?></div>
 
                     </div>
                 </div>
@@ -226,7 +254,7 @@ $posts = Post::ListPosts();
     </div>
     <!--end switcher-->
     <!-- Bootstrap JS -->
-    <?php include_once("./admin_layouts/js.php"); ?>
+    <?php include_once("../admin_layouts/js.php"); ?>
 
 </body>
 
