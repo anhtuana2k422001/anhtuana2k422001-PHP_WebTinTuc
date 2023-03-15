@@ -103,7 +103,7 @@
 
                                 <div class="post--info">
                                     <ul class="nav meta">
-                                        <li class="text capitalize"><a href="#"><?php echo  date_create_from_format('Y-m-d H:i:s', $postDetail["created_at"])->format('d/m/Y') ?><a></li>
+                                        <li class="text capitalize"><a href="#"><?php echo Handle::formatDate($postDetail["created_at"])?><a></li>
                                         <li><a href="#"><?php echo Post::getNameAuthor($postDetail["user_id"]) ?></a></li>
                                         <li><span><i class="fa fm fa-eye"></i><?php echo $postDetail["views"] ?></span></li>
                                         <li><a href="#comments_all"><i class="fa fm fa-comments-o"></i><?php echo COUNT($comments); ?></a></li>
@@ -124,7 +124,7 @@
                             <!-- Advertisement Start -->
                             <div class="ad--space pd--20-0-40">
                                 <p class="author-info">Người viết:  <?php echo Post::getNameAuthor($postDetail["user_id"]) ?></p>
-                                <p class="post-time">Thời gian: <?php echo  date_create_from_format('Y-m-d H:i:s', $postDetail["created_at"])->format('d/m/Y') ?></p>
+                                <p class="post-time">Thời gian: <?php echo Handle::formatDate($postDetail["created_at"])?></p>
                             </div>
                             <!-- Advertisement End -->
 

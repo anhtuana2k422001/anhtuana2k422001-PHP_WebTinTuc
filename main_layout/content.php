@@ -48,7 +48,7 @@
 									<!-- Post Item Start -->
 									<div class="post--item post--layout-1 post--title-large">
 										<div class="post--img">
-											<a href="{{ route('posts.show', $posts_new[$i][0]) }}"
+											<a href="/post.php?slug=<?php echo $new_posts[$i]["slug"]?>"
 												class="thumb"><img
 													src="../storage/<?php echo Post::getPostPathImg($new_posts[$i]["id"]) ?>"
 													alt=""></a>
@@ -61,7 +61,7 @@
 													<li><a href="javascript:;"><?php echo  date_create_from_format('Y-m-d H:i:s',$new_posts[$i]["created_at"])->format('d/m/Y') ?></a></li>
 												</ul>
 												<div class="title">
-													<h2 class="h4"><a href="{{ route('posts.show', $posts_new[$i][0]) }}" class="btn-link"><?php echo $new_posts[$i]["title"] ?></a>
+													<h2 class="h4"><a href="/post.php?slug=<?php echo $new_posts[$i]["slug"]?>" class="btn-link"><?php echo $new_posts[$i]["title"] ?></a>
 													</h2>
 												</div>
 											</div>
@@ -78,7 +78,7 @@
 									<!-- Post Item Start -->
 									<div class="post--item post--layout-1 post--title-larger">
 										<div class="post--img">
-											<a href="{{ route('posts.show', $posts_new[2][0]) }}"
+											<a href="/post.php?slug=<?php echo $new_posts[2]["slug"]?>"
 												class="thumb"><img
 													src="../storage/<?php echo Post::getPostPathImg($new_posts[2]["id"]) ?>"
 													style="height:200px" alt=""></a>
@@ -95,7 +95,7 @@
 
 												<div class="title">
 													<h2 class="h4"><a
-															href="{{ route('posts.show', $posts_new[2][0]) }}"
+															href="/post.php?slug=<?php echo $new_posts[2]["slug"]?>"
 															class="btn-link"><?php echo $new_posts[2]["title"] ?></a></h2>
 												</div>
 											</div>
@@ -111,7 +111,7 @@
 							<!-- Post Item Start -->
 							<div class="post--item post--layout-1 post--title-larger">
 								<div class="post--img">
-									<a href="{{ route('posts.show', $posts_new[3][0]) }}"
+									<a href="/post.php?slug=<?php echo $new_posts[3]["slug"]?>"
 										class="thumb"><img src="../storage/<?php echo Post::getPostPathImg($new_posts[3]["id"]) ?>" alt=""></a>
 
 									<a href="{{ route('categories.show', $posts_new[3][0]->category ) }}" class="cat"><?php echo Post::getNameCategory($new_posts[3]["category_id"]) ?></a>
@@ -126,7 +126,7 @@
 
 										<div class="title">
 											<h2 class="h4"><a
-													href="{{ route('posts.show', $posts_new[3][0]) }}"
+													href="/post.php?slug=<?php echo $new_posts[3]["slug"]?>"
 													class="btn-link"><?php echo $new_posts[3]["title"] ?></a>
 											</h2>
 										</div>
@@ -165,7 +165,7 @@
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-1">
 												<div class="post--img">
-													<a href="{{ route('posts.show', $post_category_home0[0]) }}"
+													<a href="/post.php?slug=<?php echo Post::ListPostToCategory($idCate01)[0]["slug"] ?>"
 														class="thumb"><img src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate01)[0]["id"]) ?>"
 															alt=""></a>
 
@@ -179,7 +179,7 @@
 
 														<div class="title">
 															<h3 class="h4"><a
-																	href="{{ route('posts.show', $post_category_home0[0]) }}"
+																	href="/post.php?slug=<?php echo Post::ListPostToCategory($idCate01)[0]["slug"] ?>"
 																	class="btn-link"><?php echo Post::ListPostToCategory($idCate01)[0]["title"] ?></a>
 															</h3>
 														</div>
@@ -204,7 +204,7 @@
 
 												<div class="post--item post--layout-2">
 													<div class="post--img">
-														<a href="{{ route('posts.show', $post_category_home0[$i]) }}"
+														<a href="/post.php?slug=<?php echo Post::ListPostToCategory($idCate01)[$i]["slug"] ?>"
 															class="thumb"><img
 																src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate01)[$i]["id"]) ?>"
 																alt=""></a>
@@ -217,7 +217,7 @@
 
 															<div class="title">
 																<h3 class="h4"><a
-																		href="{{ route('posts.show', $post_category_home0[$i]) }}"
+																		href="/post.php?slug=<?php echo Post::ListPostToCategory($idCate01)[$i]["slug"] ?>"
 																		class="btn-link"><?php echo Post::ListPostToCategory($idCate01)[$i]["title"] ?></a>
 																</h3>
 															</div>
@@ -251,7 +251,7 @@
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-1">
 												<div class="post--img">
-													<a href="{{ route('posts.show', $post_category_home1[0]) }}"
+													<a href="/post.php?slug=<?php echo Post::ListPostToCategory($idCate02)[0]["slug"] ?>"
 														class="thumb"><img
 															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate02)[0]["id"]) ?>"
 															alt=""></a>
@@ -266,7 +266,7 @@
 
 														<div class="title">
 															<h3 class="h4"><a
-																	href="{{ route('posts.show', $post_category_home1[0]) }}"
+																	href="/post.php?slug=<?php echo Post::ListPostToCategory($idCate02)[0]["slug"] ?>"
 																	class="btn-link"><?php echo Post::ListPostToCategory($idCate02)[0]["title"] ?></a>
 															</h3>
 														</div>
@@ -281,7 +281,7 @@
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-3">
 												<div class="post--img">
-													<a href="{{ route('posts.show', $post_category_home1[$i]) }}"
+													<a href="/post.php?slug=<?php echo Post::ListPostToCategory($idCate02)[$i]["slug"] ?>"
 														class="thumb"><img
 															src="../storage/<?php echo Post::getPostPathImg(Post::ListPostToCategory($idCate02)[$i]["id"]) ?>"
 															alt=""></a>
@@ -294,7 +294,7 @@
 
 														<div class="title">
 															<h3 class="h4"><a
-																	href="{{ route('posts.show', $post_category_home1[$i]) }}"
+																	href="/post.php?slug=<?php echo Post::ListPostToCategory($idCate02)[$i]["slug"] ?>"
 																	class="btn-link"><?php echo Post::ListPostToCategory($idCate02)[$i]["title"] ?></a>
 															</h3>
 														</div>
@@ -611,7 +611,7 @@
 											<!-- Post Item Start -->
 											<div class="post--item post--layout-3">
 												<div class="post--img">
-													<a href="{{ route('posts.show', $outstanding_post) }}"
+													<a href="/post.php?slug=<?php echo $item["slug"]?>"
 														class="thumb"><img width = "120"
 															src="../storage/<?php echo Post::getPostPathImg($item["id"]) ?>"
 															alt=""></a>
@@ -625,7 +625,7 @@
 
 														<div class="title">
 															<h3  class="h4">
-																<a href="{{ route('posts.show', $outstanding_post) }}" class="btn-link"><?php echo $item["title"] ?></a>
+																<a href="/post.php?slug=<?php echo $item["slug"]?>" class="btn-link"><?php echo $item["title"] ?></a>
 															</h3>
 														</div>
 													</div>

@@ -14,7 +14,7 @@
     <ul class="metismenu" id="menu">
         <!-- @if(checkPermission("admin.index")) -->
         <li>
-            <a href="index.php">
+            <a href="/admin/">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i></div>
                 <div class="menu-title">Bảng điều khiển</div>
             </a>
@@ -31,7 +31,7 @@
 
             <ul>
                 <!-- @if(checkPermission("admin.posts.index")) -->
-                <li> <a href="{{ route('admin.posts.index') }}"><i class="bx bx-right-arrow-alt"></i>Tất cả bài viết</a>
+                <li> <a href="/admin/post/listposts.php"><i class="bx bx-right-arrow-alt"></i>Tất cả bài viết</a>
                 </li>
                 <!-- @endif -->
 
