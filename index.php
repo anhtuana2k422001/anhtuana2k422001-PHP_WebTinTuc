@@ -2,9 +2,6 @@
     require_once("./entities/users.class.php"); 
 
     $title = "Website Tin Tức";
-
-     
-    //
      
     if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
         $email_cookie = $_COOKIE['username']; // lấy email người dùng 
@@ -14,7 +11,6 @@
         $checkLogin = User::login($_COOKIE['username'], $_COOKIE['password']);
         if ($checkLogin) {
             $_SESSION['username'] = $user["name"];
-             
         } 
     }
 ?>
@@ -45,13 +41,8 @@
     <!-- Code Content  -->
     <?php include_once("./main_layout/content.php"); ?> 
     
-
     <!-- Import Footer -->
     <?php include_once("./main_layout/footer.php"); ?> 
-
-	<div class="gototop js-top">
-		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
-	</div>
 	
     <!-- Import JS  -->
     <?php include_once("./main_layout/js.php"); ?> 

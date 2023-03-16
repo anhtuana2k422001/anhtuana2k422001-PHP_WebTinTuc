@@ -14,7 +14,7 @@
     <ul class="metismenu" id="menu">
         <!-- @if(checkPermission("admin.index")) -->
         <li>
-            <a href="index.php">
+            <a href="/admin/">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i></div>
                 <div class="menu-title">Bảng điều khiển</div>
             </a>
@@ -31,12 +31,12 @@
 
             <ul>
                 <!-- @if(checkPermission("admin.posts.index")) -->
-                <li> <a href="posts/listposts.php"><i class="bx bx-right-arrow-alt"></i>Tất cả bài viết</a>
+                <li> <a href="/admin/post/listposts.php"><i class="bx bx-right-arrow-alt"></i>Tất cả bài viết</a>
                 </li>
                 <!-- @endif -->
 
                 <!-- @if(checkPermission("admin.posts.create")) -->
-                <li> <a href="{{ route('admin.posts.create') }}"><i class="bx bx-right-arrow-alt"></i>Thêm bài viết mới</a>
+                <li> <a href="/admin/post/createpost.php"><i class="bx bx-right-arrow-alt"></i>Thêm bài viết mới</a>
                 </li>
                 <!-- @endif -->
 
@@ -54,7 +54,7 @@
 
             <ul>
                 <!-- @if(checkPermission("admin.categories.index")) -->
-                <li> <a href="{{ route('admin.categories.index') }}"><i class="bx bx-right-arrow-alt"></i>Tất cả danh mục</a>
+                <li> <a href="/admin/categories/listcategories.php"><i class="bx bx-right-arrow-alt"></i>Tất cả danh mục</a>
                 </li>
                 <!-- @endif -->
 
@@ -68,7 +68,7 @@
 
         <!-- @if(checkPermission("admin.tags.index")) -->
         <li>
-            <a href="{{ route('admin.tags.index') }}">
+            <a href="/admin/tag/listtag.php">
                 <div class="parent-icon"><i class='bx bx-purchase-tag'></i></div>
                 <div class="menu-title">Từ khóa</div>
             </a>
@@ -85,7 +85,7 @@
 
             <ul>
                 <!-- @if(checkPermission("admin.comments.index")) -->
-                <li> <a href="{{ route('admin.comments.index') }}"><i class="bx bx-right-arrow-alt"></i>Tất cả bình luận</a>
+                <li> <a href="/admin/comments/listcomments.php"><i class="bx bx-right-arrow-alt"></i>Tất cả bình luận</a>
                 </li>
                 <!-- @endif -->
 
@@ -102,7 +102,7 @@
 
         <!-- @if(checkPermission("admin.roles.index") || checkPermission("admin.roles.create") ) -->
         <li>
-            <a href="javascript:;" class="has-arrow">
+            <a href=" " class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-key'></i>
                 </div>
                 <div class="menu-title">Phân Quyền</div>
@@ -110,7 +110,7 @@
 
             <ul>
                 <!-- @if(checkPermission("admin.roles.index")) -->
-                <li> <a href="{{ route('admin.roles.index') }}"><i class="bx bx-right-arrow-alt"></i>Tất cả quyền</a>
+                <li> <a href="/admin/role/listroles.php"><i class="bx bx-right-arrow-alt"></i>Tất cả quyền</a>
                 </li>
                 <!-- @endif -->
 

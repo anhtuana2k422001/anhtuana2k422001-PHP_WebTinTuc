@@ -1,5 +1,5 @@
 <?php
-    require_once("./config/db.class.php");
+    require_once("../../config/db.class.php");
 class Comment
 {
     public $the_comment;
@@ -19,11 +19,21 @@ class Comment
     }
 
     // Lấy danh sách category từ mysql
-    public static function list_comment() {
+    public static function ListComments($start, $limit) {
         $db = new Db();
-        $sql = "SELECT * FROM comments ORDER BY created_at DESC LIMIT 5";
+        $sql = "SELECT * FROM comments LIMIT $start, $limit";
         $result = $db->select_to_array($sql);
         return $result;
+    }
+
+    //lấy ra số lượng bài viết để phân trang
+    public static function GetTotalRecords(){
+        $db = new Db();
+        $sql = "SELECT COUNT(*) AS total_records FROM categories";
+        $result = $db->query_execute($sql);
+        $row = mysqli_fetch_assoc($result);
+        $total_records = $row['total_records'];
+        return $total_records;
     }
 
     // Lấy ra tên người bình luận 

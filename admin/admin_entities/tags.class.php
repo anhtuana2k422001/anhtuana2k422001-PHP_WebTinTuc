@@ -1,5 +1,5 @@
 <?php
-    require_once("./config/db.class.php");
+    require_once("../../config/db.class.php"); 
 class Tags
 {
     public $name;
@@ -15,11 +15,21 @@ class Tags
     }
 
     // Lấy danh sách category từ mysql
-    public static function list_tag() {
+    public static function ListTags($start, $limit) {
         $db = new Db();
-        $sql = "SELECT * FROM tags";
+        $sql = "SELECT * FROM tags LIMIT $start, $limit";
         $result = $db->select_to_array($sql);
         return $result;
+    }
+
+    //lấy ra số lượng bài viết để phân trang
+    public static function GetTotalRecords(){
+        $db = new Db();
+        $sql = "SELECT COUNT(*) AS total_records FROM tags";
+        $result = $db->query_execute($sql);
+        $row = mysqli_fetch_assoc($result);
+        $total_records = $row['total_records'];
+        return $total_records;
     }
 
     // Lấy danh sách tags của một bài viết 

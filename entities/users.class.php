@@ -71,7 +71,6 @@ class User
     //Lấy thông tin 1 người dùng
     public static function getUser($email){
         $db = new Db();
-        // thêm user vào CSDL
         $sql = "SELECT * FROM users WHERE email = '$email'";
         $result = $db->select_to_array($sql);
         return reset($result);

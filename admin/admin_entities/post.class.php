@@ -66,4 +66,13 @@ class Post
         $result = $db->select_to_array($sql);
         return reset($result);
     }
+
+    public static function getPostPathImg($post_id)
+    {
+        $db = new Db();
+        $sql = "SELECT images.path  FROM images
+                    WHERE  imageable_id = '$post_id' AND  imageable_type LIKE '%Post'";
+        $result = $db->select_to_array($sql);
+        return reset($result)["path"]; // Lấy ra phần tử đầu tiên
+    }
 }

@@ -22,20 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['loginkeeping']) && $_POST['loginkeeping']) {
             setcookie("username", $email, time() + (86400 * 7), '/'); // 86400 bằng 1 ngày, nhân 7
             setcookie("password", $password, time() + (86400 * 7), '/'); //nghĩa là cookie lưu 7 ngày
-            
+
         }
 
         // lưu giá trị của trường form vào session  
         $_SESSION['username'] = $user["name"];
-        $_SESSION['role'] = $user["role_id"]; 
-
+        $_SESSION['role'] = $user["role_id"];
+        
         header("Location: index.php");
     } else {
         // If invalid, display an error message
         $error_message = "<font color='red'>Bạn nhập sai tài khoản hoặc mật khẩu!</font>";
         $_SESSION['notice'] = $error_message;
     }
-   
 }
 ?>
 <!DOCTYPE html>
@@ -69,21 +68,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <h1>ĐĂNG NHẬP</h1>
                             <p>
                                 <label for="username" class="uname" data-icon="u"> Email của bạn </label>
-                                <input id="username" name="username" required="required" type="email" placeholder="mymail@mail.com" value="<?php if(isset($_COOKIE['username'])){ 
-                                                                                                                                                    echo $_COOKIE['username'];
-                                                                                                                                                    }
-                                                                                                                                                 else{
-                                                                                                                                                    echo '';
-                                                                                                                                                 } ?>"  />
+                                <input id="username" name="username" required="required" type="email" placeholder="mymail@mail.com" value="<?php if (isset($_COOKIE['username'])) {
+                                                                                                                                                echo $_COOKIE['username'];
+                                                                                                                                            } else {
+                                                                                                                                                echo '';
+                                                                                                                                            } ?>" />
                             </p>
                             <p>
                                 <label for="password" class="youpasswd" data-icon="p"> Mật khẩu </label>
-                                <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" value="<?php if(isset($_COOKIE['password'])){ 
-                                                                                                                                                    echo $_COOKIE['password'];
-                                                                                                                                                    }
-                                                                                                                                                 else{
-                                                                                                                                                    echo '';
-                                                                                                                                                 } ?>"/>
+                                <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" value="<?php if (isset($_COOKIE['password'])) {
+                                                                                                                                                echo $_COOKIE['password'];
+                                                                                                                                            } else {
+                                                                                                                                                echo '';
+                                                                                                                                            } ?>" />
                             </p>
                             <p class="keeplogin">
                                 <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" />

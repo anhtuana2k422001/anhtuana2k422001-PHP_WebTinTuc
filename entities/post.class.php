@@ -1,5 +1,5 @@
 <?php
-require_once("../config/db.class.php");
+require_once("./config/db.class.php");
 
 
 class Post
@@ -52,7 +52,7 @@ class Post
     }
 
     //Lấy danh sách bài viết mới nhất theo từng danh mục 
-    public static function new_post_category()
+    public static function new_post_category($limit)
     {
         $id = Post::id_cate_unclassified(); // Lấy id danh mục chưa phân loại
         $db = new Db();
@@ -64,12 +64,12 @@ class Post
             WHERE category_id != '$id'
             GROUP BY category_id
         ) p2 ON p1.category_id = p2.category_id AND p1.created_at = p2.max_created_at
-        ORDER BY p1.created_at DESC; ";
+        ORDER BY p1.created_at DESC  LIMIT $limit ";
         $result = $db->select_to_array($sql);
         return $result;
-    } 
+    }
 
-    // Lấy tên category theo id post
+    // Lấy tên category id của bài viết
     public static function getNameCategory($category_id)
     {
         $db = new Db();
@@ -79,16 +79,16 @@ class Post
         return reset($result)["name"]; // Lấy ra phần tử đầu tiên
     }
 
-    // Lấy tên image của bài viết 
-    public static function getPostImage($post_id)
+    // Lấy ra bài viết từ slug
+    public static function getPosttoID($post_slug)
     {
         $db = new Db();
-        $sql = "SELECT images.name  FROM images
-                    WHERE  imageable_id = '$post_id' AND  imageable_type LIKE '%Post'";
+        $sql = "SELECT *  FROM posts
+                    WHERE  slug = '$post_slug' ";
         $result = $db->select_to_array($sql);
-        return reset($result)["name"]; // Lấy ra phần tử đầu tiên
+        return reset($result); // Lấy ra phần tử đầu tiên
     }
-
+   
     // Lấy đường dẫn hình ảnh của bài viết 
     public static function getPostPathImg($post_id)
     {
@@ -128,5 +128,4 @@ class Post
         $result = $db->select_to_array($sql);
         return $result;
     }
- 
 }

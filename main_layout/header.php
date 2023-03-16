@@ -3,7 +3,7 @@ require_once("./entities/category.class.php");
 require_once("./entities/post.class.php");
 session_start();
 $categories = Category::list_category(); // Lấy danh sách danh mục
-$posts = Post::new_post_category(); // Lay danh sach bai viet
+$posts = Post::new_post_category(12); // Lay danh sach bai viet mới nhất
 // Lấy thời gian 
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 $day = date("d", time()) ;
@@ -69,13 +69,13 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                             <!-- @if(auth()->user()->role->name !== 'user') -->
                             <?php echo ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) ?
                                 '<li>
-                                    <a href="http://localhost:3000/admin/index.php">Admin - Dashbroad</a>
+                                    <a href="http://localhost:3000/admin/">Admin - Dashbroad</a>
                                 </li>' : ''
                             ?>
                             
                             <!-- @endif -->
                             <li>
-                                <a href="">Tài khoản của tôi</a>
+                                <a href="../profile.php">Tài khoản của tôi</a>
                             </li>
                             <li>
                                 <a href="../logout.php">Đăng xuất
@@ -124,7 +124,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                 <!-- Header Menu Links Start -->
                 <ul class="header--menu-links nav navbar-nav" data-trigger="hoverIntent">
                     <li>
-                        <a href="{{ route('home">
+                        <a href="/">
                             <i class="icon_home fa fa-home"></i>
                         </a>
                     </li>
@@ -210,13 +210,11 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
             <div class="news-updates--list" data-marquee="true">
                 <ul class="nav">
                     <?php
-                    foreach ($posts as $post) {
-                        echo "
-                                <li>
-                                    <h3 class='h3'><a href=''>" . $post["title"] . "</a></h3>
-                                </li>
-                            ";
-                    }
+                    foreach ($posts as $post) { ?>
+                        <li>
+                            <h3 class='h3'><a href="/post.php?slug=<?php echo $post["slug"]?>"><?php echo $post["title"]?></a></h3>
+                        </li>
+                    <?php }?>
                     ?>
                 </ul>
             </div>
