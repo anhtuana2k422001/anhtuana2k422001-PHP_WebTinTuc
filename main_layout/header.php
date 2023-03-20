@@ -61,19 +61,15 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                     <!-- @auth -->
                     <li class="has-dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <!-- <i class="fa fm fa-user-o"></i> -->
-                            <!-- {{ auth()->user()->name }}  -->
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <!-- @if(auth()->user()->role->name !== 'user') -->
-                            <?php echo ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) ?
+                            <?php if(isset($_SESSION['role'])) 
+                                echo ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) ?
                                 '<li>
                                     <a href="http://localhost:3000/admin/">Admin - Dashbroad</a>
                                 </li>' : ''
                             ?>
-                            
-                            <!-- @endif -->
                             <li>
                                 <a href="../profile.php">Tài khoản của tôi</a>
                             </li>
