@@ -3,29 +3,14 @@
     require_once("./entities/comments.class.php");
     require_once("./entities/tags.class.php");
     require_once("./handle/handle.php");
+    // Lấy ra comments của bài viết
+    $comments = Comment::getCommentPost($postDetail["id"]); 
+    
+    // Lấy ra danh sách từ khóa của bài viết 
+    $tagPosts = Tags::getTagsPost($postDetail["id"]);
 
-    if(!isset($_GET["slug"])){
-        // đường dẫn xem chi tiết sản phẩm không đúng
-        // dẫn tới trang not found
-        header("Location: 404.php");
-    }
-    else{
-        $slug = $_GET["slug"];
-        // Lấy giá trị đầu tiên trong mảng các đối tượng
-        $postDetail = Post::getPosttoID($slug);
-
-        // Lấy ra comments của bài viết
-        $comments = Comment::getCommentPost($postDetail["id"]); 
-        
-        // Lấy ra danh sách từ khóa của bài viết 
-        $tagPosts = Tags::getTagsPost($postDetail["id"]);
-
-        // Lấy ra danh sách bài viết tương tự nhau cùng chung danh mục
-        $postTheSames = Post::ListPostToCategory($postDetail["category_id"]);
-
-        if(!$postDetail)
-            header("Location: 404.php");
-    }
+    // Lấy ra danh sách bài viết tương tự nhau cùng chung danh mục
+    $postTheSames = Post::ListPostToCategory($postDetail["category_id"]);
 ?>
 <!DOCTYPE HTML>
 <html>
