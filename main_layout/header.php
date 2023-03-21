@@ -44,17 +44,25 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                 <ul class="header--topbar-action nav">
                     <!-- @guest -->
                     <li class="btn-cta">
-                        <a href="./login.php"<?php ?>>
-                            <i class="fa fm fa-user-o"></i>
-                            <span>
-                                <?php
-                                if (isset($_COOKIE['username']) || isset($_SESSION['username'])) {
-                                    echo ($_SESSION['username']);
-                                } else {
-                                    echo "Đăng nhập";
-                                }
-                                ?></span>
-                        </a>
+                     
+
+                        <?php
+                            if (isset($_COOKIE['username']) || isset($_SESSION['username'])) {
+                                echo "
+                                        <a href='javascript:;'<?php ?>
+                                            <i class='fa fm fa-user-o'></i>
+                                            <span>". ($_SESSION['username']) ."</span> 
+                                        </a>
+                                    ";
+                            } else {
+                                echo "
+                                        <a href='/login'<?php ?>
+                                            <i class='fa fm fa-user-o'></i>
+                                            <span> Đăng nhập</span> 
+                                        </a>
+                                    ";
+                            }
+                         ?>
                     </li>
                     <!-- @endguest -->
 
@@ -74,7 +82,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                                 <a href="../profile.php">Tài khoản của tôi</a>
                             </li>
                             <li>
-                                <a href="../logout.php">Đăng xuất
+                                <a href="../views/logout.php">Đăng xuất
                                     <i class="fa fm fa-arrow-circle-right"></i>
                                 </a>
 
@@ -208,7 +216,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                     <?php
                     foreach ($posts as $post) { ?>
                         <li>
-                            <h3 class='h3'><a href="/post.php?slug=<?php echo $post["slug"]?>"><?php echo $post["title"]?></a></h3>
+                            <h3 class='h3'><a href="<?php echo $post["slug"]?>"><?php echo $post["title"]?></a></h3>
                         </li>
                     <?php }?>
                     ?>

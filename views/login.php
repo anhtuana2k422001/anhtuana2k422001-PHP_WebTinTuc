@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['username'] = $user["name"];
         $_SESSION['role'] = $user["role_id"];
         
-        header("Location: index.php");
+        header("Location: /");
     } else {
         // If invalid, display an error message
         $error_message = "<font color='red'>Bạn nhập sai tài khoản hoặc mật khẩu!</font>";
