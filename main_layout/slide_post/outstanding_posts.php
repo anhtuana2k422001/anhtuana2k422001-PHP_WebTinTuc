@@ -33,7 +33,7 @@
                     <!-- Post Item Start -->
                     <div class="post--item post--layout-3">
                         <div class="post--img">
-                            <a href="/post.php?slug=<?php echo $post["slug"]?>" class="thumb"><img src="<?php echo Handle::getPathImg($post["id"]) ?>" alt=""></a>
+                            <a href="<?php echo $post["slug"]?>" class="thumb"><img src="<?php echo Handle::getPathImg($post["id"]) ?>" alt=""></a>
                             <div class="post--info">
                                 <ul class="nav meta">
                                     <li><a href="javascript:;"><?php echo Handle::formatDate($post["created_at"]) ?></a></li>
@@ -42,7 +42,7 @@
                                 </ul>
 
                                 <div class="title">
-                                    <h3 class="h4"><a href="/post.php?slug=<?php echo $post["slug"]?>" class="btn-link"><?php echo $post["title"] ?></a>
+                                    <h3 class="h4"><a href="<?php echo $post["slug"]?>" class="btn-link"><?php echo $post["title"] ?></a>
                                     </h3>
                                 </div>
                             </div>

@@ -79,7 +79,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                                 </li>' : ''
                             ?>
                             <li>
-                                <a href="../profile.php">Tài khoản của tôi</a>
+                                <a href="/profile">Tài khoản của tôi</a>
                             </li>
                             <li>
                                 <a href="../views/logout.php">Đăng xuất
@@ -135,7 +135,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                     <?php
                     $i = 0;
                     foreach ($categories as $category) {
-                        echo "<li><a href='404.php'>" . $category["name"] . "</a></li>";
+                        echo "<li><a href='" . $category["slug"]."'>" . $category["name"] . "</a></li>";
                         $i++;
                         if ($i > 9)
                             break;
@@ -146,9 +146,8 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trang<i
                                 class="fa flm fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('about">Giới thiệu</a></li>
-                            <li><a href="{{ route('contact.create">Liên hệ</a></li>
-                            <li><a href="404.php">404</a></li>
+                            <li><a href="/about">Giới thiệu</a></li>
+                            <li><a href="/contact">Liên hệ</a></li>
                         </ul>
                     </li>
                     <li>
