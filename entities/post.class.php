@@ -115,7 +115,7 @@ class Post
     {
         $db = new Db();
         $sql = "SELECT *  FROM posts
-                    WHERE  category_id = '$id_category' ";
+                    WHERE  posts.category_id = '$id_category' ";
         $result = $db->select_to_array($sql);
         return $result;
     }

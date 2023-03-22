@@ -239,7 +239,7 @@
                                             <!-- Post Item Start -->
                                             <div class="post--item post--layout-3">
                                                 <div class="post--img">
-                                                    <a href="/post.php?slug=<?php echo $post["slug"]?>" class="thumb">
+                                                    <a href="<?php echo $post["slug"]?>" class="thumb">
                                                         <img src="<?php echo Handle::getPathImg($post["id"]) ?>" alt="">
                                                     </a>
 
@@ -247,7 +247,7 @@
 
                                                         <div class="title">
                                                             <h3 class="h4">
-                                                                <a href="/post.php?slug=<?php echo $post["slug"]?>" class="btn-link"><?php echo $post["title"] ?></a>
+                                                                <a href="<?php echo $post["slug"]?>" class="btn-link"><?php echo $post["title"] ?></a>
                                                             </h3>
                                                             <p style="font-size:16px">
                                                                 <span><?php echo $post["excerpt"] ?></span>
@@ -287,19 +287,17 @@
                     <!-- Main Sidebar Start -->
                     <div class="main--sidebar col-md-4 ptop--30 pbottom--30" data-sticky-content="true">
                         <div class="sticky-content-inner">
-
                             <!-- Widget Start -->
                             <?php include_once("./main_layout/slide_post/outstanding_posts.php"); ?> 
                             <!-- Widget End -->
 
                             <!-- Widget Start -->
-                            <x-blog.side-vote />
+                            <?php include_once("./main_layout/slide_post/vote.php"); ?> 
                             <!-- Widget End -->
 
                             <!-- Widget Start -->
-                            <x-blog.side-ad_banner />
+                            <?php include_once("./main_layout/slide_post/banner.php"); ?> 
                             <!-- Widget End -->
-
                         </div>
                     </div>
                     <!-- Main Sidebar End -->
@@ -307,8 +305,6 @@
             </div>
         </div>
         <!-- Main Content Section End -->
-
-
     </div>
     <!-- Import Footer -->
     <?php include_once("./main_layout/footer.php"); ?>
