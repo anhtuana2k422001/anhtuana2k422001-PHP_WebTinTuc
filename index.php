@@ -30,12 +30,21 @@ if ($url == '/' ) {
     // Trang chủ
     return require 'views/home.php';
 } 
-elseif ($url == '/login') {
+elseif ($url == '/dang-nhap') {
     return require 'views/login.php';
 } 
 elseif ($url == '/profile') {
     return require 'views/profile.php';
-} 
+}
+elseif ($url == '/tin-tuc-moi-nhat') {
+    return require 'views/newspost.php';
+}  
+elseif ($url == '/tin-nong') {
+    return require 'views/hotpost.php';
+}
+elseif ($url == '/xem-nhieu-nhat') {
+    return require 'views/viewspost.php';
+}    
 elseif ($Category) {
     return require 'views/categorypost.php';
 } 

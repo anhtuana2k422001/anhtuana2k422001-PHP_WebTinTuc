@@ -4,7 +4,7 @@ require_once("./entities/comments.class.php");
 require_once("./entities/tags.class.php");
 require_once("./handle/handle.php");
 
-$postCatgory = Post::ListPostToCategory($Category["id"]);
+$postNews = Post::ListNewsPost();
 
 ?>
 <!DOCTYPE HTML>
@@ -36,7 +36,7 @@ $postCatgory = Post::ListPostToCategory($Category["id"]);
                 <div class="container">
                     <ul class="breadcrumb">
                         <li><a href="javascript:;" class="btn-link"><i class="fa fm fa-home"></i>Trang Chủ</a></li>
-                        <li class="active"><span><?php echo $Category["name"] ?></span></li>
+                        <li class="active"><span>Tin tức mới nhất</span></li>
                     </ul>
                 </div>
             </div>
@@ -50,11 +50,11 @@ $postCatgory = Post::ListPostToCategory($Category["id"]);
                     <div class="main--content col-md-8" data-sticky-content="true">
                         <div class="sticky-content-inner">
                             <div class="post--item post--single post--title-largest pd--30-0">
-                                <?php if(! count($postCatgory)) : ?>
+                                <?php if(! count($postNews)) : ?>
                                     <p class="lead">Không có bài viết nào!</p>
                                 <?php endif; ?>
 
-                                <?php foreach($postCatgory as $post) : ?>
+                                <?php foreach($postNews as $post) : ?>
                                 <div class="block-21 d-flex animate-box post">
                                     <a href="<?php echo $post["slug"]?>" class="blog-img" style="background-image: url(<?php echo Handle::getPathImg($post["id"])?>);"></a>
                                     <div class="text">

@@ -56,7 +56,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                                     ";
                             } else {
                                 echo "
-                                        <a href='/login'<?php ?>
+                                        <a href='/dang-nhap'<?php ?>
                                             <i class='fa fm fa-user-o'></i>
                                             <span> Đăng nhập</span> 
                                         </a>
@@ -181,20 +181,20 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
         <div class="container">
             <ul class="nav">
                 <li>
-                    <a href="{{ route('newPost">
+                    <a href="/tin-tuc-moi-nhat">
                         <i class="fa fa-star-o"></i>
                         <span>Tin tức mới nhất</span>
                     </a>
                 </li>
             
                 <li>
-                    <a href="{{ route('hotPost">
+                    <a href="/tin-nong">
                         <i class="fa fa-fire"></i>
                         <span>Tin nóng</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('viewPost">
+                    <a href="/xem-nhieu-nhat">
                         <i class="fa fa-eye"></i>
                         <span>Xem nhiều nhất</span>
                     </a>

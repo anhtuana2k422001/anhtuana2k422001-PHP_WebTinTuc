@@ -4,7 +4,8 @@ require_once("./entities/comments.class.php");
 require_once("./entities/tags.class.php");
 require_once("./handle/handle.php");
 
-$postCatgory = Post::ListPostToCategory($Category["id"]);
+// Lấy ra danh sách bài viết có nhiêu lượt xem nhất
+$postCatgory = Post::ListViewsPost();
 
 ?>
 <!DOCTYPE HTML>
@@ -36,7 +37,7 @@ $postCatgory = Post::ListPostToCategory($Category["id"]);
                 <div class="container">
                     <ul class="breadcrumb">
                         <li><a href="javascript:;" class="btn-link"><i class="fa fm fa-home"></i>Trang Chủ</a></li>
-                        <li class="active"><span><?php echo $Category["name"] ?></span></li>
+                        <li class="active"><span>Xem nhiều nhất</span></li>
                     </ul>
                 </div>
             </div>
