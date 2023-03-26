@@ -1,10 +1,8 @@
 <?php
-require_once("../admin_entities/post.class.php");
-require_once("../admin_entities/category.class.php");
-require_once("../admin_entities/user.class.php");
+require_once("../admin_entities/contact.class.php"); 
 
 // phân trang
-$total_records = Post::GetTotalRecords();
+$total_records = Contact::GetTotalRecords();
 
 // Số bản ghi trên mỗi trang
 $limit = 7;
@@ -18,8 +16,7 @@ $start = ($page - 1) * $limit;
 // Tính số trang
 $pages = ceil($total_records / $limit);
 
-$posts = Post::ListPosts($start, $limit);
-
+$contact = Contact::ListContacts($start, $limit);
 ?>
 
 <!doctype html>
@@ -32,7 +29,7 @@ $posts = Post::ListPosts($start, $limit);
     <!--favicon-->
     <link rel="icon" type="image/png" href="./kcnew/frontend/img/image_iconLogo.png" sizes="160x160">
     <!--plugins-->
-    <title>Quản trị - Tất cả bài viết</title>
+    <title>Quản trị - Tất cả liên hệ</title>
     <?php include_once("../admin_layouts/css.php"); ?>
 </head>
 
@@ -51,13 +48,13 @@ $posts = Post::ListPosts($start, $limit);
             <div class="page-content">
                 <!--breadcrumb-->
                 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-                    <div class="breadcrumb-title pe-3">Bài viết</div>
+                    <div class="breadcrumb-title pe-3">Liên hệ</div>
                     <div class="ps-3">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0 p-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><i class="bx bx-home-alt"></i></a>
                                 </li>
-                                <li class="breadcrumb-item active" aria-current="page">Tất cả bài viết</li>
+                                <li class="breadcrumb-item active" aria-current="page">Tất cả liên hệ</li>
                             </ol>
                         </nav>
                     </div>
@@ -77,19 +74,18 @@ $posts = Post::ListPosts($start, $limit);
 
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Mã bài viết</th>
-                                        <th>Tên bài viết</th>
-                                        <th>Mô tả</th>
-                                        <th>Tác giả</th>
-                                        <th>Danh mục</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Trạng thái</th>
-                                        <th>Lượt xem</th>
+                                        <th>Mã liên hệ</th>
+                                        <th>Tên người liên hệ</th>
+                                        <th>Họ người liên hệ</th>
+                                        <th>Email</th>
+                                        <th>Tiêu đề</th>
+                                        <th>Nội dung</th>
+                                        <th>Ngày gửi</th>
                                         <th>Chức năng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($posts as $item) { ?>
+                                    <?php foreach ($contact as $item) { ?>
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -101,24 +97,13 @@ $posts = Post::ListPosts($start, $limit);
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><?php echo $item["title"] ?></td>
-
-
-                                            <td><?php echo $item["excerpt"] ?></td>
-                                            <td><?php $user = User::getUser($item["user_id"]);
-
-                                                echo $user["name"] ?></td>
-                                            <td><?php $category = Category::GetCategory($item["category_id"]);
-
-                                                echo $category["name"] ?></td>
-                                            <td><?php echo $item["created_at"] ?></td>
-                                            <td>
-                                                <div class="badge rounded-pill <?php echo $item["approved"] == 1 ? 'text-success bg-light-success' : 'text-danger bg-light-danger' ?>p-2 text-uppercase px-3">
-                                                    <i class='bx bxs-circle me-1'></i><?php echo $item["approved"] == 1 ? "Đã phê duyệt" : "Chưa phê duyệt" ?>
-                                                </div>
-                                            </td>
-                                            <td><?php echo $item["views"] ?></td>
-
+                                            <td><?php echo $item["first_name"] ?></td>
+                                            <td><?php echo $item["last_name"] ?></td>
+                                            <td><?php echo $item["email"] ?></td>
+                                            <td><?php echo $item["subject"] ?></td>
+                                            <td><?php echo $item["message"] ?></td>
+                                             
+                                            <td><?php echo $item["created_at"] ?></td> 
                                             <td>
                                                 <div class="d-flex order-actions">
                                                     <a href="editpost.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>

@@ -25,7 +25,7 @@ class Roles
     //lấy ra số lượng bài viết để phân trang
     public static function GetTotalRecords(){
         $db = new Db();
-        $sql = "SELECT COUNT(*) AS total_records FROM tags";
+        $sql = "SELECT COUNT(*) AS total_records FROM roles";
         $result = $db->query_execute($sql);
         $row = mysqli_fetch_assoc($result);
         $total_records = $row['total_records'];
@@ -39,6 +39,14 @@ class Roles
         AND tags.id = post_tag.tag_id AND  posts.id = post_tag.post_id";
         $result = $db->select_to_array($sql);
         return $result;
+    }
+
+    //Lấy thông tin 1 role
+    public static function GetRoles($id){
+        $db = new Db();
+        $sql = "SELECT * FROM roles WHERE id = $id";
+        $result = $db->select_to_array($sql);
+        return  reset($result);
     }
 
 }

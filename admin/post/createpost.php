@@ -3,9 +3,9 @@ require_once("../admin_entities/post.class.php");
 require_once("../admin_entities/category.class.php");
 require_once("../admin_entities/tags.class.php");
 require_once("../admin_handle/handle.php");
- 
 
-$categories  = Category::list_category();
+
+//$categories  = Category::list_category();
 
 // Khởi tạo biến lưu trữ thông báo lỗi
 $message = "";
@@ -142,15 +142,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     <div class="p-3 rounded">
                                                         <div class="mb-3">
                                                             <select name="category_id" required class="single-select">
-                                                                @foreach( $categories as $key => $category )
-                                                                <option value="{{ $key }}">{{ $category }}</option>
-                                                                @endforeach
-                                                            </select>
-
-                                                            @error('category_id')
-                                                            <p class="text-danger">{{ $message }}</p>
-                                                            @enderror
-
+                                                                <option value=" ">Chọn danh mục bài viết</option>
+                                                                <?php
+                                                                $cates = Category::ListCategorie();
+                                                                foreach ($cates as $item) {
+                                                                    echo "<option value=" . $item["id"] . ">" . $item["name"] . "</option>";
+                                                                }
+                                                                ?>
+                                                            </select> 
+                                                            <!-- Hiển thị thông báo lỗi -->
+                                                            <?php if (isset($message) && !empty($message)) : ?>
+                                                                <p class="text-danger"><?php echo $message; ?></p>
+                                                            <?php endif; ?> 
                                                         </div>
                                                     </div>
                                                 </div>

@@ -1,5 +1,6 @@
 <?php
-require_once ("../admin_entities/category.class.php");
+require_once("../admin_entities/category.class.php");
+require_once("../admin_entities/user.class.php");
 
 // phân trang
 $total_records = Category::GetTotalRecords();
@@ -14,46 +15,48 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
 
 // Tính số trang
-$pages = ceil($total_records / $limit); 
+$pages = ceil($total_records / $limit);
 
 $category = Category::ListCategories($start, $limit);
+
 ?>
 
 <!doctype html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
-    <link rel="icon" type="image/png" href="./kcnew/frontend/img/image_iconLogo.png"  sizes="160x160">
-	<!--plugins-->
-    <title>Quản trị - Tất cả bài viết</title>
-    <?php include_once("../admin_layouts/css.php"); ?> 
+    <link rel="icon" type="image/png" href="./kcnew/frontend/img/image_iconLogo.png" sizes="160x160">
+    <!--plugins-->
+    <title>Quản trị - Tất cả danh mục</title>
+    <?php include_once("../admin_layouts/css.php"); ?>
 </head>
 
 <body>
-	<!--wrapper-->
-	<div class="wrapper">
-		<!--start header -->
-        <?php include_once("../admin_layouts/header.php"); ?> 
-		<!--end header -->
-		<!--navigation-->
-	    <?php include_once("../admin_layouts/nav.php"); ?> 
-		<!--end navigation-->
+    <!--wrapper-->
+    <div class="wrapper">
+        <!--start header -->
+        <?php include_once("../admin_layouts/header.php"); ?>
+        <!--end header -->
+        <!--navigation-->
+        <?php include_once("../admin_layouts/nav.php"); ?>
+        <!--end navigation-->
 
-		<!--start page Content Page -->
+        <!--start page Content Page -->
         <div class="page-wrapper">
             <div class="page-content">
                 <!--breadcrumb-->
                 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-                    <div class="breadcrumb-title pe-3">Bài viết</div>
+                    <div class="breadcrumb-title pe-3">Danh mục</div>
                     <div class="ps-3">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0 p-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><i class="bx bx-home-alt"></i></a>
                                 </li>
-                                <li class="breadcrumb-item active" aria-current="page">Tất cả bài viết</li>
+                                <li class="breadcrumb-item active" aria-current="page">Tất cả danh mục</li>
                             </ol>
                         </nav>
                     </div>
@@ -74,11 +77,11 @@ $category = Category::ListCategories($start, $limit);
                                 <thead class="table-light">
                                     <tr>
                                         <th>Mã danh mục</th>
-                                        <th>Tên danh mục</th> 
-                                        <th>Tác giả</th> 
+                                        <th>Tên danh mục</th>
+                                        <th>Người tạo</th>
                                         <th>Ngày tạo</th>
-                                        <th>Ngày cập nhật</th> 
-                                        <th>Chức năng</th> 
+                                        <th>Ngày cập nhật</th>
+                                        <th>Chức năng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -94,17 +97,20 @@ $category = Category::ListCategories($start, $limit);
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><?php echo $item["name"] ?></td> 
-                                            <td><?php   ?></td>
+                                            <td><?php echo $item["name"] ?></td>
+                                            <td><?php
+                                                $user = User::getUser($item["user_id"]);
+
+                                                echo $user["name"] ?></td>
                                             <td><?php echo $item["created_at"] ?></td>
-                                            <td><?php echo $item["updated_at"] ?></td> 
+                                            <td><?php echo $item["updated_at"] ?></td>
                                             <td>
                                                 <div class="d-flex order-actions">
                                                     <a href="editpost.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>
                                                     <a href="#" onclick="event.preventDefault(); document.querySelector('#delete_form_{{ $post->id }}').submit();" class="ms-3"><i class='bx bxs-trash'></i></a>
 
                                                     <form method="post" action="{{ route('admin.posts.destroy', $post) }}" id="delete_form_{{ $post->id }}">
-                                                         
+
                                                     </form>
 
                                                 </div>
@@ -114,10 +120,10 @@ $category = Category::ListCategories($start, $limit);
 
                                 </tbody>
 
-                                    </table>
+                            </table>
 
-                         </div>
-                                
+                        </div>
+
                         <div>
                             <?php
                             if ($page > 1) {
@@ -134,19 +140,19 @@ $category = Category::ListCategories($start, $limit);
 
             </div>
         </div>
-		<!--end page wrapper -->
-        <?php include_once("../admin_layouts/footer.php"); ?> 
-	</div>
-	<!--end wrapper-->
+        <!--end page wrapper -->
+        <?php include_once("../admin_layouts/footer.php"); ?>
+    </div>
+    <!--end wrapper-->
 
     <!--start switcher-->
-    <?php include_once("../admin_layouts/switcher.php"); ?> 
+    <?php include_once("../admin_layouts/switcher.php"); ?>
     <!--end switcher-->
 
-	<!-- Bootstrap JS -->
-    <?php include_once("../admin_layouts/js.php"); ?> 
+    <!-- Bootstrap JS -->
+    <?php include_once("../admin_layouts/js.php"); ?>
 
-    <?php include_once("../admin_layouts/chart.php"); ?> 
+    <?php include_once("../admin_layouts/chart.php"); ?>
 </body>
 
 </html>

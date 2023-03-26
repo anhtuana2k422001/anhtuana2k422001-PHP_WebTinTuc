@@ -102,7 +102,7 @@
 
         <!-- @if(checkPermission("admin.roles.index") || checkPermission("admin.roles.create") ) -->
         <li>
-            <a href=" " class="has-arrow">
+            <a href="javascript:; " class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-key'></i>
                 </div>
                 <div class="menu-title">Phân Quyền</div>
@@ -133,7 +133,7 @@
             <ul>
 
                 <!-- @if(checkPermission("admin.users.index")) -->
-                <li> <a href="{{ route('admin.users.index') }}"><i class="bx bx-right-arrow-alt"></i>Tất cả tài khoản</a>
+                <li> <a href="/admin/user/listuser.php"><i class="bx bx-right-arrow-alt"></i>Tất cả tài khoản</a>
                 </li>
                 <!-- @endif -->
 
@@ -148,7 +148,7 @@
 
         <!-- @if(checkPermission("admin.contacts")) -->
         <li>
-            <a href="{{ route('admin.contacts') }}">
+            <a href="/admin/contact/listcontact.php">
                 <div class="parent-icon"><i class='bx bx-mail-send'></i></div>
                 <div class="menu-title">Liên hệ</div>
             </a>
