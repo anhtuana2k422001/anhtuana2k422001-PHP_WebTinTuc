@@ -37,6 +37,13 @@ class Category
         $result = $db->select_to_array($sql);
         return $result;
     }
+
+    public static function getCategoryBySlug($slug_cate){
+        $db = new Db();
+        $sql = "SELECT * FROM categories WHERE slug = '$slug_cate' ";
+        $result = $db->select_to_array($sql);
+        return reset($result);
+    }
  
 }
 

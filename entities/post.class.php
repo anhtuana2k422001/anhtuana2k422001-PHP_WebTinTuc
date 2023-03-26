@@ -115,7 +115,7 @@ class Post
     {
         $db = new Db();
         $sql = "SELECT *  FROM posts
-                    WHERE  category_id = '$id_category' ";
+                    WHERE  posts.category_id = '$id_category' ";
         $result = $db->select_to_array($sql);
         return $result;
     }
@@ -128,4 +128,38 @@ class Post
         $result = $db->select_to_array($sql);
         return $result;
     }
+
+    // Lấy danh sách bài viết mới nhất 
+    public static function ListNewsPost(){
+        $db = new Db();
+        $sql = "SELECT *  FROM posts  ORDER BY created_at DESC LIMIT 30";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
+    // Lấy danh sách bài viết hot nhất -- nhiều bình luận
+    public static function ListHotPost(){
+        $db = new Db();
+        $sql = "SELECT posts.id, posts.title, posts.slug, posts.excerpt, posts.body,
+        posts.user_id, posts.category_id, posts.views, posts.approved, posts.created_at,
+        posts.updated_at,
+         COUNT(comments.id) as num_comments
+        FROM posts
+        JOIN comments ON posts.id = comments.post_id
+        GROUP BY posts.id
+        ORDER BY num_comments DESC LIMIT 30";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
+     // Lấy danh sách bài viết nhiều lượt xem nhất
+     public static function ListViewsPost(){
+        $db = new Db();
+        $sql = "SELECT *  FROM posts  ORDER BY views DESC LIMIT 30";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
+
+
 }

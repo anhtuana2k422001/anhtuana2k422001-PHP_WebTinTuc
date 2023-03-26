@@ -44,41 +44,45 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                 <ul class="header--topbar-action nav">
                     <!-- @guest -->
                     <li class="btn-cta">
-                        <a href="./login.php"<?php ?>>
-                            <i class="fa fm fa-user-o"></i>
-                            <span>
-                                <?php
-                                if (isset($_COOKIE['username']) || isset($_SESSION['username'])) {
-                                    echo ($_SESSION['username']);
-                                } else {
-                                    echo "Đăng nhập";
-                                }
-                                ?></span>
-                        </a>
+                     
+
+                        <?php
+                            if (isset($_COOKIE['username']) || isset($_SESSION['username'])) {
+                                echo "
+                                        <a href='javascript:;'<?php ?>
+                                            <i class='fa fm fa-user-o'></i>
+                                            <span>". ($_SESSION['username']) ."</span> 
+                                        </a>
+                                    ";
+                            } else {
+                                echo "
+                                        <a href='/dang-nhap'<?php ?>
+                                            <i class='fa fm fa-user-o'></i>
+                                            <span> Đăng nhập</span> 
+                                        </a>
+                                    ";
+                            }
+                         ?>
                     </li>
                     <!-- @endguest -->
 
                     <!-- @auth -->
                     <li class="has-dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <!-- <i class="fa fm fa-user-o"></i> -->
-                            <!-- {{ auth()->user()->name }}  -->
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <!-- @if(auth()->user()->role->name !== 'user') -->
-                            <?php echo ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) ?
+                            <?php if(isset($_SESSION['role'])) 
+                                echo ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) ?
                                 '<li>
                                     <a href="http://localhost:3000/admin/">Admin - Dashbroad</a>
                                 </li>' : ''
                             ?>
-                            
-                            <!-- @endif -->
                             <li>
-                                <a href="../profile.php">Tài khoản của tôi</a>
+                                <a href="/profile">Tài khoản của tôi</a>
                             </li>
                             <li>
-                                <a href="../logout.php">Đăng xuất
+                                <a href="../views/logout.php">Đăng xuất
                                     <i class="fa fm fa-arrow-circle-right"></i>
                                 </a>
 
@@ -131,7 +135,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                     <?php
                     $i = 0;
                     foreach ($categories as $category) {
-                        echo "<li><a href='404.php'>" . $category["name"] . "</a></li>";
+                        echo "<li><a href='" . $category["slug"]."'>" . $category["name"] . "</a></li>";
                         $i++;
                         if ($i > 9)
                             break;
@@ -142,9 +146,8 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trang<i
                                 class="fa flm fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('about">Giới thiệu</a></li>
-                            <li><a href="{{ route('contact.create">Liên hệ</a></li>
-                            <li><a href="404.php">404</a></li>
+                            <li><a href="/about">Giới thiệu</a></li>
+                            <li><a href="/contact">Liên hệ</a></li>
                         </ul>
                     </li>
                     <li>
@@ -178,20 +181,20 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
         <div class="container">
             <ul class="nav">
                 <li>
-                    <a href="{{ route('newPost">
+                    <a href="/tin-tuc-moi-nhat">
                         <i class="fa fa-star-o"></i>
                         <span>Tin tức mới nhất</span>
                     </a>
                 </li>
             
                 <li>
-                    <a href="{{ route('hotPost">
+                    <a href="/tin-nong">
                         <i class="fa fa-fire"></i>
                         <span>Tin nóng</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('viewPost">
+                    <a href="/xem-nhieu-nhat">
                         <i class="fa fa-eye"></i>
                         <span>Xem nhiều nhất</span>
                     </a>
@@ -212,7 +215,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                     <?php
                     foreach ($posts as $post) { ?>
                         <li>
-                            <h3 class='h3'><a href="/post.php?slug=<?php echo $post["slug"]?>"><?php echo $post["title"]?></a></h3>
+                            <h3 class='h3'><a href="<?php echo $post["slug"]?>"><?php echo $post["title"]?></a></h3>
                         </li>
                     <?php }?>
                     ?>
