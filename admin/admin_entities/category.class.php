@@ -37,6 +37,14 @@ class Category
         return $result;
     }
 
+    //Lấy danh sách danh mục bài viết
+    public static function ListCategorie(){
+        $db = new Db();
+        $sql = "SELECT * FROM categories ";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
     //lấy ra số lượng bài viết để phân trang
     public static function GetTotalRecords(){
         $db = new Db();
@@ -45,6 +53,14 @@ class Category
         $row = mysqli_fetch_assoc($result);
         $total_records = $row['total_records'];
         return $total_records;
+    }
+
+    //Hiển thị thông tin tác giả
+    public static function GetCategory($id){
+        $db = new Db();
+        $sql = "SELECT * FROM categories WHERE id = $id";
+        $result = $db->select_to_array($sql);
+        return reset($result);
     }
  
 }

@@ -29,7 +29,7 @@ class Comment
     //lấy ra số lượng bài viết để phân trang
     public static function GetTotalRecords(){
         $db = new Db();
-        $sql = "SELECT COUNT(*) AS total_records FROM categories";
+        $sql = "SELECT COUNT(*) AS total_records FROM comments";
         $result = $db->query_execute($sql);
         $row = mysqli_fetch_assoc($result);
         $total_records = $row['total_records'];

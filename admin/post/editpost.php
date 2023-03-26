@@ -4,7 +4,7 @@ require_once("../admin_entities/category.class.php");
 require_once("../admin_entities/tags.class.php");
 require_once("../admin_handle/handle.php");
 
-$categories  = Category::list_category();
+//$categories  = Category::list_category();
 
 
 if (!isset($_GET["id"])) {
@@ -141,10 +141,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     <div class="card-body">
                                                         <div class="p-3 rounded">
                                                             <div class="mb-3">
+
                                                                 <select name="category_id" required class="single-select">
-                                                                    <?php foreach ($categories as $key => $category) : ?>
-                                                                        <option <?php $post["category_id"] === $key ? 'selected' : '' ?> value="<?php echo $key ?>"><?php echo $category["name"] ?></option>
-                                                                    <?php endforeach ?>
+                                                                    <?php
+                                                                    $cate = Category::GetCategory($post["category_id"]);
+                                                                    echo "<option value=" . $cate["id"] . ">" . $cate["name"] . "</option>";
+                                                                    $cates = Category::ListCategorie();
+                                                                    foreach ($cates as $item) {
+                                                                        if($item["name"] != $cate["name"])
+                                                                            echo "<option value=" . $item["id"] . ">" . $item["name"] . "</option>";
+                                                                    }
+
+                                                                    ?>
                                                                 </select>
                                                                 <!-- <p class="text-danger">==> Còn lỗi sai, select còn chưa đúng</p> -->
 

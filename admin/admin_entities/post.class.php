@@ -67,6 +67,8 @@ class Post
         return reset($result);
     }
 
+    
+
     public static function getPostPathImg($post_id)
     {
         $db = new Db();
