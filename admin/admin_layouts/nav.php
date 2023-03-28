@@ -59,7 +59,7 @@
                 <!-- @endif -->
 
                 <!-- @if(checkPermission("admin.categories.create")) -->
-                <li> <a href="{{ route('admin.categories.create') }}"><i class="bx bx-right-arrow-alt"></i>Thêm danh mục mới</a>
+                <li> <a href="/admin/categories/createCate.php"><i class="bx bx-right-arrow-alt"></i>Thêm danh mục mới</a>
                 </li>
                 <!-- @endif -->
             </ul>
@@ -90,8 +90,7 @@
                 <!-- @endif -->
 
                 <!-- @if(checkPermission("admin.comments.create")) -->
-                <li> <a href="{{ route('admin.comments.create') }}"><i class="bx bx-right-arrow-alt"></i>Thêm bình luận mới</a>
-                </li>
+                 
                 <!-- @endif -->
 
             </ul>
@@ -115,7 +114,7 @@
                 <!-- @endif -->
 
                 <!-- @if(checkPermission("admin.roles.create")) -->
-                <li> <a href="{{ route('admin.roles.create') }}"><i class="bx bx-right-arrow-alt"></i>Thêm quyền mới</a>
+                <li> <a href="/admin/role/createRole.php"><i class="bx bx-right-arrow-alt"></i>Thêm quyền mới</a>
                 </li>
                 <!-- @endif -->
             </ul>
@@ -138,7 +137,7 @@
                 <!-- @endif -->
 
                 <!-- @if(checkPermission("admin.users.create")) -->
-                <li> <a href="{{ route('admin.users.create') }}"><i class="bx bx-right-arrow-alt"></i>Thêm tài khoản mới</a>
+                <li> <a href="/admin/user/createUser.php"><i class="bx bx-right-arrow-alt"></i>Thêm tài khoản mới</a>
                 </li>
                 <!-- @endif -->
 
@@ -167,7 +166,7 @@
         <hr>
 
         <li>
-            <a href="{{ route('home') }}">
+            <a href="http://localhost:3000/">
                 <div class="parent-icon"><i class='bx bx-pointer'></i></div>
                 <div class="menu-title">Trang chủ</div>
             </a>

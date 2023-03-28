@@ -1,5 +1,6 @@
 <?php
     require_once("../admin_entities/post.class.php");
+    require_once("../admin_entities/user.class.php");
 
 class HandleAdmin
 {
@@ -10,11 +11,13 @@ class HandleAdmin
         return $result;
     }
        
-    // Hàm trả về đường dẫn hình ảnh 
+    // Hàm trả về đường dẫn hình ảnh post
     public static function getPathImg($post_id){
         $result = "../../storage/" . Post::getPostPathImg($post_id);
         return $result;
     }
+
+     
  
 }
 

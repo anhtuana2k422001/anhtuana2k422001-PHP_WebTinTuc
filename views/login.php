@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // lưu giá trị của trường form vào session  
         $_SESSION['username'] = $user["name"];
         $_SESSION['role'] = $user["role_id"];
-        
+        $_SESSION['email'] = $user["email"];
+
         header("Location: /");
     } else {
         // If invalid, display an error message

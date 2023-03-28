@@ -2,10 +2,12 @@
 require_once("../admin_entities/post.class.php");
 require_once("../admin_entities/category.class.php");
 require_once("../admin_entities/tags.class.php");
+require_once("../admin_entities/user.class.php");
+require_once("../admin_entities/images.class.php");
 require_once("../admin_handle/handle.php");
 
 //$categories  = Category::list_category();
-
+session_start();
 
 if (!isset($_GET["id"])) {
     // dẫn tới trang not found
@@ -24,23 +26,53 @@ if (!isset($_GET["id"])) {
 // Khởi tạo biến lưu trữ thông báo lỗi
 $message = "";
 
+// Đặt múi giờ theo múi giờ việt nam
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+$timestamp = date("Y-m-d H:i:s", time());
+
 // Kiểm tra các giá trị được gửi lên từ form
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Kiểm tra tiêu đề
-    if (empty($_POST["title"])) {
-        $message = "Vui lòng nhập tiêu đề bài viết";
-    }
+    $id = $_GET['id'];
 
-    // Kiểm tra slug
-    else if (empty($_POST["slug"])) {
-        $message = "Vui lòng nhập slug";
-    }
+    $title = $_POST['title']; // lấy password người dùng
+    $slug = $_POST['slug']; // lấy password người dùng
+    $excerpt = $_POST['excerpt']; // lấy password người dùng
+    $body = $_POST['body']; // lấy password người dùng
 
-    // Kiểm tra mô tả
-    else if (empty($_POST["description"])) {
-        $message = "Vui lòng nhập mô tả";
+    // lấy id của account đang đăng nhập
+    $emailLogin = $_SESSION['email'];
+    $getUserId = User::getUserbyEmail($emailLogin);
+    $user_id = $getUserId['id'];
+
+    $category_id = $_POST['category_id']; //
+    $view = 0;
+    $approved = 1;
+    $created_at = $timestamp;
+    $updated_at = $timestamp;
+
+    $newPost = new Post($title, $slug, $excerpt, $body, $user_id, $category_id, $view, $approved, $created_at, $updated_at);
+
+    //Update các thuộc tính trong bảng posts
+    $newPost->update($id);
+
+    // Kiểm tra nếu người dùng chọn ảnh mới thì thực hiện update hình ảnh
+    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == 0) {
+        $name = $_FILES['thumbnail']['name'];
+        $extension = pathinfo($name, PATHINFO_EXTENSION);
+        $file_name = uniqid() . '.' . $extension;
+        $path = "images/" . $file_name;
+        $imageable_id = $id;
+        $imageable_type = 'App\Models\Post';
+        $thumbnail = $_FILES['thumbnail'];
+        $file_destination = $_SERVER['DOCUMENT_ROOT'] . '/storage/images/' . $file_name;
+        move_uploaded_file($thumbnail['tmp_name'], $file_destination);
+        $editImg = new Image($name, $extension, $path, $imageable_id, $imageable_type, $created_at, $updated_at);
+        $editImg->update($id);
     }
+    header('Location: listposts.php');
 }
+
+
 ?>
 
 <!doctype html>
@@ -98,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body p-4">
                         <h5 class="card-title">Sửa bài viết: <?php echo $post['title'] ?></h5>
                         <hr />
-                        <form action="{{ route('admin.posts.update', $post) }}" method="POST" enctype="multipart/form-data">
+                        <form method="POST" enctype="multipart/form-data">
                             <div class="form-body mt-4">
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -148,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                                     echo "<option value=" . $cate["id"] . ">" . $cate["name"] . "</option>";
                                                                     $cates = Category::ListCategorie();
                                                                     foreach ($cates as $item) {
-                                                                        if($item["name"] != $cate["name"])
+                                                                        if ($item["name"] != $cate["name"])
                                                                             echo "<option value=" . $item["id"] . ">" . $item["name"] . "</option>";
                                                                     }
 
@@ -175,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                         <div class="card">
                                                             <div class="card-body">
                                                                 <label for="inputProductDescription" class="form-label">Hình ảnh bài viết</label>
-                                                                <input id="thumbnail" name="thumbnail" type="file" id="file" value="">
+                                                                <input id="thumbnail" name="thumbnail" type="file" onchange="previewImage(event)" />
 
                                                                 <!-- Hiển thị thông báo lỗi -->
                                                                 <?php if (isset($message) && !empty($message)) : ?>
@@ -186,8 +218,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     </div>
 
                                                     <div class="col-md-7 text-center">
-                                                        <img style="width: 100%; border-radius: 16px;" src="<?php echo HandleAdmin::getPathImg($post["id"]) ?>" class="img-responsive" alt="All thumbnail">
+                                                        <img id="preview" style="width: 100%; border-radius: 16px;" src="<?php echo HandleAdmin::getPathImg($post["id"]) ?>" class="img-responsive" alt="All thumbnail">
                                                     </div>
+
+                                                    <script>
+                                                        function previewImage(event) {
+                                                            var preview = document.getElementById('preview');
+                                                            var file = event.target.files[0];
+                                                            var reader = new FileReader();
+                                                            reader.onload = function() {
+                                                                preview.src = reader.result;
+                                                            };
+                                                            reader.readAsDataURL(file);
+                                                        }
+                                                    </script>
+
                                                 </div>
                                             </div>
 
@@ -217,7 +262,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 </div>
                                             </div>
 
-                                            <button class="btn btn-primary" type="submit">Sửa bài viết</button>
+                                            <button class="btn btn-primary" type="submit" name="edit">Sửa bài viết</button>
 
                                             <a class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('delete_post_{{ $post->id }}').submit();" href="#">Xóa bài viết</a>
 

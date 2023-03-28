@@ -21,6 +21,13 @@ class Roles
         $result = $db->select_to_array($sql);
         return $result;
     }
+     //Lấy danh sách danh mục bài viết
+     public static function ListRole(){
+        $db = new Db();
+        $sql = "SELECT * FROM roles ";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
 
     //lấy ra số lượng bài viết để phân trang
     public static function GetTotalRecords(){
@@ -47,6 +54,16 @@ class Roles
         $sql = "SELECT * FROM roles WHERE id = $id";
         $result = $db->select_to_array($sql);
         return  reset($result);
+    }
+
+    public function add()
+    { 
+        $db = new Db();
+        $sql = "INSERT INTO roles (name, created_at, updated_at)
+        VALUES 
+        ('$this->name', '$this->created_at', '$this->updated_at')";
+        $result = $db->query_execute($sql);
+        return $result;
     }
 
 }

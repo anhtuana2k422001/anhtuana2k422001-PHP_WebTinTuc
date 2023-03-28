@@ -62,6 +62,16 @@ class Category
         $result = $db->select_to_array($sql);
         return reset($result);
     }
+
+    public function add()
+    { 
+        $db = new Db();
+        $sql = "INSERT INTO categories (name, slug, user_id, created_at, updated_at)
+        VALUES 
+        ('$this->name', '$this->slug', '$this->user_id', '$this->created_at', '$this->updated_at')";
+        $result = $db->query_execute($sql);
+        return $result;
+    }
  
 }
 

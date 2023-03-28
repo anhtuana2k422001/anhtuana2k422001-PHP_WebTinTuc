@@ -53,10 +53,42 @@ class User
         return $total_records;
     }
 
+    //Lấy thông tin 1 người dùng bằng email
+    public static function getUserbyEmail($email){
+        $db = new Db();
+        $sql = "SELECT * FROM users WHERE email = '$email'";
+        $result = $db->select_to_array($sql);
+        return  reset($result);
+    }
      
+    public static function getUserPathImg($user_id)
+    {
+        $db = new Db();
+        $sql = "SELECT images.path  FROM images
+                    WHERE  imageable_id = '$user_id' AND  imageable_type LIKE '%User'";
+        $result = $db->select_to_array($sql);
+        return reset($result)["path"]; // Lấy ra phần tử đầu tiên
+    }
 
-      
+    public function add()
+    {
+        $db = new Db();
+        $sql = "INSERT INTO users (name, email, email_verified_at, password, status, role_id, remember_token, created_at, updated_at)
+        VALUES 
+        ('$this->name', '$this->email', '$this->email_verified_at', '$this->password', '$this->status', '$this->role_id'
+        , '$this->remember_token', '$this->created_at', '$this->updated_at')";
+        $result = $db->query_execute($sql);
+        return $result;
+    }
 
+    public static function generateRememberToken($length) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $token = '';
+        for ($i = 0; $i < $length; $i++) {
+            $token .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $token;
+    }
      
 }
 
