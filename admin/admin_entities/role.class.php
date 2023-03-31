@@ -66,6 +66,15 @@ class Roles
         return $result;
     }
 
+    public function update($id)
+    {
+        $db = new Db();
+        $sql = "UPDATE roles SET name='$this->name' , updated_at='$this->updated_at'
+        WHERE id='$id'";
+        $result = $db->query_execute($sql);
+        return $result;
+    }
+
 }
 
 ?>

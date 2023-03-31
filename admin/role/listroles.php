@@ -98,7 +98,7 @@ $role = Roles::ListRoles($start, $limit);
                                             <td><?php echo $item["updated_at"] ?></td> 
                                             <td>
                                                 <div class="d-flex order-actions">
-                                                    <a href="editpost.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>
+                                                    <a href="editRole.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>
                                                     <a href="#" onclick="event.preventDefault(); document.querySelector('#delete_form_{{ $post->id }}').submit();" class="ms-3"><i class='bx bxs-trash'></i></a>
 
                                                     <form method="post" action="{{ route('admin.posts.destroy', $post) }}" id="delete_form_{{ $post->id }}">

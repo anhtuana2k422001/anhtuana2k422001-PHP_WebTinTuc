@@ -67,21 +67,19 @@ $comment = Comment::ListComments($start, $limit);
                     <div class="card-body">
                         <div class="d-lg-flex align-items-center mb-4 gap-3">
                             <div class="position-relative">
-                                <input type="text" class="form-control ps-5 radius-30" placeholder="Tìm kiếm bài viết"> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
+                                <input type="text" class="form-control ps-5 radius-30" placeholder="Tìm kiếm bình luận"> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
                             </div>
-                            <div class="ms-auto"><a href="createpost.php" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Thêm bài viết mới</a></div>
+                            <div class="ms-auto"><a href="{{ route('admin.comments.create') }}" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Thêm bình luận mới</a></div>
                         </div>
                         <div class="table-responsive">
                             <table class="table mb-0">
-
                                 <thead class="table-light">
                                     <tr>
                                         <th>Mã bình luận</th>
-                                        <th>Nội dung</th>
-                                        <th>Bài viết</th>
-                                        <th>Người bình luận</th>
-                                        <th>Ngày bình luận</th>
-                                        <th>Ngày cập nhật</th>
+                                        <th>Người tạo</th>
+                                        <th>Nội dung bình luận</th>
+                                        <th>Xem bình luận</th>
+                                        <th>Ngày tạo</th>
                                         <th>Chức năng</th>
                                     </tr>
                                 </thead>
@@ -98,22 +96,22 @@ $comment = Comment::ListComments($start, $limit);
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><?php echo $item["the_comment"] ?></td>
-                                            <td><?php $post = Post::GetPostById($item["post_id"]);
-
-                                                echo $post["title"] ?></td>
                                             <td><?php $user = User::getUser($item["user_id"]);
 
                                                 echo $user["name"] ?></td>
+                                            <td><?php echo substr($item["the_comment"], 0, 40) . (strlen($item["the_comment"]) > 40 ? "..." : ""); ?>
+                                            </td>
+                                            <td>
+                                                <a target="_blank" class="btn btn-primary btn-sm" href="http://localhost:3000/<?php echo Comment::GetPostById($item["post_id"])?>#comments_all">Xem bình luận</a>
+                                            </td>
                                             <td><?php echo $item["created_at"] ?></td>
-                                            <td><?php echo $item["updated_at"] ?></td>
+
                                             <td>
                                                 <div class="d-flex order-actions">
-                                                    <a href="editpost.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>
-                                                    <a href="#" onclick="event.preventDefault(); document.querySelector('#delete_form_{{ $post->id }}').submit();" class="ms-3"><i class='bx bxs-trash'></i></a>
+                                                    <a href="{{ route('admin.comments.edit', $comment)}}" class=""><i class='bx bxs-edit'></i></a>
+                                                    <a href="#" onclick="event.preventDefault(); document.querySelector('#delete_form_{{ $comment->id }}').submit();" class="ms-3"><i class='bx bxs-trash'></i></a>
 
-                                                    <form method="post" action="{{ route('admin.posts.destroy', $post) }}" id="delete_form_{{ $post->id }}">
-
+                                                    <form method="post" action="{{ route('admin.comments.destroy', $comment) }}" id="delete_form_{{ $comment->id }}">
                                                     </form>
 
                                                 </div>
@@ -122,24 +120,21 @@ $comment = Comment::ListComments($start, $limit);
                                     <?php } ?>
 
                                 </tbody>
-
                             </table>
-
+                            <div>
+                                <?php
+                                if ($page > 1) {
+                                    echo  "<button class='btn btn-secondary me-4  mt-2 mt-lg-0' onclick=\"location.href='?page=" . ($page - 1) . "'\">Trang trước</button>";
+                                }
+                                if ($page < $pages) {
+                                    echo "<button class='btn btn-secondary mt-2 mt-lg-0' onclick=\"location.href='?page=" . ($page + 1) . "'\">Trang sau</button>";
+                                }
+                                ?>
+                            </div>
                         </div>
-
-                        <div>
-                            <?php
-                            if ($page > 1) {
-                                echo  "<button class='btn btn-secondary me-4  mt-2 mt-lg-0' onclick=\"location.href='?page=" . ($page - 1) . "'\">Trang trước</button>";
-                            }
-                            if ($page < $pages) {
-                                echo "<button class='btn btn-secondary mt-2 mt-lg-0' onclick=\"location.href='?page=" . ($page + 1) . "'\">Trang sau</button>";
-                            }
-                            ?>
-                        </div>
-
                     </div>
                 </div>
+
 
             </div>
         </div>

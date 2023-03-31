@@ -1,6 +1,8 @@
 <?php
 require_once("../admin_entities/user.class.php");
 require_once("../admin_entities/role.class.php");
+require_once("../admin_handle/handle.php");
+
 
 // phân trang
 $total_records = User::GetTotalRecords();
@@ -18,6 +20,8 @@ $start = ($page - 1) * $limit;
 $pages = ceil($total_records / $limit);
 
 $user = User::ListUsers($start, $limit);
+
+
 ?>
 
 <!doctype html>
@@ -66,70 +70,73 @@ $user = User::ListUsers($start, $limit);
                     <div class="card-body">
                         <div class="d-lg-flex align-items-center mb-4 gap-3">
                             <div class="position-relative">
-                                <input type="text" class="form-control ps-5 radius-30" placeholder="Tìm kiếm bài viết"> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
+                                <input type="text" class="form-control ps-5 radius-30" placeholder="Tìm kiếm người dùng"> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
                             </div>
-                            <div class="ms-auto"><a href="createUser.php" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Thêm người dùng mới</a></div>
+                            <div class="ms-auto"><a href="{{ route('admin.categories.create') }}" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Thêm người dùng mới</a></div>
                         </div>
                         <div class="table-responsive">
                             <table class="table mb-0">
-
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Mã tài khoản</th>
-                                        <th>Tên tài khoản</th>
-                                        <th>Tên email</th>
-                                        <th>Trạng thái</th>
+                                        <th>Mã Tài khoản</th>
+                                        <th>Ảnh dại diện</th>
+                                        <th>Họ Tên</th>
+                                        <th>Email</th>
                                         <th>Quyền</th>
+                                        <th>Thông tin</th>
                                         <th>Ngày tạo</th>
-                                        <th>Ngày cập nhật</th>
                                         <th>Chức năng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($user as $item) { ?>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div>
-                                                        <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
-                                                    </div>
-                                                    <div class="ms-2">
-                                                        <h6 class="mb-0 font-14"><?php echo $item["id"] ?></h6>
-                                                    </div>
+                                <?php foreach ($user as $item) { ?>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="ms-2">
+                                                    <h6 class="mb-0 font-14"><?php echo $item["id"] ?></h6>
                                                 </div>
-                                            </td>
-                                            <td><?php echo $item["name"] ?></td>
-                                            <td><?php echo $item["email"] ?></td>
-                                            <td>
-                                                <div class="badge rounded-pill <?php echo $item["status"] == 1 ? 'text-success bg-light-success' : 'text-danger bg-light-danger' ?>p-2 text-uppercase px-3">
-                                                    <i class='bx bxs-circle me-1'></i><?php echo $item["status"] == 1 ? "Hoạt động" : "Bị khóa" ?>
-                                                </div>
-                                            </td>
-                                            <td><?php $role = Roles::GetRoles($item["role_id"]);
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <img class="img_admn--user img-avatar" width="60" height="60" style="margin: auto; background-size: cover ;  background-image: url(<?php echo HandleAdmin::getUserPathImg($item["id"]) ?>)" alt="">
 
-                                                echo $role["name"] ?></td>
-                                            <td><?php echo $item["created_at"] ?></td>
-                                            <td><?php echo $item["updated_at"] ?></td>
-                                            <td>
-                                                <div class="d-flex order-actions">
-                                                    <a href="editpost.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>
-                                                    <a href="#" onclick="event.preventDefault(); document.querySelector('#delete_form_{{ $post->id }}').submit();" class="ms-3"><i class='bx bxs-trash'></i></a>
+                                        </td>
+                                        <td><?php echo $item["name"] ?></td>
+                                        <td><?php echo $item["email"] ?></td>
+                                        <td><?php $role = Roles::GetRoles($item['role_id']);
+                                            echo $role["name"] ?></td>
+                                        <?php $role = Roles::GetRoles($item['role_id']);
+                                            if($role["name"] != 'user'){?>
+                                                <td>
+                                                    <a class="btn btn-primary btn-sm" href="{{ route('admin.users.show', $user) }}">Bài viết</a>
+                                                </td>
+                                            <?php }
+                                            else {?>
+                                                <td>
+                                            <a class="btn btn-primary btn-sm" href="{{ route('admin.users.show', $user) }}">Chi tiết</a>
+                                            
+                                        </td>
+                                        <?php } ?>
+                                        
 
-                                                    <form method="post" action="{{ route('admin.posts.destroy', $post) }}" id="delete_form_{{ $post->id }}">
+                                        <td><?php echo $item["created_at"] ?></td>
 
-                                                    </form>
+                                        <td>
+                                            <div class="d-flex order-actions">
+                                                <a href="edituser.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>
+                                                <a href="#" onclick="event.preventDefault(); document.querySelector('#delete_form_{{ $user->id }}').submit();" class="ms-3"><i class='bx bxs-trash'></i></a>
 
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                <form method="post" action="{{ route('admin.users.destroy', $user) }}" id="delete_form_{{ $user->id }}">
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <?php } ?>
 
                                 </tbody>
-
                             </table>
-
                         </div>
-
                         <div>
                             <?php
                             if ($page > 1) {
@@ -140,9 +147,9 @@ $user = User::ListUsers($start, $limit);
                             }
                             ?>
                         </div>
-
                     </div>
                 </div>
+
 
             </div>
         </div>

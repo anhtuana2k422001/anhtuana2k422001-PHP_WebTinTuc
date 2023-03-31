@@ -89,7 +89,16 @@ class User
         }
         return $token;
     }
-     
+
+    public function update($id)
+    {
+        $db = new Db();
+        $sql = "UPDATE users SET name='$this->name', email='$this->email', role_id='$this->role_id',
+         updated_at='$this->updated_at'
+        WHERE id='$id'";
+        $result = $db->query_execute($sql);
+        return $result;
+    }
 }
 
 ?>

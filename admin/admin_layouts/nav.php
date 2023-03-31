@@ -156,7 +156,7 @@
 
         <!-- @if(checkPermission("admin.setting.edit")) -->
         <li>
-            <a href="{{ route('admin.setting.edit') }}">
+            <a href="/admin/about/about.php">
                 <div class="parent-icon"><i class='bx bx-info-square'></i></div>
                 <div class="menu-title">Cài đặt</div>
             </a>
