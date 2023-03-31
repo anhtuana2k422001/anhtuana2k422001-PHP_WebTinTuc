@@ -71,6 +71,15 @@ class Comment
         return reset($result)["name"];
     }
 
+    //lấy ra thông tin của 1 bài viết cụ thể
+    public static function GetPostById($id)
+    {
+        $db = new Db();
+        $sql = "SELECT * FROM posts WHERE id = '$id'";
+        $result = $db->select_to_array($sql);
+        return reset($result)["slug"];
+    }
+
 
 }
 

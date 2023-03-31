@@ -69,7 +69,7 @@ $category = Category::ListCategories($start, $limit);
                             <div class="position-relative">
                                 <input type="text" class="form-control ps-5 radius-30" placeholder="Tìm kiếm bài viết"> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
                             </div>
-                            <div class="ms-auto"><a href="createpost.php" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Thêm bài viết mới</a></div>
+                            <div class="ms-auto"><a href="createCate.php" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Thêm danh mục mới</a></div>
                         </div>
                         <div class="table-responsive">
                             <table class="table mb-0">
@@ -106,7 +106,7 @@ $category = Category::ListCategories($start, $limit);
                                             <td><?php echo $item["updated_at"] ?></td>
                                             <td>
                                                 <div class="d-flex order-actions">
-                                                    <a href="editpost.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>
+                                                    <a href="editCate.php?id=<?php echo $item["id"] ?>" class=""><i class='bx bxs-edit'></i></a>
                                                     <a href="#" onclick="event.preventDefault(); document.querySelector('#delete_form_{{ $post->id }}').submit();" class="ms-3"><i class='bx bxs-trash'></i></a>
 
                                                     <form method="post" action="{{ route('admin.posts.destroy', $post) }}" id="delete_form_{{ $post->id }}">

@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['loginkeeping']) && $_POST['loginkeeping']) {
             setcookie("username", $email, time() + (86400 * 7), '/'); // 86400 bằng 1 ngày, nhân 7
             setcookie("password", $password, time() + (86400 * 7), '/'); //nghĩa là cookie lưu 7 ngày
-
         }
 
         // lưu giá trị của trường form vào session  
@@ -31,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Lưu Tài khoản đăng nhập 
         $_SESSION['user'] =  $user ;
         
+        $_SESSION['email'] = $user["email"];
+
         header("Location: /");
     } else {
         // If invalid, display an error message

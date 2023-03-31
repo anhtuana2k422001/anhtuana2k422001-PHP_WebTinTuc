@@ -2,35 +2,59 @@
 require_once("../admin_entities/post.class.php");
 require_once("../admin_entities/category.class.php");
 require_once("../admin_entities/tags.class.php");
+require_once("../admin_entities/user.class.php");
+require_once("../admin_entities/images.class.php");
 require_once("../admin_handle/handle.php");
+
+session_start();
 
 
 //$categories  = Category::list_category();
 
-// Khởi tạo biến lưu trữ thông báo lỗi
-$message = "";
+// Đặt múi giờ theo múi giờ việt nam
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+$timestamp = date("Y-m-d H:i:s", time());
 
-// Kiểm tra các giá trị được gửi lên từ form
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Kiểm tra tiêu đề
-    if (empty($_POST["title"])) {
-        $message = "Vui lòng nhập tiêu đề bài viết";
-    }
+    $title = $_POST['title']; // lấy password người dùng
+    $slug = $_POST['slug']; // lấy password người dùng
+    $excerpt = $_POST['excerpt']; // lấy password người dùng
+    $body = $_POST['body']; // lấy password người dùng
 
-    // Kiểm tra slug
-    else if (empty($_POST["slug"])) {
-        $message = "Vui lòng nhập slug";
-    }
+    // lấy id của account đang đăng nhập
+    $emailLogin = $_SESSION['email'];
+    $getUserId = User::getUserbyEmail($emailLogin);
+    $user_id = $getUserId['id'];
 
-    // Kiểm tra danh mục
-    else if (empty($_POST["category"])) {
-        $message = "Vui lòng chọn danh mục";
-    }
+    $category_id = $_POST['category_id'];
+    $view = 0;
+    $approved = 1;
+    $created_at = $timestamp;
+    $updated_at = $timestamp;
 
-    // Kiểm tra mô tả
-    else if (empty($_POST["description"])) {
-        $message = "Vui lòng nhập mô tả";
+    $newPost = new Post($title, $slug, $excerpt, $body, $user_id, $category_id, $view, $approved, $created_at, $updated_at);
+
+    $newPost->add();
+    $post_id = $newPost->getLastPostId();
+
+    //
+    //update hình ảnh post trong bảng images 
+    $name = $_FILES['thumbnail']['name'];
+    $extension = pathinfo($name, PATHINFO_EXTENSION);
+    $file_name = uniqid() . '.' . $extension;
+    $path = "images/" . $file_name;
+    $imageable_id = $post_id;
+    $imageable_type = 'App\Models\Post';
+
+    if ($_FILES['thumbnail']['error'] == 0) {
+        $thumbnail = $_FILES['thumbnail'];
+        $file_destination = $_SERVER['DOCUMENT_ROOT'] . '/storage/images/' . $file_name;
+        move_uploaded_file($thumbnail['tmp_name'], $file_destination);
     }
+    $editImg = new Image($name, $extension, $path, $imageable_id, $imageable_type, $created_at, $updated_at);
+
+    $editImg->add();
+    header('Location: listposts.php');
 }
 ?>
 
@@ -46,7 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!--plugins-->
     <title>Quản trị - Sửa bài viết</title>
     <?php include_once("../admin_layouts/css.php"); ?>
-
     <style>
         .imageuploadify {
             margin: 0;
@@ -58,16 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <!--wrapper-->
-    <!-- <style>
-		.imageuploadify{
-			margin: 0;
-			max-width: 100%;
-		}
-	</style> -->
-
-
-
     <!--start page wrapper -->
     <div class="page-wrapper">
         <!--start header -->
@@ -95,44 +108,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="card-body p-4">
                     <h5 class="card-title">Thêm bài viết mới</h5>
                     <hr />
-                    <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
-
-
+                    <form method="POST" enctype="multipart/form-data">
                         <div class="form-body mt-4">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="border border-3 p-4 rounded">
                                         <div class="mb-3">
                                             <label for="inputProductTitle" class="form-label">Tiêu đề bài viết</label>
-                                            <input type="text" value='' name="title" required class="inputPostTitle form-control" id="inputProductTitle" placeholder="Nhập tiêu đề bài viết">
+                                            <input type="text" name="title" class="inputPostTitle form-control" id="inputProductTitle" placeholder="Nhập tiêu đề bài viết">
 
-                                            <!-- Hiển thị thông báo lỗi -->
-                                            <?php if (isset($message) && !empty($message)) : ?>
-                                                <p class="text-danger"><?php echo $message; ?></p>
-                                            <?php endif; ?>
+
 
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="inputProductTitle" class="form-label">Slug - liên kết</label>
-                                            <input type="text" value='' name="slug" required class="slugPost form-control" id="inputProductTitle" placeholder="Nhập slug">
+                                            <input type="text" name="slug" class="slugPost form-control" id="inputProductTitle" placeholder="Nhập slug">
 
-                                            <!-- Hiển thị thông báo lỗi -->
-                                            <?php if (isset($message) && !empty($message)) : ?>
-                                                <p class="text-danger"><?php echo $message; ?></p>
-                                            <?php endif; ?>
+
 
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="inputProductDescription" class="form-label">Mô tả</label>
-                                            <textarea required name="excerpt" class="form-control" id="inputProductDescription" rows="3"></textarea>
+                                            <textarea name="excerpt" class="form-control" id="inputProductDescription" rows="3"></textarea>
 
 
                                             <!-- Hiển thị thông báo lỗi -->
-                                            <?php if (isset($message) && !empty($message)) : ?>
-                                                <p class="text-danger"><?php echo $message; ?></p>
-                                            <?php endif; ?>
+
                                         </div>
 
                                         <div class="mb-3">
@@ -141,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <div class="card-body">
                                                     <div class="p-3 rounded">
                                                         <div class="mb-3">
-                                                            <select name="category_id" required class="single-select">
+                                                            <select name="category_id" class="single-select">
                                                                 <option value=" ">Chọn danh mục bài viết</option>
                                                                 <?php
                                                                 $cates = Category::ListCategorie();
@@ -149,11 +152,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                                     echo "<option value=" . $item["id"] . ">" . $item["name"] . "</option>";
                                                                 }
                                                                 ?>
-                                                            </select> 
+                                                            </select>
                                                             <!-- Hiển thị thông báo lỗi -->
-                                                            <?php if (isset($message) && !empty($message)) : ?>
-                                                                <p class="text-danger"><?php echo $message; ?></p>
-                                                            <?php endif; ?> 
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -168,34 +169,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <!-- <input id="image-uploadify" name="thumbnail" type="file" id="file" accept="image/*" multiple> -->
                                         <div class="mb-3">
                                             <label for="inputProductDescription" class="form-label">Hình ảnh bài viết</label>
-                                            <input id="thumbnail" require name="thumbnail" type="file" id="file">
+                                            <input id="thumbnail" name="thumbnail" type="file" id="file">
 
-                                            @error('thumbnail')
-                                            <p class="text-danger">{{ $message }}</p>
-                                            @enderror
 
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="inputProductDescription" class="form-label">Nội dung bài viết</label>
-                                            <textarea name="body" id="post_content" class="form-control" id="inputProductDescription" rows="3"></textarea>
-                                            <script>
-                                                tinymce.init({
-                                                    selector: 'textarea',
-                                                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-                                                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-                                                });
-                                            </script>
+                                            <textarea name="body" class="form-control" id="inputProductDescription" rows="3"></textarea>
+
 
                                             <!-- Hiển thị thông báo lỗi -->
-                                            <?php if (isset($message) && !empty($message)) : ?>
-                                                <p class="text-danger"><?php echo $message; ?></p>
-                                            <?php endif; ?>
+
 
                                         </div>
 
-                                        <button class="btn btn-primary" type="submit">Thêm bài viết</button>
-
+                                        <button class="btn btn-primary" type="submit" name="btnsubmit">Thêm bài viết</button>
                                     </div>
                                 </div>
                             </div>
@@ -204,112 +193,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </form>
                 </div>
             </div>
-
-
         </div>
     </div>
     <!--end page wrapper -->
-    @endsection
-
-    @section("script")
-    <!-- <script src="{{ asset('admin_dashboard_assets/plugins/Drag-And-Drop/dist/imageuploadify.min.js') }}"></script> -->
-    <script src="{{ asset('admin_dashboard_assets/plugins/select2/js/select2.min.js') }}"></script>
-    <script src="{{ asset('admin_dashboard_assets/plugins/input-tags/js/tagsinput.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            // $('#image-uploadify').imageuploadify();
-
-            $('.single-select').select2({
-                theme: 'bootstrap4',
-                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-                placeholder: $(this).data('placeholder'),
-                allowClear: Boolean($(this).data('allow-clear')),
-            });
-
-            $('.multiple-select').select2({
-                theme: 'bootstrap4',
-                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-                placeholder: $(this).data('placeholder'),
-                allowClear: Boolean($(this).data('allow-clear')),
-            });
-
-            tinymce.init({
-                selector: '#post_content',
-                // plugins: 'advlist autolink lists link image media charmap print preview hr anchor pagebreak',
-                plugins: 'advlist autolink lists link image media charmap preview anchor pagebreak',
-                toolbar_mode: 'floating',
-                height: '500',
-
-                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code | rtl ltr',
-                toolbar_mode: 'floating',
-
-                image_title: true,
-                automatic_uploads: true,
-
-                images_upload_handler: function(blobinfo, success, failure) {
-                    let formData = new FormData();
-                    let _token = $("input[name='_token']").val();
-                    let xhr = new XMLHttpRequest();
-                    xhr.open('post', "{{ route('admin.upload_tinymce_image') }}");
-                    xhr.onload = () => {
-                        if (xhr.status !== 200) {
-                            failure("Http Error: " + xhr.status);
-                            return
-                        }
-                        let json = JSON.parse(xhr.responseText);
-                        if (!json || typeof json.location != 'string') {
-                            failure("Invalid JSON: " + xhr.responseText);
-                            return
-                        }
-                        success(json.location);
-
-                    }
-
-                    formData.append('_token', _token);
-                    formData.append('file', blobinfo.blob(), blobinfo.filename());
-                    xhr.send(formData);
-                }
-
-            });
-
-            setTimeout(() => {
-                $(".general-message").fadeOut();
-            }, 5000);
-
-        });
-    </script>
-
-    <script>
-        $(document).on('change', '.inputPostTitle', (e) => {
-            e.preventDefault();
-
-            let $this = e.target;
-
-            let csrf_token = $($this).parents("form").find("input[name='_token']").val();
-            let titlePost = $($this).parents("form").find("input[name='title']").val();
-
-            let formData = new FormData();
-            formData.append('_token', csrf_token);
-            formData.append('title', titlePost);
-
-            $.ajax({
-                url: "{{ route('admin.posts.to_slug') }}",
-                data: formData,
-                type: 'POST',
-                dataType: 'JSON',
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    if (data.success) {
-                        $('.slugPost').val(data.message);
-
-                    } else {
-                        alert("Bị lỗi khi nhập title !")
-                    }
-                }
-            })
-        })
-    </script>
     <!--end wrapper-->
 
     <!--start switcher-->
@@ -320,6 +206,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include_once("../admin_layouts/js.php"); ?>
 
     <?php include_once("../admin_layouts/chart.php"); ?>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+    </script>
 </body>
 
 </html>

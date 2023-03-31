@@ -20,6 +20,8 @@ $pages = ceil($total_records / $limit);
 
 $posts = Post::ListPosts($start, $limit);
 
+
+
 ?>
 
 <!doctype html>

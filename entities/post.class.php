@@ -61,7 +61,7 @@ class Post
         INNER JOIN (
             SELECT MAX(created_at) AS max_created_at, category_id
             FROM posts
-            WHERE category_id != '$id'
+            WHERE category_id != '$id' 
             GROUP BY category_id
         ) p2 ON p1.category_id = p2.category_id AND p1.created_at = p2.max_created_at
         ORDER BY p1.created_at DESC  LIMIT $limit ";
