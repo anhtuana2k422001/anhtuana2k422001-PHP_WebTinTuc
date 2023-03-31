@@ -8,14 +8,13 @@ if (isset($_COOKIE['username']) || isset($_SESSION['username'])) header("Locatio
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['username']; // lấy email người dùng 
     $password = $_POST['password']; // lấy password người dùng
-    $user = User::getUser($email); // lấy thông tin 1 user thông qua email
-
     // Mã hóa mật khẩu người dùng nhập vào
     // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     // echo $hashed_password;
 
     $checkLogin = User::login($email, $password); // Trả về true, false
     if ($checkLogin) {
+        $user = User::getUser($email); // lấy thông tin 1 user thông qua email
         // xử lý dữ liệu ở đây
         //Lưu cookie
         //Kiểm tra checkbox đã được check chưa
@@ -28,6 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // lưu giá trị của trường form vào session  
         $_SESSION['username'] = $user["name"];
         $_SESSION['role'] = $user["role_id"];
+        
+        // Lưu Tài khoản đăng nhập 
+        $_SESSION['user'] =  $user ;
         
         header("Location: /");
     } else {

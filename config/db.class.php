@@ -11,11 +11,18 @@ class Db
             // Lấy thông tin kết nối từ tập tin config.ini
             $config = parse_ini_file('config.ini');
             self::$connection = new mysqli("localhost", $config["username"], $config["password"], $config["databasename"]);
+            self::$connection->query("SET NAMES utf8"); // thiết lập bộ mã UTF-8
         }
         // xử lý lỗi nêu không kết nối đươc tới CSDL
         if(self::$connection==false){
             // xử lý ghi ghi file tại đây
             return false;
+        }
+
+           // Thiết lập bộ ký tự UTF-8
+         if (!self::$connection->set_charset("utf8mb4")) {
+            printf("Error loading character set utf8mb4: %s\n", self::$connection->error);
+            exit();
         }
         return self::$connection;
     }
@@ -43,6 +50,8 @@ class Db
         }
         return $row;
     }
+
+    
 }
 
 ?>

@@ -1,17 +1,19 @@
 <?php
 require_once("./entities/post.class.php");
 require_once("./entities/category.class.php");
-// Lấy URL hiện tại
-$url = $_SERVER['REQUEST_URI'];
-// biểu thức chính quy "/^/([a-zA-Z0-9-_]+)$/" sẽ khớp với tất cả các đường dẫn URL có dạng "/{slug}". 
-// Biến $matches sẽ lưu trữ giá trị của {slug} trong phần tử thứ nhất của mảng.
-// preg_match('/^\/([a-zA-Z0-9\-_]+)$/', $url, $matches);
-// preg_match('/^\/([a-zA-Z0-9\-_]+)(\/[a-zA-Z0-9\-_]+)*$/', $url, $matches);
-// preg_match('/^\/danh-muc\/([a-zA-Z0-9\-_]+)$/', $url, $matches_cate);
 
+// Lấy URL hiện tại
 $url = $_SERVER['REQUEST_URI']; // Lấy URL đầy đủ của trang hiện tại
 $matches = explode('/', $url); // Tách URL thành các phần bằng dấu "/"
 $slugEnd = end($matches); // Lấy phần cuối cùng của URL, chính là "slug"
+
+$keySearch = "Chưa nhập từ khóa";
+// Xử lý tìm kiếm
+if (isset($_POST['search'])) {
+    $keySearch = $_POST['search'];
+}
+$postSeach = Post::ListPostSearch($keySearch);
+
 
 $postDetail = Post::getPosttoID($slugEnd);
 $Category = Category::getCategoryBySlug($slugEnd);
@@ -30,10 +32,14 @@ if ($url == '/' ) {
     // Trang chủ
     return require 'views/home.php';
 } 
+elseif ($url == '/tim-kiem' ) {
+    // Trang chủ
+    return require 'views/search.php';
+} 
 elseif ($url == '/dang-nhap') {
     return require 'views/login.php';
 } 
-elseif ($url == '/profile') {
+elseif ($url == '/tai-khoan-cua-toi') {
     return require 'views/profile.php';
 }
 elseif ($url == '/tin-tuc-moi-nhat') {
@@ -44,8 +50,8 @@ elseif ($url == '/tin-nong') {
 }
 elseif ($url == '/xem-nhieu-nhat') {
     return require 'views/viewspost.php';
-}    
-elseif ($Category) {
+}     
+elseif ($Category)  {
     return require 'views/categorypost.php';
 } 
 elseif($postDetail){

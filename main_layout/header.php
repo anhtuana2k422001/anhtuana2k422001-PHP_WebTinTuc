@@ -1,7 +1,8 @@
 <?php
 require_once("./entities/category.class.php");
 require_once("./entities/post.class.php");
-session_start();
+require_once("./session.php");
+// session_start();
 $categories = Category::list_category(); // Lấy danh sách danh mục
 $posts = Post::new_post_category(12); // Lay danh sach bai viet mới nhất
 // Lấy thời gian 
@@ -67,32 +68,30 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                     <!-- @endguest -->
 
                     <!-- @auth -->
-                    <li class="has-dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <?php if(isset($_SESSION['role'])) 
-                                echo ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) ?
-                                '<li>
-                                    <a href="http://localhost:3000/admin/">Admin - Dashbroad</a>
-                                </li>' : ''
-                            ?>
-                            <li>
-                                <a href="/profile">Tài khoản của tôi</a>
-                            </li>
-                            <li>
-                                <a href="../views/logout.php">Đăng xuất
+                    <?php if(isset($_SESSION['role']))  : ?>
+                        <li class="has-dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <?php 
+                                    echo ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) ?
+                                    '<li>
+                                        <a href="/admin/">Admin - Dashbroad</a>
+                                    </li>
+                                    ' : ''
+                                ?>
+                                    <li>
+                                    <a href="/tai-khoan-cua-toi">Tài khoản của tôi</a>
+                                </li>    
+                                <li>
+                                    <a href="../views/logout.php">Đăng xuất
                                     <i class="fa fm fa-arrow-circle-right"></i>
-                                </a>
-
-                                <form id="nav-logout-form" action="" method="POST">
-                                    <!-- @csrf -->
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- @endauth -->
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    <?php endif?>
 
                 </ul>
                 <!-- Header Topbar Action End -->
@@ -161,9 +160,8 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
             </div>
 
             <!-- Header Search Form Start -->
-            <form method="POST" action="{{ route('search" class="header--search-form float--right" data-form="validate">
-                @csrf	
-                <input type="search" name="search" placeholder="Search..." class="header--search-control form-control"
+            <form method="POST" action="tim-kiem" class="header--search-form float--right" data-form="validate">
+                <input type="search" name="search" placeholder="Tìm kiếm tin tức..." class="header--search-control form-control"
                 required>
 
                 <button type="submit" class="header--search-btn btn"><i

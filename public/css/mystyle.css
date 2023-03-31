@@ -1,8 +1,8 @@
 .global-message{
     position: fixed;
     bottom: 10px;
-    right: 10px;
-    min-width: 500px;
+    left: 50px;
+    min-width: 200px;
     border-radius: 50px;
     color: #fff !important;
     z-index: 2;

@@ -107,6 +107,18 @@ class User
         else 
             return false;
     }
+
+    // Lấy hình ảnh của tài khoản
+    public static function getUserPathImg($user_id){
+        $db = new Db();
+        // Lấy ảnh user 
+        $sql = "SELECT images.path  FROM images
+                WHERE   $user_id  =  imageable_id AND  imageable_type LIKE '%User'" ;
+        $result = $db->select_to_array($sql);
+        if (empty($result)) 
+            return null; // Trả về null nếu không tìm thấy ảnh user
+        return reset($result)["path"]; // Lấy ra phần tử đầu tiên
+    }
 }
 
 ?>

@@ -34,7 +34,7 @@
             //  truy vấn lỗi
              header("Location: register.php?failure");
          else
-             header("Location: login.php");
+             header("Location: /dang-nhap");
 
       }
 ?>

@@ -1,4 +1,5 @@
 <?php 
+    require_once("./session.php");
     require_once("./entities/post.class.php");
     require_once("./entities/comments.class.php");
     require_once("./entities/tags.class.php");
@@ -11,6 +12,11 @@
 
     // Lấy ra danh sách bài viết tương tự nhau cùng chung danh mục
     $postTheSames = Post::ListPostToCategory($postDetail["category_id"]);
+
+    // Lấy User nếu đang đăng nhập
+    if (isset($_SESSION['user'])){
+        $userPost =  $_SESSION['user'];
+    }
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -159,7 +165,7 @@
                                         <!-- Comment Item Start -->
                                         <div class="comment--item clearfix">
                                             <div class="comment--img float--left">
-                                                <!-- <img style="border-radius: 50%; margin: auto; background-size: cover ;  width: 68px; height: 68px;   background-image: url({{ $comment->user->image ?  asset('storage/' . $comment->user->image->path) : asset('storage/placeholders/user_placeholder.jpg') }})" alt=""> -->
+                                            <img style="border-radius: 50%; margin: auto; background-size: cover ;  width: 68px; height: 68px;   background-image: url(<?php echo Handle::getUserPathImg($comment["user_id"]) ?>)"  alt="">
                                             </div>
                                             <div class="comment--info">
                                                 <div class="comment--header clearfix">
@@ -318,6 +324,95 @@
         $(".global-message").fadeOut();
     }, 5000)
   
+</script>
+
+<script>
+   
+	$(document).on('click', '.send-comment-btn', (e) => {
+		e.preventDefault();
+		let $this = e.target;
+		// let csrf_token = $($this).parents("form").find("input[name='_token']").val();
+		// let the_comment =  $($this).parents("form").find("textarea[name='the_comment']").val();
+		// let post_title =  $('.post_title').text() ; 
+
+        // Testing
+		let the_comment =  $($this).parents("form").find("textarea[name='the_comment']").val();
+		let post_title =  $('.post_title').text() ; 
+
+
+		let count_comment =  $('.post_count_comment').text() ; 
+        let ListComment = $('.comment--items');
+
+		// let formData = new FormData();
+		// formData.append('_token', csrf_token);
+		// formData.append('the_comment', the_comment);
+		// formData.append('post_title', post_title);
+	
+
+
+		// $.ajax({
+		// 	url: "{{ route('posts.addCommentUser') }}",
+		// 	data: formData,
+		// 	type: 'POST',
+		// 	dataType: 'JSON',
+		// 	processData: false,
+		// 	contentType: false,
+		// 	success: function (data) {
+		// 		if(data.success){
+
+        //             console.log(data.result);
+                  
+        //             // Xử lý thêm comment vào bài viết tạm thời
+                    count_comment = Number(count_comment) + 1;
+                    $('.comment_error').text('');
+
+                    $('.post_count_comment').text(count_comment);
+                    const htmls  = (() =>{
+                    return `
+                                <li>
+                                    <div class="comment--item clearfix">
+                                        <div class="comment--img float--left">
+                                            <img style="border-radius: 50%; margin: auto; background-size: cover ;  width: 68px; height: 68px;   background-image: url(<?php echo Handle::getUserPathImg($userPost["id"]) ?>)"  alt="">
+                                        </div>
+                                        <div class="comment--info">
+                                            <div class="comment--header clearfix">
+                                            <p class="name"><?php echo $userPost["name"] ?></p> 
+                                                <p class="date">vừa xong</p>
+                                                <a href="javascript:;" class="reply"><i class="fa fa-flag"></i></a>
+                                            </div>
+                                            <div class="comment--content">
+                                                <p>Bài tiết này hay quá</p>
+                                                <p class="star">
+                                                    <span class="text-left"><a href="#" class="reply"><i class="icon-reply"></i></a></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                        `
+                        });
+                    ListComment.append(htmls);
+
+
+					$('.global-message').addClass('alert alert-info');
+					$('.global-message').fadeIn();
+					// $('.global-message').text(data.message);
+					$('.global-message').text("Bình luận bài viết thành công !");
+
+					// clearData( $($this).parents("form"), [
+					// 	'the_comment',
+					// ]);
+
+					setTimeout(() => {
+						$(".global-message").fadeOut();
+					}, 5000)
+
+				// }else{
+                //     $('.comment_error').text(data.errors);
+				// }
+			// }
+		// })
+	})
 </script>
 
 

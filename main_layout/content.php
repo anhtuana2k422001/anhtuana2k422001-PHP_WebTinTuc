@@ -1319,7 +1319,7 @@
 
 													<div class="post--info">
 														<div class="title">
-															<h3 class="h4"><a href="{{ route('posts.show', $top_commnent->post ) }}"><?php echo $comment["the_comment"]?></a> </h3>
+															<h3 class="h4"><a href="javascript:;"><?php echo $comment["the_comment"]?></a> </h3>
 														</div>
 
 														<ul class="nav meta">

@@ -161,5 +161,15 @@ class Post
     }
 
 
+    // Lấy danh sách 1 bài viết theo từ khóa tìm kiếm
+    public static function ListPostSearch($key){
+        $db = new Db();
+        $keyPost = '%' . $key . '%'; // Tạo chuỗi từ khóa tìm kiếm
+        $sql = "SELECT * FROM posts WHERE title LIKE '$keyPost'";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
+
 
 }
