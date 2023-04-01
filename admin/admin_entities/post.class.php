@@ -49,6 +49,15 @@ class Post
         return $result;
     }
 
+    // Dem so luong bai viet
+    public static function CountPosts()
+    {
+        $db = new Db();
+        $sql = "SELECT COUNT(id)  FROM posts";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+    
     public function getLastPostId(){
         $db = new Db();
         $sql = "SELECT id FROM posts ORDER BY id DESC LIMIT 1";
