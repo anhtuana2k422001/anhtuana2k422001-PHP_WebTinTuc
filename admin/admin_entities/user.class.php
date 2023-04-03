@@ -35,6 +35,14 @@ class User
         return $result;
     } 
 
+    // Lấy danh sách user từ mysql
+    public static function ListUser( ) {
+        $db = new Db();
+        $sql = "SELECT * FROM users";
+        $result = $db->select_to_array($sql);
+        return $result;
+    }
+
     //Lấy thông tin 1 người dùng
     public static function getUser($id){
         $db = new Db();
