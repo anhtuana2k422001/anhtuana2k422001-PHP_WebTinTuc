@@ -5,6 +5,7 @@ require_once("./entities/users.class.php");
 require_once("./entities/images.class.php");
 if (isset($_SESSION['user'])) {
     $userProfile =  $_SESSION['user'];
+    $userProfile["name"] = $_SESSION['username'];
 } else {
     header('Location: /error.php');
 }
@@ -46,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $editImg = new Image($name, $extension, $path, $imageable_id, $imageable_type, $created_at, $updated_at);
         $editImg->update($id);
     }
-    header('Location: /');
+    header('Location: /tai-khoan-cua-toi');
 }
 
 // echo $_COOKIE["username"];
