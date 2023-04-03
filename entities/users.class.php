@@ -118,7 +118,19 @@ class User
         if (empty($result)) 
             return null; // Trả về null nếu không tìm thấy ảnh user
         return reset($result)["path"]; // Lấy ra phần tử đầu tiên
+
     }
+
+    public function update($id)
+    {
+        $db = new Db();
+        $sql = "UPDATE users SET name='$this->name', email='$this->email'   
+        WHERE id='$id'";
+        $result = $db->query_execute($sql);
+        return $result;
+    }
+
+     
 }
 
 ?>
