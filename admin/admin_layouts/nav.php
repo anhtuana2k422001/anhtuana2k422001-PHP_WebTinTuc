@@ -5,7 +5,7 @@
             <!-- <img src="{{ asset('kcnew/frontend/img/image_iconLogo.png') }}" class="logo-icon" alt="logo icon"> -->
         </div>
         <div>
-            <h4 style="color: #00b249" class="logo-text">SIU 09 - News</h4>
+            <h4 style="color: #00b249" class="logo-text">SIU 07 - News</h4>
         </div>
         <div style="color: #00b249" class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
         </div>

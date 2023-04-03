@@ -150,7 +150,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                         </ul>
                     </li>
                     <li>
-                        <a href="{{ route('categories.index">
+                        <a href="/tat-ca-danh-muc">
                             <span style="color: #ccc; margin-right: 10px;">Tất cả</span>
                             <img  width="17" class="icon-menu" src="https://static.vnncdn.net/v1/icon/menu-center.svg">
                         </a>

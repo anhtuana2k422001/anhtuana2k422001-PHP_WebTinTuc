@@ -8,22 +8,6 @@ $url = $_SERVER['REQUEST_URI']; // Lấy URL đầy đủ của trang hiện t�
 $matches = explode('/', $url); // Tách URL thành các phần bằng dấu "/"
 $slugEnd = end($matches); // Lấy phần cuối cùng của URL, chính là "slug"
 
-
-// Phần Quyên
-// if(isset($_SESSION['role']) && $matches=="admin" ){
-//     if($_SESSION['role'] == 2 || $_SESSION['role'] == 3)
-//     {
-
-//     }else{
-//         header('Location: /error.php');
-//     }
-// }
-
-// if($matches[1]=="admin"){
-    // header('Location: /error.php');
-    // return require 'views/login.php';
-// }
-
 $keySearch = "Chưa nhập từ khóa";
 // Xử lý tìm kiếm
 if (isset($_POST['search'])) {

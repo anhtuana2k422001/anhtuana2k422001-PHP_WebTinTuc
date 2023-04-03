@@ -51,7 +51,7 @@ $title = "Website Tin Tức";
                         <h1 style="font-size: 162px; color: #179ea8; font-weight: bold;">404</h1>
                         <h2 class="h2">Trang không tồn tại</h2>
                         <p>Chúng tôi xin lỗi, trang bạn yêu cầu có thể được tìm thấy. Vui lòng quay lại trang chủ.</p>
-                        <a href="./index.php" class="btn btn-primary">Quay lại trang chủ</a>
+                        <a href="/" class="btn btn-primary">Quay lại trang chủ</a>
                     </div>
                 </div>
             </div>
