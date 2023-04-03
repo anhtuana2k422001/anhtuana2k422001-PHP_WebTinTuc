@@ -146,7 +146,7 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                                 class="fa flm fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="/about">Giới thiệu</a></li>
-                            <li><a href="/contact">Liên hệ</a></li>
+                            <li><a href="/lien-he">Liên hệ</a></li>
                         </ul>
                     </li>
                     <li>

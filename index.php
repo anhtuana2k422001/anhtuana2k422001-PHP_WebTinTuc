@@ -58,6 +58,9 @@ elseif ($Category)  {
 elseif($postDetail){
         return require 'views/post.php';
 }
+elseif($url == '/lien-he'){
+    return require 'views/contact.php';
+}
 else {
     header('Location: /error.php');
 }

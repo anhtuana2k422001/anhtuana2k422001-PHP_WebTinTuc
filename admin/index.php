@@ -1,6 +1,6 @@
 <?php
   require_once("../session.php");
-  
+
 // Lấy URL hiện tại
 $url = $_SERVER['REQUEST_URI']; // Lấy URL đầy đủ của trang hiện tại
 $matches = explode('/', $url); // Tách URL thành các phần bằng dấu "/"
@@ -41,13 +41,13 @@ if($matches[1]=="admin")
 	<!--wrapper-->
 	<div class="wrapper">
 		<!--start header -->
-        <?php include_once("./admin_layouts/header.php"); ?> 
+        <?php include_once("./admin_layouts/header.php");?>
 		<!--end header -->
 		<!--navigation-->
-	    <?php include_once("./admin_layouts/nav.php"); ?> 
+        <?php include_once("./admin_layouts/nav.php");?>
 		<!--end navigation-->
 		<!--start page Content wrapper -->
-        <?php include_once("./admin_layouts/wrapper.php"); ?> 
+        <?php include_once("./admin_layouts/wrapper.php");?> 
 		<!--end page wrapper -->
         <?php include_once("./admin_layouts/footer.php"); ?> 
 	</div>
