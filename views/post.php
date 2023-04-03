@@ -4,6 +4,10 @@
     require_once("./entities/comments.class.php");
     require_once("./entities/tags.class.php");
     require_once("./handle/handle.php");
+    // Đặt múi giờ theo múi giờ việt nam
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
+    $timestamp = date("Y-m-d H:i:s", time());
+
     // Lấy ra comments của bài viết
     $comments = Comment::getCommentPost($postDetail["id"]); 
     
@@ -16,6 +20,18 @@
     // Lấy User nếu đang đăng nhập
     if (isset($_SESSION['user'])){
         $userPost =  $_SESSION['user'];
+    }
+
+    $created_at = $timestamp;
+    $updated_at = $timestamp;
+
+    // Xử lý thêm comment
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $the_comment = $_POST['the_comment'];
+        $comment = new Comment($the_comment, $postDetail["id"],  $userPost["id"], $created_at, $updated_at );
+        $comment->addComent();
+        header("Location: /{$postDetail['slug']}#comments_all");
+        exit();
     }
 ?>
 <!DOCTYPE HTML>
@@ -200,8 +216,8 @@
                                 <div class="comment-respond">
                                     <x-blog.message :status="'success'" />
                                     <?php  if(isset($_SESSION['username'])) : ?>
-                                    <!-- <form method="POST" action="{{ route('posts.add_comment', $post )}}"> -->
-                                    <form onsubmit="return false;" autocomplete="off" method="POST">
+                                        <!-- <form onsubmit="return false;" autocomplete="off" method="POST"> -->
+                                    <form method="POST">
                                         <div class="row form-group">
                                             <div class="col-md-12">
                                                 <textarea name="the_comment" id="message" cols="30" rows="5" class="form-control" placeholder="Đánh giá bài viết này"></textarea>
@@ -326,43 +342,16 @@
   
 </script>
 
-<script>
+<!-- <script>
    
 	$(document).on('click', '.send-comment-btn', (e) => {
 		e.preventDefault();
 		let $this = e.target;
-		// let csrf_token = $($this).parents("form").find("input[name='_token']").val();
-		// let the_comment =  $($this).parents("form").find("textarea[name='the_comment']").val();
-		// let post_title =  $('.post_title').text() ; 
-
         // Testing
 		let the_comment =  $($this).parents("form").find("textarea[name='the_comment']").val();
 		let post_title =  $('.post_title').text() ; 
-
-
 		let count_comment =  $('.post_count_comment').text() ; 
         let ListComment = $('.comment--items');
-
-		// let formData = new FormData();
-		// formData.append('_token', csrf_token);
-		// formData.append('the_comment', the_comment);
-		// formData.append('post_title', post_title);
-	
-
-
-		// $.ajax({
-		// 	url: "{{ route('posts.addCommentUser') }}",
-		// 	data: formData,
-		// 	type: 'POST',
-		// 	dataType: 'JSON',
-		// 	processData: false,
-		// 	contentType: false,
-		// 	success: function (data) {
-		// 		if(data.success){
-
-        //             console.log(data.result);
-                  
-        //             // Xử lý thêm comment vào bài viết tạm thời
                     count_comment = Number(count_comment) + 1;
                     $('.comment_error').text('');
 
@@ -392,28 +381,14 @@
                         `
                         });
                     ListComment.append(htmls);
-
-
 					$('.global-message').addClass('alert alert-info');
 					$('.global-message').fadeIn();
-					// $('.global-message').text(data.message);
 					$('.global-message').text("Bình luận bài viết thành công !");
-
-					// clearData( $($this).parents("form"), [
-					// 	'the_comment',
-					// ]);
-
 					setTimeout(() => {
 						$(".global-message").fadeOut();
 					}, 5000)
-
-				// }else{
-                //     $('.comment_error').text(data.errors);
-				// }
-			// }
-		// })
 	})
-</script>
+</script> -->
 
 
 </html>

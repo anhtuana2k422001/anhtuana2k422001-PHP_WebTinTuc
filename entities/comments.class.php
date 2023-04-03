@@ -61,6 +61,16 @@ class Comment
         return reset($result)["name"];
     }
 
+    public function addComent()
+    { 
+        $db = new Db();
+        $sql = "INSERT INTO comments (the_comment, post_id, user_id, created_at, updated_at)
+        VALUES 
+        ('$this->the_comment', '$this->post_id', '$this->user_id', '$this->created_at', '$this->updated_at')";
+        $result = $db->query_execute($sql);
+        return $result;
+    }
+
 
 }
 
