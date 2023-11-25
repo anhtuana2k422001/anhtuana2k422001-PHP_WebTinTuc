@@ -12,6 +12,7 @@ if (isset($_SESSION['user'])) {
 
 // Kiểm tra các giá trị được gửi lên từ form
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     $id = $userProfile['id'];
 
     $name = $_POST['name']; // lấy password người dùng
@@ -21,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $status = "";
     $role_id = "";
     $remember_token = "";
-    $created_at = "";
-    $updated_at = "";
+    $created_at =  "";
+    $updated_at = date('Y-m-d H:i:s');
 
     $editUser = new User($name, $email, $email_verified_at, $password, $status, $role_id, $remember_token,  $created_at, $updated_at);
 
@@ -44,8 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $thumbnail = $_FILES['image'];
         $file_destination = $_SERVER['DOCUMENT_ROOT'] . '/storage/images/' . $file_name;
         move_uploaded_file($thumbnail['tmp_name'], $file_destination);
-        $editImg = new Image($name, $extension, $path, $imageable_id, $imageable_type, $created_at, $updated_at);
-        $editImg->update($id);
+        $changeAvatar = new Image($name, $extension, $path, $imageable_id, $imageable_type, $created_at, $updated_at);
+        $checkAvatar = Image::checkAvatar($imageable_id);
+        if($checkAvatar){
+            $changeAvatar->updateAvatarUser($id);
+        }else{
+            $created_at =  date('Y-m-d H:i:s');
+            $changeAvatar->addAvatarUser();
+        }
+        
     }
     header('Location: /tai-khoan-cua-toi');
 }
@@ -156,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                             <button class="btn btn-primary" type="submit">Cập nhật</button>
 
-                                            <a class="btn btn-danger" href="{{ route('home') }}">Quay lại</a>
+                                            <a class="btn btn-danger" href="/">Quay lại</a>
                                         </div>
                                     </div>
                                 </div>

@@ -31,15 +31,37 @@ class Image
         $this->updated_at = $updated_at;
     }
 
-    public function update($id)
+    public function updateAvatarUser($id)
     {
         $db = new Db();
         $sql = "UPDATE images SET name='$this->name', extension='$this->extension', path='$this->path',
         imageable_id='$this->imageable_id', imageable_type='$this->imageable_type' , updated_at='$this->updated_at'
-        WHERE imageable_id ='$id' ";
+        WHERE imageable_type = 'AppModelsUser' AND imageable_id ='$id' ";
         $result = $db->query_execute($sql);
         return $result;
     }
+
+
+      //Check xem user co avatar hay chua 
+    public static function checkAvatar($id){
+        $db = new Db();
+        $sql = "SELECT * FROM images WHERE imageable_id ='$id' and imageable_type  = 'App\Models\User' ";
+        $result = $db->select_to_array($sql);
+        return !empty($result);
+    }
+
+    // Thêm mới avatar 
+    public function addAvatarUser()
+    { 
+        $db = new Db();
+        $sql = "INSERT INTO images (name, extension, path, imageable_id, imageable_type, created_at, updated_at)
+        VALUES 
+        ('$this->name', '$this->extension', '$this->path', '$this->imageable_id', '$this->imageable_type', '$this->created_at', '$this->updated_at')";
+        $result = $db->query_execute($sql);
+        return $result;
+    }
+
+    
 
      
 }

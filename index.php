@@ -29,12 +29,15 @@ if(COUNT($matches)>2){
 }
 
 // Tạo điều kiện cho các trang
-if ($url == '/' ) {
-    // Trang chủ
+if ($url == '/index.php') {
+    // Start web
+    return header('Location: http://localhost:3000/');
+} 
+if ($url == '/') {
+    // Trang chủ 
     return require 'views/home.php';
 } 
 elseif ($url == '/tim-kiem' ) {
-    // Trang chủ
     return require 'views/search.php';
 } 
 elseif ($url == '/dang-nhap') {

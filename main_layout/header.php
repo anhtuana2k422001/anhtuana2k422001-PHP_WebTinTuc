@@ -48,14 +48,23 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
                      
 
                         <?php
-                            if (isset($_COOKIE['username']) || isset($_SESSION['username'])) {
+                            if (isset($_SESSION['username'])) {
                                 echo "
                                         <a href='javascript:;'<?php ?>
                                             <i class='fa fm fa-user-o'></i>
                                             <span>". ($_SESSION['username']) ."</span> 
                                         </a>
                                     ";
-                            } else {
+                            } 
+                            else if (isset($_COOKIE['username'])) {
+                                echo "
+                                        <a href='javascript:;'<?php ?>
+                                            <i class='fa fm fa-user-o'></i>
+                                            <span>". $_COOKIE['username'] ."</span> 
+                                        </a>
+                                    ";
+                            }         
+                            else {
                                 echo "
                                         <a href='/dang-nhap'<?php ?>
                                             <i class='fa fm fa-user-o'></i>
@@ -99,11 +108,11 @@ $time = "Hôm nay (" . $time_day  . ", Ngày ".  $day ." Tháng " . $month . " N
 
                 <!-- Header Topbar Social Start -->
                 <ul class="header--topbar-social nav hidden-sm hidden-xxs">
-                    <li><a href="https://www.facebook.com/people/Anh-Tuan/100007007238964"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="https://www.youtube.com/c/H%E1%BB%93AnhTu%E1%BA%A5nYoutube"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="https://www.youtube.com/c/H%E1%BB%93AnhTu%E1%BA%A5nYoutube"><i class="fa fa-google-plus"></i></a></li>
-                    <li><a href="https://www.youtube.com/c/H%E1%BB%93AnhTu%E1%BA%A5nYoutube"><i class="fa fa-rss"></i></a></li>
-                    <li><a href="https://www.youtube.com/c/H%E1%BB%93AnhTu%E1%BA%A5nYoutube"><i class="fa fa-youtube-play"></i></a></li>
+                    <li><a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="https://www.youtube.com"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="https://www.youtube.com"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="https://www.youtube.com"><i class="fa fa-rss"></i></a></li>
+                    <li><a href="https://www.youtube.com"><i class="fa fa-youtube-play"></i></a></li>
                 </ul>
                 <!-- Header Topbar Social End -->
             </div>
