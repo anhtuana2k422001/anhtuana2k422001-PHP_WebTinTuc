@@ -1,5 +1,5 @@
  
-<!--start header -->
+ <!--start header -->
 <header>
     <div class="topbar d-flex align-items-center">
         <nav class="navbar navbar-expand">
@@ -209,7 +209,7 @@
             </div>
             <div class="user-box dropdown">
                 <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="img_admn--user img-avatar " width="50" height="50" style="border-radius: 50% ; margin: auto; background-size: cover ; background-image: url('https://img-cache.coccoc.com/image2?i=3&l=44/829494444') " alt="">
+                    <img class="img_admn--user img-avatar " width="50" height="50" style="border-radius: 50% ; margin: auto; background-size: cover ; background-image: url('../storage/placeholders/user_placeholder.jpg') " alt="">
                     <div class="user-info ps-3">
                         <!-- <p class="user-name mb-0">{{ auth()->user()->name }}</p>
                         <p class="designattion mb-0">{{ auth()->user()->role->name }}</p> -->
@@ -227,7 +227,7 @@
                     
                     <li><a onclick="event.preventDefault(); document.getElementById('nav-logout-form').submit();"
                             class="dropdown-item" ><i class='bx bx-log-out-circle'></i><span>Đăng xuất</span></a>
-                        <form id="nav-logout-form" action="{{ route('logout') }}" method="POST">
+                        <form id="nav-logout-form" action="" method="POST">
                         </form>
                     </li>
                 </ul>

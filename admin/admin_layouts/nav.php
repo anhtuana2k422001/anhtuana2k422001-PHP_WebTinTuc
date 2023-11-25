@@ -163,6 +163,13 @@
         </li>
         <!-- @endif -->
 
+        <li>
+            <a href="/admin/adv/adv.php">
+                <div class="parent-icon"><i class='bx bx-image'></i></div>
+                <div class="menu-title">Quảng cáo</div>
+            </a>
+        </li>
+
         <hr>
 
         <li>
